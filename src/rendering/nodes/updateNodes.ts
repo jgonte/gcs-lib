@@ -44,7 +44,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
                 return; // Same patcher and same vales mean no changes to apply
             }
 
-            oldPatcher.patchNode(node, rules!, oldValues, values);
+            oldPatcher.patchNode(rules!, oldValues, values);
 
             (node as any)._$patchingData = newPatchingData;
         }

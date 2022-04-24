@@ -67,7 +67,7 @@ export default class NodePatcher implements INodePatcher {
         this.keyIndex = keyIndex;
     }
 
-    firstPatch(parentNode: Node, rules: CompiledNodePatcherRule[], values: any[] = []): void {
+    firstPatch(rules: CompiledNodePatcherRule[], values: any[] = []): void {
 
         const {
             length
@@ -169,7 +169,11 @@ export default class NodePatcher implements INodePatcher {
         }
     }
 
-    patchNode(parentNode: Node, rules: CompiledNodePatcherRule[], oldValues: any[] = [], newValues: any[] = []): void {
+    patchNode(
+        rules: CompiledNodePatcherRule[],
+        oldValues: NodePatchingData[] | NodePatchingData[][] = [],
+        newValues: NodePatchingData[] | NodePatchingData[][] = []
+    ): void {
 
         const {
             length
@@ -199,28 +203,26 @@ export default class NodePatcher implements INodePatcher {
                     {
                         if (Array.isArray(newValue)) {
 
-                            patchChildren(node, oldValue, newValue);
+                            patchChildren(node, oldValue as NodePatchingData[], newValue);
                         }
                         else { // Single node
 
-                            if (newValue !== undefined &&
-                                newValue !== null) {
+                            if (!isUndefinedOrNull(newValue)) {
 
-                                if (oldValue === undefined ||
-                                    oldValue === null) {
+                                if (isUndefinedOrNull(oldValue)) {
 
                                     insertBefore(node, newValue);
                                 }
                                 else {
 
-                                    if (oldValue.patcher !== undefined &&
-                                        oldValue.patcher === newValue.patcher) {
+                                    if ((oldValue as NodePatchingData).patcher !== undefined &&
+                                    (oldValue as NodePatchingData).patcher === newValue.patcher) {
 
                                         updateNodes(node, oldValue, newValue);
                                     }
                                     else {
 
-                                        replaceChild(node, newValue, oldValue);
+                                        replaceChild(node, newValue, oldValue as NodePatchingData);
                                     }
                                 }
                             }
@@ -267,13 +269,13 @@ export default class NodePatcher implements INodePatcher {
 
                         if (typeof newValue === 'string') {
 
-                            newValue = getGlobalFunction(newValue);
+                            newValue = getGlobalFunction(newValue) as any;
                         }
 
                         if (isUndefinedOrNull(oldValue) &&
                             !isUndefinedOrNull(newValue)) {
 
-                            node.addEventListener(eventName, newValue, useCapture);
+                            node.addEventListener(eventName, newValue as any, useCapture);
                         }
 
                         if (!isUndefinedOrNull(oldValue) &&
@@ -281,9 +283,9 @@ export default class NodePatcher implements INodePatcher {
 
                             const value = typeof oldValue === 'function' ?
                                 oldValue :
-                                getGlobalFunction(oldValue);
+                                getGlobalFunction(oldValue as any);
 
-                            node.removeEventListener(eventName, value, useCapture);
+                            node.removeEventListener(eventName, value as any, useCapture);
                         }
 
                         // Remove the attribute from the HTML

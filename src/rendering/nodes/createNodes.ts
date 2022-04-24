@@ -39,7 +39,7 @@ export default function createNodes(patchingData: NodePatchingData | string): No
     // Update the rules of the patching data
     (patchingData as NodePatchingData).rules = rules;
 
-    patcher.firstPatch(doc, rules, values);
+    patcher.firstPatch(rules, values);
 
     return doc; // Return the DocumentFragment to its children can efficiently transferred to the container
 }

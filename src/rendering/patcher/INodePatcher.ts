@@ -19,23 +19,21 @@ export interface INodePatcher {
     /**
      * The index of the dynamic property where the key is
      */
-     keyIndex?: number;
+    keyIndex?: number;
 
     /**
      * The first patch to create the node
-     * @param doc
-     * @param rules 
+       * @param rules 
      * @param values 
      */
-    firstPatch(doc: Node, rules: CompiledNodePatcherRule[], values: any[]): void;
+    firstPatch(rules: CompiledNodePatcherRule[], values: any[]): void;
 
     /**
      * The patch to update the node
-     * @param parentNode 
      * @param rules 
      * @param oldValues 
      * @param newValues 
      * @param compareValues 
      */
-     patchNode(parentNode: Node, rules: CompiledNodePatcherRule[], oldValues: any[], newValues: any[]) :void
+    patchNode(rules: CompiledNodePatcherRule[], oldValues: any[], newValues: any[]): void
 }

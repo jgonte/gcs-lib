@@ -1,7 +1,7 @@
 import { CompiledNodePatcherRule } from "../rules/CompiledNodePatcherRule";
 import { INodePatcher } from "../patcher/INodePatcher";
 
-type NodePatchingDataValue = NodePatchingData | EventListenerOrEventListenerObject | string | number | boolean | object | null;
+export type NodePatchingDataValue = NodePatchingData | EventListenerOrEventListenerObject | string | number | boolean | object | null;
 
 export type NodePatchingDataValues = NodePatchingDataValue[] | NodePatchingDataValue[][];
 

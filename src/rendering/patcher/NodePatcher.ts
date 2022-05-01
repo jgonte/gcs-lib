@@ -10,13 +10,13 @@ import { NodePatcherRule, NodePatcherRuleTypes } from "../rules/NodePatcherRule"
 import createTemplate from "../template/createTemplate";
 import setAttribute from "../dom/setAttribute";
 import { CompiledNodePatcherEventRule } from "../rules/NodePatcherEventRule";
-import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
 import areEquivalentValues from "../utils/areEquivalentValues";
 import updateNodes from "../nodes/updateNodes";
 import replaceChild from "../dom/replaceChild";
 import removeLeftSiblings from "../dom/removeLeftSiblings";
 import removeLeftSibling from "../dom/removeLeftSibling";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
+import { setEvent } from "../dom/setEvent";
 
 export default class NodePatcher implements INodePatcher {
 
@@ -137,23 +137,7 @@ export default class NodePatcher implements INodePatcher {
                             name
                         } = rule as CompiledNodePatcherEventRule;
 
-                        const eventName: string = name.slice(2).toLowerCase();
-
-                        const nameParts = eventName.split('_'); // Just in case it has the capture parameter in the event
-
-                        const useCapture: boolean = nameParts[1]?.toLowerCase() === 'capture'; // The convention is: eventName_capture for capture. Example onClick_capture
-
-                        const fcn = typeof value === 'string' ?
-                            getGlobalFunction(value) :
-                            value;
-
-                        if (fcn !== undefined) {
-
-                            node.addEventListener(eventName, fcn as EventListenerOrEventListenerObject, useCapture);
-                        }
-
-                        // Remove the attribute from the HTML
-                        (node as HTMLElement).removeAttribute(name);
+                        setEvent(name, value, null, node);
                     }
                     break;
                 default: throw Error(`firstPatch is not implemented for rule type: ${type}`);
@@ -175,7 +159,7 @@ export default class NodePatcher implements INodePatcher {
 
             const oldValue = oldValues[i];
 
-            let newValue = newValues[i];
+            const newValue = newValues[i];
 
             if (areEquivalentValues(oldValue, newValue)) {
 
@@ -253,35 +237,7 @@ export default class NodePatcher implements INodePatcher {
                             name
                         } = rule as CompiledNodePatcherEventRule;
 
-                        const eventName: string = name.slice(2).toLowerCase();
-
-                        const nameParts = eventName.split('_'); // Just in case it has the capture parameter in the event
-
-                        const useCapture: boolean = nameParts[1]?.toLowerCase() === 'capture'; // The convention is: eventName_capture for capture. Example onClick_capture
-
-                        if (typeof newValue === 'string') {
-
-                            newValue = getGlobalFunction(newValue) as AnyFunction;
-                        }
-
-                        if (isUndefinedOrNull(oldValue) &&
-                            !isUndefinedOrNull(newValue)) {
-
-                            node.addEventListener(eventName, newValue as AnyFunction, useCapture);
-                        }
-
-                        if (!isUndefinedOrNull(oldValue) &&
-                            isUndefinedOrNull(newValue)) {
-
-                            const value = typeof oldValue === 'function' ?
-                                oldValue :
-                                getGlobalFunction(oldValue as string);
-
-                            node.removeEventListener(eventName, value as EventListenerOrEventListenerObject, useCapture);
-                        }
-
-                        // Remove the attribute from the HTML
-                        (node as HTMLElement).removeAttribute(name);
+                        setEvent(name, newValue, oldValue, node);
                     }
                     break;
                 default: throw Error(`patch is not implemented for rule type: ${type}`);
@@ -289,6 +245,8 @@ export default class NodePatcher implements INodePatcher {
 
         }
     }
+
+    
 }
 
 function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], newChildren: NodePatchingData[] = []): void {

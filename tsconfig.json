@@ -15,7 +15,9 @@
         "module": "ESNext",
         "target": "ESNext",
         "moduleResolution": "Node",
-        "noImplicitReturns": true 
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
     },
     "watchOptions": {
         "excludeDirectories": [

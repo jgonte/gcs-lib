@@ -35,7 +35,10 @@ describe('string isPrimitive tests', () => {
 
 	it('returns false when the object is a function', () => {
 
-		const result = isPrimitive(() =>{});
+		const result = isPrimitive(() =>{
+
+			console.log('This is a function');
+		});
 
 		expect(result).toEqual(false);
 	});

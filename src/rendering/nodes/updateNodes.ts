@@ -2,8 +2,7 @@ import { beginMarker } from "../template/markers";
 import areEquivalentValues from "../utils/areEquivalentValues";
 import createNodes from "./createNodes";
 import mountNodes from "./mountNodes";
-import { NodePatchingData } from "./NodePatchingData";
-
+import { AnyPatchedNode, NodePatchingData } from "./NodePatchingData";
 
 export default function updateNodes(container: Node, oldPatchingData: NodePatchingData | NodePatchingData[], newPatchingData: NodePatchingData | NodePatchingData[]) {
 
@@ -13,7 +12,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
     }
     else {
 
-        let {
+        const {
             node
         } = oldPatchingData as NodePatchingData;
 
@@ -44,20 +43,20 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
                 return; // Same patcher and same vales mean no changes to apply
             }
 
-            oldPatcher.patchNode(rules!, oldValues, values);
+            oldPatcher.patchNode(rules || [], oldValues, values);
 
-            (node as any)._$patchingData = newPatchingData;
+            node._$patchingData = newPatchingData;
         }
         else { // Different type of node, replace it with a new one
 
             const newNode = createNodes(newPatchingData);
 
-            if ((node as Comment).data === beginMarker) {
+            if ((node as unknown as Comment).data === beginMarker) {
 
-                node.nextSibling!.remove(); // Remove the end marker as well
+                (node.nextSibling as HTMLElement).remove(); // Remove the end marker as well
             }
 
-            container.replaceChild(newNode, node); // Replace the end marker with the node      
+            container.replaceChild(newNode, node as Node); // Replace the end marker with the node      
         }
     }
 }
@@ -67,7 +66,7 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
     let { length: oldCount } = oldPatchingData;
 
     // Map the keyed nodes from the old children nodes
-    const keyedNodes = new Map<any, Node>();
+    const keyedNodes = new Map<string, AnyPatchedNode>();
 
     for (let i = 0; i < oldCount; ++i) {
 
@@ -80,11 +79,11 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
         //     continue;
         // }
 
-        let key = (oldChild as HTMLElement).getAttribute?.('key') || null;
+        const key = (oldChild as HTMLElement).getAttribute?.('key') || null;
 
         if (key !== null) {
 
-            keyedNodes.set(key, oldChild!);
+            keyedNodes.set(key, oldChild as AnyPatchedNode);
         }
     }
 
@@ -93,7 +92,7 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
     for (let i = 0; i < newCount; ++i) {
 
         const oldChild = i < oldPatchingData.length ?
-            oldPatchingData[i].node :
+            oldPatchingData[i].node as AnyPatchedNode :
             undefined;
 
         if (oldChild === undefined) { // Mount the child
@@ -114,46 +113,48 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
                 keyIndex
             } = patcher;
 
-            const valueKey = keyIndex !== undefined ? values[keyIndex].toString() : null;
+            const valueKey = keyIndex !== undefined ? 
+                values[keyIndex]?.toString() : 
+                null;
 
             // Compare against a keyed node
-            const oldChildKey = (oldChild as HTMLElement).getAttribute?.('key') || null;
+            const oldChildKey = (oldChild as unknown as HTMLElement).getAttribute?.('key') || null;
 
             if (oldChildKey === valueKey) { // If the keys are the same patch the node with that patching data    
 
-                updateNodes(oldChild, oldPatchingData[i], newChildPatchingData);
+                updateNodes(oldChild as Node, oldPatchingData[i], newChildPatchingData);
 
                 if (i >= container.childNodes.length) { // The child was removed when replacing the nodes
 
-                    container.appendChild(oldChild);
+                    container.appendChild(oldChild as Node);
                 }
             }
             else { // oldChildKey !== valueKey - Find the node that corresponds with the keyed patching data
 
-                if (keyedNodes.has(valueKey)) { // Find an existing keyed node
+                if (keyedNodes.has(valueKey as string)) { // Find an existing keyed node
 
-                    const keyedNode = keyedNodes.get(valueKey)!;
+                    const keyedNode = keyedNodes.get(valueKey as string);
 
                     // If the values of the keyed node match the ones of the oldChild then just swap them
-                    if (areEquivalentValues(newChildPatchingData.values, (keyedNode as any)._$patchingData.values)) {
+                    if (areEquivalentValues(newChildPatchingData.values, ((keyedNode as AnyPatchedNode)._$patchingData as NodePatchingData).values)) {
 
                         if (i >= container.childNodes.length) {
 
-                            container.appendChild(keyedNode);
+                            container.appendChild(keyedNode as Node);
                         }
                         else { // Replace the node
 
-                            container.childNodes[i].replaceWith(keyedNode);
+                            container.childNodes[i].replaceWith(keyedNode as Node);
 
                             --oldCount; // It removes the child from the existing children
                         }
 
-                        newChildPatchingData.node = keyedNode; // Set the node of the new patching data
+                        newChildPatchingData.node = keyedNode as AnyPatchedNode; // Set the node of the new patching data
 
                         const {
                             rules,
                             values
-                        } = (keyedNode as any)._$patchingData;
+                        } = (keyedNode as AnyPatchedNode)._$patchingData as NodePatchingData;
 
                         newChildPatchingData.rules = rules;
 
@@ -166,7 +167,7 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
                 }
                 else { // No keyed node found, set the new child
 
-                    updateNodes(oldChild, oldPatchingData[i], newChildPatchingData);
+                    updateNodes(oldChild as Node, oldPatchingData[i], newChildPatchingData);
                 }
             }
         }

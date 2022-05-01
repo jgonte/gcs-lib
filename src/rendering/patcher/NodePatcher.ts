@@ -2,7 +2,7 @@ import { INodePatcher } from "./INodePatcher";
 import isPrimitive from "../../utils/isPrimitive";
 import createNodes from "../nodes/createNodes";
 import mountNodes from "../nodes/mountNodes";
-import { NodePatchingData } from "../nodes/NodePatchingData";
+import { NodePatchingData, NodePatchingDataValues } from "../nodes/NodePatchingData";
 import { CompiledNodePatcherRule } from "../rules/CompiledNodePatcherRule";
 import createNodePatcherRules from "../rules/createNodePatcherRules";
 import { CompiledNodePatcherAttributeRule } from "../rules/NodePatcherAttributeRule";
@@ -10,7 +10,7 @@ import { NodePatcherRule, NodePatcherRuleTypes } from "../rules/NodePatcherRule"
 import createTemplate from "../template/createTemplate";
 import setAttribute from "../dom/setAttribute";
 import { CompiledNodePatcherEventRule } from "../rules/NodePatcherEventRule";
-import getGlobalFunction from "../../utils/getGlobalFunction";
+import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
 import areEquivalentValues from "../utils/areEquivalentValues";
 import updateNodes from "../nodes/updateNodes";
 import replaceChild from "../dom/replaceChild";
@@ -67,7 +67,10 @@ export default class NodePatcher implements INodePatcher {
         this.keyIndex = keyIndex;
     }
 
-    firstPatch(rules: CompiledNodePatcherRule[], values: any[] = []): void {
+    firstPatch(
+        rules: CompiledNodePatcherRule[],
+        values: NodePatchingDataValues = []
+    ): void {
 
         const {
             length
@@ -75,7 +78,7 @@ export default class NodePatcher implements INodePatcher {
 
         for (let i = 0; i < length; ++i) { // The index of the values of the rules match 1 to 1 with the number of rules
 
-            let value = values[i];
+            const value = values[i];
 
             const rule = rules[i];
 
@@ -98,33 +101,23 @@ export default class NodePatcher implements INodePatcher {
 
                                 if (isPrimitive(v)) {
 
-                                    const n = document.createTextNode(v.toString());
+                                    const n = document.createTextNode((v as NodePatchingDataValues).toString());
 
-                                    parentNode!.insertBefore(n, node);
+                                    (parentNode as Node).insertBefore(n, node);
                                 }
                                 else {
 
-                                    mountNodes(df, v);
+                                    mountNodes(df, v as NodePatchingData);
                                 }
                             });
 
-                            parentNode!.insertBefore(df, node);
+                            (parentNode as Node).insertBefore(df, node);
                         }
-                        else if (value !== undefined &&
-                            value !== null) {
+                        else if (!isUndefinedOrNull(value)) {
 
-                            let n = value;
+                            const n = createNodes(value as NodePatchingData);
 
-                            if (isPrimitive(value)) {
-
-                                n = document.createTextNode(value.toString());
-                            }
-                            else if ((value as NodePatchingData).patcher !== undefined) {
-
-                                n = createNodes(value as NodePatchingData);
-                            }
-
-                            parentNode!.insertBefore(n, node);
+                            (parentNode as Node).insertBefore(n, node);
                         }
                     }
                     break;
@@ -135,7 +128,7 @@ export default class NodePatcher implements INodePatcher {
                             property
                         } = rule as CompiledNodePatcherAttributeRule;
 
-                        setAttribute(node as HTMLElement, name, property, value);
+                        setAttribute(node as HTMLElement & Record<string, unknown>, name, property, value);
                     }
                     break;
                 case NodePatcherRuleTypes.PATCH_EVENT:
@@ -150,14 +143,13 @@ export default class NodePatcher implements INodePatcher {
 
                         const useCapture: boolean = nameParts[1]?.toLowerCase() === 'capture'; // The convention is: eventName_capture for capture. Example onClick_capture
 
-                        if (typeof value === 'string') {
+                        const fcn = typeof value === 'string' ?
+                            getGlobalFunction(value) :
+                            value;
 
-                            value = getGlobalFunction(value);
-                        }
+                        if (fcn !== undefined) {
 
-                        if (value !== undefined) {
-
-                            node.addEventListener(eventName, value, useCapture);
+                            node.addEventListener(eventName, fcn as EventListenerOrEventListenerObject, useCapture);
                         }
 
                         // Remove the attribute from the HTML
@@ -171,8 +163,8 @@ export default class NodePatcher implements INodePatcher {
 
     patchNode(
         rules: CompiledNodePatcherRule[],
-        oldValues: NodePatchingData[] | NodePatchingData[][] = [],
-        newValues: NodePatchingData[] | NodePatchingData[][] = []
+        oldValues: NodePatchingDataValues = [],
+        newValues: NodePatchingDataValues = []
     ): void {
 
         const {
@@ -203,7 +195,7 @@ export default class NodePatcher implements INodePatcher {
                     {
                         if (Array.isArray(newValue)) {
 
-                            patchChildren(node, oldValue as NodePatchingData[], newValue);
+                            patchChildren(node, oldValue as NodePatchingData[], newValue as NodePatchingData[]);
                         }
                         else { // Single node
 
@@ -211,18 +203,18 @@ export default class NodePatcher implements INodePatcher {
 
                                 if (isUndefinedOrNull(oldValue)) {
 
-                                    insertBefore(node, newValue);
+                                    insertBefore(node, newValue as NodePatchingData);
                                 }
                                 else {
 
                                     if ((oldValue as NodePatchingData).patcher !== undefined &&
-                                    (oldValue as NodePatchingData).patcher === newValue.patcher) {
+                                        (oldValue as NodePatchingData).patcher === (newValue as NodePatchingData).patcher) {
 
-                                        updateNodes(node, oldValue, newValue);
+                                        updateNodes(node, oldValue as NodePatchingData, newValue as NodePatchingData);
                                     }
                                     else {
 
-                                        replaceChild(node, newValue, oldValue as NodePatchingData);
+                                        replaceChild(node, newValue as NodePatchingData, oldValue as NodePatchingData);
                                     }
                                 }
                             }
@@ -232,7 +224,7 @@ export default class NodePatcher implements INodePatcher {
                                     oldValue !== null) {
 
                                     if (Array.isArray(oldValue) || // Several nodes to remove
-                                        oldValue.patcher !== undefined) {
+                                        (oldValue as NodePatchingData).patcher !== undefined) {
 
                                         removeLeftSiblings(node);
                                     }
@@ -252,7 +244,7 @@ export default class NodePatcher implements INodePatcher {
                             property
                         } = rule as CompiledNodePatcherAttributeRule;
 
-                        setAttribute(node as HTMLElement, name, property, newValue);
+                        setAttribute(node as HTMLElement & Record<string, unknown>, name, property, newValue);
                     }
                     break;
                 case NodePatcherRuleTypes.PATCH_EVENT:
@@ -269,13 +261,13 @@ export default class NodePatcher implements INodePatcher {
 
                         if (typeof newValue === 'string') {
 
-                            newValue = getGlobalFunction(newValue) as any;
+                            newValue = getGlobalFunction(newValue) as AnyFunction;
                         }
 
                         if (isUndefinedOrNull(oldValue) &&
                             !isUndefinedOrNull(newValue)) {
 
-                            node.addEventListener(eventName, newValue as any, useCapture);
+                            node.addEventListener(eventName, newValue as AnyFunction, useCapture);
                         }
 
                         if (!isUndefinedOrNull(oldValue) &&
@@ -283,9 +275,9 @@ export default class NodePatcher implements INodePatcher {
 
                             const value = typeof oldValue === 'function' ?
                                 oldValue :
-                                getGlobalFunction(oldValue as any);
+                                getGlobalFunction(oldValue as string);
 
-                            node.removeEventListener(eventName, value as any, useCapture);
+                            node.removeEventListener(eventName, value as EventListenerOrEventListenerObject, useCapture);
                         }
 
                         // Remove the attribute from the HTML
@@ -323,7 +315,7 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
 
                 const oldChild = keyedNodes.get(newChildKey);
 
-                updateNodes(oldChild!.node!, oldChild!, newChild); // Patch the old node if there are differences
+                updateNodes((oldChild as NodePatchingData).node as HTMLElement & Record<string, unknown>, oldChild as NodePatchingData, newChild); // Patch the old node if there are differences
             }
             else { // There is no old child with that key
 
@@ -344,7 +336,7 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
                 }
                 else {
 
-                    updateNodes(oldChild!.node!, oldChild!, newChild); // Patch the old node if there are differences
+                    updateNodes((oldChild as NodePatchingData).node as HTMLElement & Record<string, unknown>, oldChild as NodePatchingData, newChild); // Patch the old node if there are differences
                 }
             }
             else { // newChildKey !== oldChildKey
@@ -353,17 +345,17 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
 
                     const oldKeyedChild = keyedNodes.get(newChildKey);
 
-                    updateNodes(oldKeyedChild!.node!, oldKeyedChild!, newChild); // Patch the old node if there are differences
+                    updateNodes((oldKeyedChild as NodePatchingData).node as  HTMLElement & Record<string, unknown>, oldKeyedChild as NodePatchingData, newChild); // Patch the old node if there are differences
 
-                    replaceChild(markerNode, oldKeyedChild!, oldChild!);
+                    replaceChild(markerNode, oldKeyedChild as NodePatchingData, oldChild as NodePatchingData);
                 }
                 else {
 
                     const { parentNode } = markerNode;
 
-                    const existingChild = parentNode!.childNodes[i + 1]; // Skip the begin marker node
+                    const existingChild = parentNode?.childNodes[i + 1]; // Skip the begin marker node
 
-                    insertBefore(existingChild, newChild);
+                    insertBefore(existingChild as ChildNode, newChild);
 
                     ++oldChildrenCount; // Update the count of extra nodes to remove
                 }
@@ -389,7 +381,7 @@ function MapKeyedNodes(children: NodePatchingData[]) {
 
     children.forEach(child => {
 
-        let key = getKey(child);
+        const key = getKey(child);
 
         if (key !== null) {
 
@@ -405,7 +397,7 @@ function MapKeyedNodes(children: NodePatchingData[]) {
  * @param patchingData 
  * @returns 
  */
-function getKey(patchingData: NodePatchingData) {
+function getKey(patchingData: NodePatchingData): string | null {
 
     if (isPrimitive(patchingData)) {
 
@@ -422,7 +414,7 @@ function getKey(patchingData: NodePatchingData) {
     } = patcher;
 
     return keyIndex !== undefined ?
-        values[keyIndex] :
+        values[keyIndex] as string :
         null;
 }
 
@@ -432,5 +424,5 @@ function insertBefore(markerNode: Node, newChild: NodePatchingData): void {
 
     const node = createNodes(newChild as NodePatchingData);
 
-    parentNode!.insertBefore(node, markerNode);
+    (parentNode as Node).insertBefore(node, markerNode);
 }

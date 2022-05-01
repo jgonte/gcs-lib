@@ -1,14 +1,14 @@
 import isPrimitive from "../../utils/isPrimitive";
 import { CompiledNodePatcherRule } from "../rules/CompiledNodePatcherRule";
 import { NodePatcherRule } from "../rules/NodePatcherRule";
-import { NodePatchingData } from "./NodePatchingData";
+import { NodePatchingData, PatchedChildNode, PatchedNode } from "./NodePatchingData";
 
 /**
  * Creates the nodes to be appended to the parent one according to the patching data 
  * @param patchingData The patching data to create the nodes from
  * @returns The list of the created nodes
  */
-export default function createNodes(patchingData: NodePatchingData | string): Node {
+export default function createNodes(patchingData: NodePatchingData | string): PatchedNode | Node | Text {
 
     if (isPrimitive(patchingData)) {
 
@@ -29,12 +29,12 @@ export default function createNodes(patchingData: NodePatchingData | string): No
     } = doc;
 
     // Set the first node as holder of the patching data
-    const node = childNodes[0];
+    const node = childNodes[0] as PatchedChildNode;
 
     (patchingData as NodePatchingData).node = node;
 
     // Attach the patching data to the node
-    (node as any)._$patchingData = patchingData;
+    node._$patchingData = patchingData;
 
     // Update the rules of the patching data
     (patchingData as NodePatchingData).rules = rules;

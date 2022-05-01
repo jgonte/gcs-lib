@@ -1,7 +1,7 @@
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 
 export default function setAttribute(
-    node: HTMLElement & Record<string, any>,
+    node: HTMLElement & Record<string, unknown>,
     attributeName: string,
     propertyName: string,
     value: unknown): void {
@@ -30,7 +30,7 @@ export default function setAttribute(
 
             if (attributeName === 'value') { // Set the value besides setting the attribute
 
-                (node as HTMLInputElement).value = value as string;
+                (node as unknown as HTMLInputElement).value = value as string;
             }
 
             node.setAttribute(attributeName, value as string);

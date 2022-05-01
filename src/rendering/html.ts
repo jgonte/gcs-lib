@@ -1,9 +1,9 @@
-import { NodePatchingData } from "./nodes/NodePatchingData";
+import { NodePatchingData, NodePatchingDataValues } from "./nodes/NodePatchingData";
 import NodePatcher from "./patcher/NodePatcher";
 
 const cache = new Map<string, NodePatcher>();
 
-export default function html(strings: TemplateStringsArray, ...values: any): NodePatchingData {
+export default function html(strings: TemplateStringsArray, ...values: NodePatchingDataValues): NodePatchingData {
 
     const key = strings.toString();
 

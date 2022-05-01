@@ -1,3 +1,4 @@
+import { NodePatchingDataValues } from "../nodes/NodePatchingData";
 import { CompiledNodePatcherRule } from "../rules/CompiledNodePatcherRule";
 import { NodePatcherRule } from "../rules/NodePatcherRule";
 
@@ -26,7 +27,7 @@ export interface INodePatcher {
        * @param rules 
      * @param values 
      */
-    firstPatch(rules: CompiledNodePatcherRule[], values: any[]): void;
+    firstPatch(rules: CompiledNodePatcherRule[], values: NodePatchingDataValues): void;
 
     /**
      * The patch to update the node
@@ -35,5 +36,5 @@ export interface INodePatcher {
      * @param newValues 
      * @param compareValues 
      */
-    patchNode(rules: CompiledNodePatcherRule[], oldValues: any[], newValues: any[]): void
+    patchNode(rules: CompiledNodePatcherRule[], oldValues: NodePatchingDataValues, newValues: NodePatchingDataValues): void
 }

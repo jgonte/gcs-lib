@@ -1,10 +1,17 @@
+import { AnyFunction } from "../../../utils/getGlobalFunction";
 import html from "../../html";
 import mountNodes from "../../nodes/mountNodes";
-import { NodePatchingData } from "../../nodes/NodePatchingData";
+import { NodePatchingData, NodePatchingDataValues } from "../../nodes/NodePatchingData";
 import updateNodes from "../../nodes/updateNodes";
+import { INodePatcher } from "../../patcher/INodePatcher";
 import { CompiledNodePatcherAttributeRule } from "../../rules/NodePatcherAttributeRule";
 import { CompiledNodePatcherEventRule } from "../../rules/NodePatcherEventRule";
 import { NodePatcherRuleTypes } from "../../rules/NodePatcherRule";
+
+export type ListenersHolder = Element & {
+
+    _listeners: { [k: string]: (() => void)[] };
+}
 
 describe("render nodes tests", () => {
 
@@ -26,7 +33,7 @@ describe("render nodes tests", () => {
         // Check template
         const {
             content
-        } = (patcher as any).template;
+        } = (patcher as INodePatcher).template;
 
         expect(content).toBeInstanceOf(DocumentFragment);
 
@@ -103,7 +110,7 @@ describe("render nodes tests", () => {
         // Check template
         const {
             content
-        } = (patcher as any).template;
+        } = (patcher as INodePatcher).template;
 
         expect(content).toBeInstanceOf(DocumentFragment);
 
@@ -170,12 +177,12 @@ describe("render nodes tests", () => {
 
     it('should render component with 3 level rendering', () => {
 
-        const renderItem = (record: Record<string, any>) => {
+        const renderItem = (record: { id: number; description: string }) => {
 
             return html`${record.description}`;
         };
 
-        const renderItems = (data: Record<string, any>[]) => {
+        const renderItems = (data: { id: number; description: string }[]) => {
 
             return data.map(record => {
 
@@ -209,7 +216,7 @@ describe("render nodes tests", () => {
         // Check template
         const {
             content
-        } = (patcher as any).template;
+        } = (patcher as INodePatcher).template;
 
         expect(content).toBeInstanceOf(DocumentFragment);
 
@@ -222,25 +229,25 @@ describe("render nodes tests", () => {
 
         const values = patchingData.values[0];
 
-        const value1 = values[0];
+        const value1 = (values as NodePatchingDataValues)[0] as NodePatchingData;
 
         // Ensure there is a node attached to the child value
-        expect(value1.node.nodeName).toEqual('LI');
+        expect(value1?.node?.nodeName).toEqual('LI');
 
-        const nestedValue1 = value1.values[2];
-
-        // Ensure there is a node attached to the child value
-        expect(nestedValue1.node.nodeName).toEqual('#comment');
-
-        const value2 = values[1];
+        const nestedValue1 = value1?.values[2] as NodePatchingData;
 
         // Ensure there is a node attached to the child value
-        expect(value2.node.nodeName).toEqual('LI');
+        expect(nestedValue1?.node?.nodeName).toEqual('#comment');
 
-        const nestedValue2 = value2.values[2];
+        const value2 = (values as NodePatchingDataValues)[1] as NodePatchingData;
 
         // Ensure there is a node attached to the child value
-        expect(nestedValue2.node.nodeName).toEqual('#comment');
+        expect(value2?.node?.nodeName).toEqual('LI');
+
+        const nestedValue2 = value2.values[2] as NodePatchingData;
+
+        // Ensure there is a node attached to the child value
+        expect(nestedValue2?.node?.nodeName).toEqual('#comment');
 
         // Remove the first item
         data = [
@@ -376,12 +383,12 @@ describe("render nodes tests", () => {
 
     it('should render an array of elements', () => {
 
-        const renderItem = (record: Record<string, any>) => {
+        const renderItem = (record: Record<string, string | number | object>) => {
 
             return html`${record.description}`;
         };
 
-        const renderItems = (data: Record<string, any>[]) => {
+        const renderItems = (data: Record<string, string | number | object>[]) => {
 
             return data.map(record => {
 
@@ -416,22 +423,22 @@ describe("render nodes tests", () => {
         let value1 = patchingData[0];
 
         // Ensure there is a node attached to the child value
-        expect(value1.node!.nodeName).toEqual('SPAN');
+        expect(value1.node?.nodeName).toEqual('SPAN');
 
         let nestedValue1 = value1.values[2];
 
         // Ensure there is a node attached to the child value
-        expect(nestedValue1.node.nodeName).toEqual('#comment');
+        expect((nestedValue1 as NodePatchingData)?.node?.nodeName).toEqual('#comment');
 
         const value2 = patchingData[1];
 
         // Ensure there is a node attached to the child value
-        expect(value2.node!.nodeName).toEqual('SPAN');
+        expect(value2.node?.nodeName).toEqual('SPAN');
 
         const nestedValue2 = value2.values[2];
 
         // Ensure there is a node attached to the child value
-        expect(nestedValue2.node.nodeName).toEqual('#comment');
+        expect((nestedValue2 as NodePatchingData)?.node?.nodeName).toEqual('#comment');
 
         // Remove the first item
         data = [
@@ -452,12 +459,12 @@ describe("render nodes tests", () => {
         value1 = patchingData[0];
 
         // Ensure there is a node attached to the child value
-        expect(value1.node!.nodeName).toEqual('SPAN');
+        expect(value1.node?.nodeName).toEqual('SPAN');
 
         nestedValue1 = value1.values[2];
 
         // Ensure there is a node attached to the child value
-        expect(nestedValue1.node.nodeName).toEqual('#comment');
+        expect((nestedValue1 as NodePatchingData)?.node?.nodeName).toEqual('#comment');
 
         // Prepend item 1
         data = [
@@ -664,7 +671,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let oldPatchingData = patchingData;
+        const oldPatchingData = patchingData;
 
         patchingData = data.map(r => html`<span age=${r.age}>${r.name}</span>`);
 
@@ -719,7 +726,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let oldPatchingData = patchingData;
+        const oldPatchingData = patchingData;
 
         patchingData = data.map(r => html`<span key=${r.id} age=${r.age}>${r.name}</span>`);
 
@@ -882,7 +889,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let oldPatchingData = patchingData;
+        const oldPatchingData = patchingData;
 
         patchingData = data.map(r => html`<span key=${r.id} age=${r.age}>${r.name}</span>`);
 
@@ -938,7 +945,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let oldPatchingData = patchingData;
+        const oldPatchingData = patchingData;
 
         patchingData = data.map(r => html`<span key=${r.id} age=${r.age}>${r.name}</span>`);
 
@@ -994,7 +1001,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let oldPatchingData = patchingData;
+        const oldPatchingData = patchingData;
 
         patchingData = data.map(r => html`<span key=${r.id} age=${r.age}>${r.name}</span>`);
 
@@ -1027,7 +1034,7 @@ describe("render nodes tests", () => {
             description: "Business man"
         };
 
-        let oldPatchingData = patchingData;
+        const oldPatchingData = patchingData;
 
         patchingData = html`<x-container class="container" record=${data}></x-container>`;
 
@@ -1141,7 +1148,7 @@ describe("render nodes tests", () => {
             node: itemNode
         } = itemPatchingData;
 
-        expect(itemNode).toBe(containerNode!.childNodes[1]); // it should refer to the same child node
+        expect(itemNode).toBe((containerNode?.childNodes as ChildNode[])[1]); // it should refer to the same child node
 
         expect((itemNode as HTMLElement).outerHTML).toEqual("<x-item class=\"item\">\n                My name is: <!--_$bm_-->Sarah<!--_$em_--></x-item>");
 
@@ -1322,7 +1329,7 @@ describe("render nodes tests", () => {
 
     it('should attach boolean attributes to the DOM node', () => {
 
-        let isCool : boolean | null = true;
+        let isCool: boolean | null = true;
 
         const container = document.createElement('div');
 
@@ -1348,9 +1355,9 @@ describe("render nodes tests", () => {
 
         expect((content.childNodes[0] as HTMLElement).outerHTML).toEqual("<span cool=\"_$attr:cool\"></span>");
 
-        expect(rules!.length).toEqual(1);
+        expect(rules?.length).toEqual(1);
 
-        const rule = rules![0];
+        const rule = (rules || [])[0];
 
         expect(rule.type).toEqual(NodePatcherRuleTypes.PATCH_ATTRIBUTE);
 
@@ -1408,7 +1415,10 @@ describe("render nodes tests", () => {
 
     it('should attach attributes of type function to the DOM node', () => {
 
-        let doSomething : Function | null = () => {};
+        let doSomething: AnyFunction | null = () => {
+
+            console.log('Doing something');
+        };
 
         const container = document.createElement('div');
 
@@ -1434,9 +1444,9 @@ describe("render nodes tests", () => {
 
         expect((content.childNodes[0] as HTMLElement).outerHTML).toEqual("<span action=\"_$attr:action\"></span>");
 
-        expect(rules!.length).toEqual(1);
+        expect(rules?.length).toEqual(1);
 
-        const rule = rules![0];
+        const rule = (rules || [])[0];
 
         expect(rule.type).toEqual(NodePatcherRuleTypes.PATCH_ATTRIBUTE);
 
@@ -1460,7 +1470,10 @@ describe("render nodes tests", () => {
         expect(child.attributes.length).toEqual(0);
 
         // Set the attribute again to a function
-        doSomething = () => {};
+        doSomething = () => {
+
+            console.log('Doing something');
+        };
 
         patchingData = newPatchingData;
 
@@ -1475,7 +1488,7 @@ describe("render nodes tests", () => {
 
     it('should attach attributes to the DOM node as a special "value" attribute', () => {
 
-        let value : number | null = 5;
+        let value: number | null = 5;
 
         const container = document.createElement('div');
 
@@ -1501,9 +1514,9 @@ describe("render nodes tests", () => {
 
         expect((content.childNodes[0] as HTMLElement).outerHTML).toEqual("<span value=\"_$attr:value\"></span>");
 
-        expect(rules!.length).toEqual(1);
+        expect(rules?.length).toEqual(1);
 
-        const rule = rules![0];
+        const rule = (rules || [])[0];
 
         expect(rule.type).toEqual(NodePatcherRuleTypes.PATCH_ATTRIBUTE);
 
@@ -1546,7 +1559,10 @@ describe("render nodes tests", () => {
 
     it('should attach events to the DOM node and remove the function name from the markup', () => {
 
-        const handler = () => { };
+        const handler = () => {
+
+            console.log('Handling it');
+        };
 
         const container = document.createElement('div');
 
@@ -1572,9 +1588,9 @@ describe("render nodes tests", () => {
 
         expect((content.childNodes[0] as HTMLElement).outerHTML).toEqual('<span onclick=\"_$evt:onClick\"></span>');
 
-        expect(rules!.length).toEqual(1);
+        expect(rules?.length).toEqual(1);
 
-        const rule = rules![0];
+        const rule = (rules || [])[0];
 
         expect(rule.type).toEqual(NodePatcherRuleTypes.PATCH_EVENT);
 
@@ -1586,7 +1602,7 @@ describe("render nodes tests", () => {
 
         expect(child.attributes.length).toEqual(0); // The handler is not part of the attributes
 
-        expect((child as any)._listeners['click']).toEqual([handler]);
+        expect((child as ListenersHolder)._listeners['click']).toEqual([handler]);
 
         // Remove the event
         const newHandler = null;
@@ -1597,7 +1613,7 @@ describe("render nodes tests", () => {
 
         expect(container.outerHTML).toEqual("<div><span></span></div>");
 
-        expect((child as any)._listeners['click']).toEqual([]);
+        expect((child as ListenersHolder)._listeners['click']).toEqual([]);
 
         // Reattach the event
         patchingData = newPatchingData;
@@ -1608,12 +1624,15 @@ describe("render nodes tests", () => {
 
         expect(container.outerHTML).toEqual("<div><span></span></div>");
 
-        expect((child as any)._listeners['click']).toEqual([handler]);
+        expect((child as ListenersHolder)._listeners['click']).toEqual([handler]);
     });
 
     it('should attach events to the DOM node, remove the function name from the markup and find the function in the window object.', () => {
 
-        (window as any).handleClick = () => { };
+        (window as unknown as Window & Record<string, AnyFunction>).handleClick = () => {
+
+            console.log('Handling it');
+        };
 
         const handler = "handleClick()";
 
@@ -1641,9 +1660,9 @@ describe("render nodes tests", () => {
 
         expect((content.childNodes[0] as HTMLElement).outerHTML).toEqual('<span onclick=\"_$evt:onClick\"></span>');
 
-        expect(rules!.length).toEqual(1);
+        expect(rules?.length).toEqual(1);
 
-        const rule = rules![0];
+        const rule = (rules || [])[0];
 
         expect(rule.type).toEqual(NodePatcherRuleTypes.PATCH_EVENT);
 
@@ -1655,7 +1674,7 @@ describe("render nodes tests", () => {
 
         expect(child.attributes.length).toEqual(0); // The handler is not part of the attributes
 
-        expect((child as any)._listeners['click']).toEqual([(window as any).handleClick]);
+        expect((child as ListenersHolder)._listeners['click']).toEqual([(window as unknown as Window & Record<string, AnyFunction>).handleClick]);
 
         // Remove the event
         const newHandler = null;
@@ -1666,7 +1685,7 @@ describe("render nodes tests", () => {
 
         expect(container.outerHTML).toEqual("<div><span></span></div>");
 
-        expect((child as any)._listeners['click']).toEqual([]);
+        expect((child as ListenersHolder)._listeners['click']).toEqual([]);
 
         // Reattach the event
         patchingData = newPatchingData;
@@ -1677,7 +1696,7 @@ describe("render nodes tests", () => {
 
         expect(container.outerHTML).toEqual("<div><span></span></div>");
 
-        expect((child as any)._listeners['click']).toEqual([(window as any).handleClick]);
+        expect((child as ListenersHolder)._listeners['click']).toEqual([(window as unknown as Window & Record<string, AnyFunction>).handleClick]);
     });
 
     it('should render a complex object with children', () => {
@@ -1727,7 +1746,7 @@ describe("render nodes tests", () => {
             ]
         };
 
-        let newPatchingData = html`<div style="width: 200px; margin: 10px;">
+        const newPatchingData = html`<div style="width: 200px; margin: 10px;">
             <div style="background-color: lightgreen; padding: 5px;">${data.name}</div>
             <div style="background-color: yellow;">${data.age}</div>
             <div style="background-color: darkred; color: white; font-weight: bold;">${data.description}</div>
@@ -1743,7 +1762,7 @@ describe("render nodes tests", () => {
 
     it('should render a complex object with children and undefined attributes', () => {
 
-        let data: any = {
+        let data: Record<string, string | number | object> = {
             name: "Sarah",
             description: "Smart and beautiful",
             skills: [
@@ -1786,7 +1805,7 @@ describe("render nodes tests", () => {
             ]
         };
 
-        let newPatchingData = html`<div style="width: 200px; margin: 10px;">
+        const newPatchingData = html`<div style="width: 200px; margin: 10px;">
             <div style="background-color: lightgreen; padding: 5px;">${data.name}</div>
             <div style="background-color: yellow;">${data.age}</div>
             <div style="background-color: darkred; color: white; font-weight: bold;">${data.description}</div>
@@ -1835,7 +1854,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        const renderItems = (data: Record<string, any>[]) => data.map(d => html`<div style="width: 200px; margin: 10px;">
+        const renderItems = (data: Record<string, string | number | object>[]) => data.map(d => html`<div style="width: 200px; margin: 10px;">
             <div style="background-color: lightgreen; padding: 5px;">${d.name}</div>
             <div style="background-color: yellow;">${d.age}</div>
             <div style="background-color: darkred; color: white; font-weight: bold;">${d.description}</div>
@@ -1883,7 +1902,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let newPatchingData = renderItems(data);
+        const newPatchingData = renderItems(data);
 
         updateNodes(container, patchingData, newPatchingData);
 
@@ -1929,7 +1948,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        const renderItems = (data: Record<string, any>[]) => data.map(d => html`<div key=${d.id} style="width: 200px; margin: 10px;">
+        const renderItems = (data: Record<string, string | number | object>[]) => data.map(d => html`<div key=${d.id} style="width: 200px; margin: 10px;">
             <div style="background-color: lightgreen; padding: 5px;">${d.name}</div>
             <div style="background-color: yellow;">${d.age}</div>
             <div style="background-color: darkred; color: white; font-weight: bold;">${d.description}</div>
@@ -1979,7 +1998,7 @@ describe("render nodes tests", () => {
             }
         ];
 
-        let newPatchingData = renderItems(data);
+        const newPatchingData = renderItems(data);
 
         updateNodes(container, patchingData, newPatchingData);
 
@@ -2043,7 +2062,7 @@ describe("render nodes tests", () => {
 
         let name: string = "Jorge";
 
-        let age: number = 55;
+        const age: number = 55;
 
         let patchingData = html`${name === "Sarah" ? html`<span style="color: green;">Special for Sarah</span>` : null}
         ${age < 50 ? html`<span style="color: green;">You are too young</span>` : null}`;

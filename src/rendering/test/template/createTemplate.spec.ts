@@ -1,14 +1,20 @@
+import { NodePatchingDataValues } from "../../nodes/NodePatchingData";
 import createNodePatcherRules from "../../rules/createNodePatcherRules";
 import createTemplate from "../../template/createTemplate";
 import { beginMarker, endMarker } from "../../template/markers";
 
-const extractTemplateStringArrays = (strings: TemplateStringsArray, ...values: any): TemplateStringsArray => strings;
+const extractTemplateStringArrays = (strings: TemplateStringsArray, ...values: NodePatchingDataValues): TemplateStringsArray => {
+
+    console.log(values);
+
+    return strings;
+}
 
 describe("create template tests", () => {
 
     it('should create a simple text node template', () => {
 
-        let name = "Sarah";
+        const name = "Sarah";
 
         const strings = extractTemplateStringArrays`${name}`;
 
@@ -64,7 +70,10 @@ describe("create template tests", () => {
 
     it('should create a template with an event', () => {
 
-        const handleClick = () => {};
+        const handleClick = () => {
+
+            console.log('clicked')
+        };
 
         const strings = extractTemplateStringArrays`<input type="text" name="name" onClick=${handleClick}/>`;
 
@@ -155,7 +164,7 @@ describe("create template tests", () => {
 
     it('should create a text node template', () => {
 
-        let name = "Sarah";
+        const name = "Sarah";
 
         const strings = extractTemplateStringArrays`Name: ${name}`;
 
@@ -190,7 +199,7 @@ describe("create template tests", () => {
 
     it('should create an element template', () => {
 
-        let name = "Sarah";
+        const name = "Sarah";
 
         const strings = extractTemplateStringArrays`
             <x-item class="item">
@@ -455,11 +464,11 @@ describe("create template tests", () => {
 
     it('should create a template with several nodes (1)', () => {
 
-        let header = "Header";
+        const header = "Header";
 
-        let name = "Sarah";
+        const name = "Sarah";
 
-        let footer = "Header";
+        const footer = "Header";
 
         const strings = extractTemplateStringArrays`
             ${header}
@@ -488,11 +497,11 @@ describe("create template tests", () => {
 
     it('should create a template with several nodes (2)', () => {
 
-        let header = "Header";
+        const header = "Header";
 
-        let name = "Sarah";
+        const name = "Sarah";
 
-        let footer = "Header";
+        const footer = "Header";
 
         const strings = extractTemplateStringArrays`
             Header: ${header}
@@ -521,9 +530,9 @@ describe("create template tests", () => {
 
     it('should create a template with several nodes: x-item is self-closing', () => {
 
-        let header = "Header";
+        const header = "Header";
 
-        let footer = "Header";
+        const footer = "Header";
 
         const strings = extractTemplateStringArrays`
             Header: ${header}

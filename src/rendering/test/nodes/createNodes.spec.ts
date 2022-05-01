@@ -1,5 +1,6 @@
 import html from "../../html";
 import createNodes from "../../nodes/createNodes";
+import { AnyPatchedNode } from "../../nodes/NodePatchingData";
 import { beginMarker, endMarker } from "../../template/markers";
 
 describe("create nodes tests", () => {
@@ -25,7 +26,7 @@ describe("create nodes tests", () => {
         expect(comment.data).toEqual(beginMarker);
 
         // The first node always has the patching data
-        expect((comment as any)._$patchingData).toEqual(patchingData);
+        expect((comment as unknown as AnyPatchedNode)._$patchingData).toEqual(patchingData);
 
         const text = childNodes[1] as Text;
 

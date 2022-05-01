@@ -1,4 +1,6 @@
-export default function areEquivalentValues(v1: any = null, v2: any = null): boolean {
+import { NodePatchingData } from "../nodes/NodePatchingData";
+
+export default function areEquivalentValues(v1: unknown = null, v2: unknown = null): boolean {
 
     if (v1 === v2) {
 
@@ -20,12 +22,12 @@ export default function areEquivalentValues(v1: any = null, v2: any = null): boo
     const {
         patcher: patcher1,
         values: values1
-    } = v1;
+    } = v1 as NodePatchingData;
 
     const {
         patcher: patcher2,
         values: values2
-    } = v2;
+    } = v2 as NodePatchingData;
 
     if (patcher1 !== undefined &&
         patcher2 !== undefined) {
@@ -66,9 +68,9 @@ export default function areEquivalentValues(v1: any = null, v2: any = null): boo
     if (typeof v1 === 'object' &&
         typeof v2 === 'object') {
 
-        const k1 = Object.keys(v1);
+        const k1 = Object.keys(v1 as object);
 
-        const k2 = Object.keys(v2);
+        const k2 = Object.keys(v2 as object);
 
         if (k1.length !== k2.length) {
 
@@ -80,7 +82,7 @@ export default function areEquivalentValues(v1: any = null, v2: any = null): boo
 
                 const k = k1[i];
 
-                if (!areEquivalentValues(v1[k], v2[k])) {
+                if (!areEquivalentValues((v1 as Record<string, object>)[k], (v2 as Record<string, object>)[k])) {
 
                     return false;
                 }

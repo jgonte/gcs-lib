@@ -24,7 +24,7 @@ export default function removeLeftSiblings(markerNode: Node) {
             break; // Got the desired begin marker ... done
         }
 
-        parentNode!.removeChild(sibling);
+        parentNode?.removeChild(sibling);
 
         sibling = markerNode.previousSibling;
     }

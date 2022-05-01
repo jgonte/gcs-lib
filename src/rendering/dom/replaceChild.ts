@@ -1,14 +1,9 @@
 import isPrimitive from "../../utils/isPrimitive";
-import createNodes from "../nodes/createNodes";
-import { NodePatchingData } from "../nodes/NodePatchingData";
+import { AnyPatchedNode, NodePatchingData } from "../nodes/NodePatchingData";
 import { endMarker } from "../template/markers";
 import areEquivalentValues from "../utils/areEquivalentValues";
 
 export default function replaceChild(markerNode: Node, newChild: NodePatchingData, oldChild: NodePatchingData) {
-
-    const {
-        parentNode
-    } = markerNode;
 
     if (isPrimitive(newChild) &&
         isPrimitive(oldChild)) {
@@ -24,14 +19,14 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
         }
 
     }
-    else if ((oldChild as any).patcher !== undefined) { // Patching data
+    else if ((oldChild as NodePatchingData).patcher !== undefined) { // Patching data
 
         // Find the node whose patching data matches this one
-        let oldChildNode: Node | null = null;
+        let oldChildNode: AnyPatchedNode | null = null;
 
         findPreviousSibling(
             markerNode,
-            node => testThisOrAnyParent(node, n => {
+            node => testThisOrAnyParent(node, (n: AnyPatchedNode) => {
 
                 if (n._$patchingData === undefined) {
 
@@ -41,12 +36,12 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
                 const {
                     patcher,
                     values
-                } = n._$patchingData;
+                } = n._$patchingData as NodePatchingData;
 
                 const {
                     patcher: otherPatcher,
                     values: otherValues
-                } = oldChild as any;
+                } = oldChild as NodePatchingData;
 
                 const r = patcher === otherPatcher &&
                     areEquivalentValues(values, otherValues);
@@ -59,16 +54,21 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
                 return r;
             }));
 
+        if (oldChildNode === null) {
+
+            throw new Error('oldChildNode cannot be null');
+        }
+
         const {
             patcher: oldPatcher,
             rules,
             values: oldValues
-        } = (oldChildNode as any)._$patchingData;
+        } = (oldChildNode as AnyPatchedNode)._$patchingData as NodePatchingData;
 
         const {
             patcher,
             values
-        } = (newChild as any);
+        } = newChild as NodePatchingData;
 
         if (patcher === oldPatcher) {
 
@@ -77,11 +77,11 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
             //     (newChild as any).rules = rules; // Transfer the compiled rules
             // }
 
-            oldPatcher.patchNode(rules, oldValues, values);
+            oldPatcher.patchNode(rules || [], oldValues, values);
 
-            (newChild as any).node = (oldChild as any).node;
+            newChild.node = (oldChild as NodePatchingData).node;
 
-            (oldChildNode as any)._$patchingData.values = values; // Update the latest values 
+            ((oldChildNode as AnyPatchedNode)._$patchingData as NodePatchingData).values = values; // Update the latest values 
         }
         // else { // Different patchers (type of nodes)
 
@@ -101,7 +101,7 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
     // }
 }
 
-function findPreviousSibling(markerNode: Node, predicate: (node: any) => boolean): Node | null {
+function findPreviousSibling(markerNode: Node, predicate: (node: AnyPatchedNode) => boolean): Node | null {
 
     let {
         previousSibling
@@ -110,7 +110,7 @@ function findPreviousSibling(markerNode: Node, predicate: (node: any) => boolean
     while (previousSibling !== null &&
         (previousSibling as Comment).textContent !== endMarker) {
 
-        if (predicate(previousSibling) === true) {
+        if (predicate(previousSibling as AnyPatchedNode) === true) {
 
             return previousSibling;
         }
@@ -121,9 +121,9 @@ function findPreviousSibling(markerNode: Node, predicate: (node: any) => boolean
     return null;
 }
 
-function testThisOrAnyParent(node: Node, predicate: (n: any) => boolean): boolean {
+function testThisOrAnyParent(node: AnyPatchedNode, predicate: (n: AnyPatchedNode) => boolean): boolean {
 
-    let parentNode = node;
+    let parentNode: AnyPatchedNode | null = node;
 
     while (parentNode !== null) {
 
@@ -132,7 +132,7 @@ function testThisOrAnyParent(node: Node, predicate: (n: any) => boolean): boolea
             return true;
         }
 
-        parentNode = parentNode.parentNode!;
+        parentNode = parentNode.parentNode as AnyPatchedNode;
     }
 
     return false;

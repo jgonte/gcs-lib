@@ -26,9 +26,9 @@ export function setEvent(name: string,
     if (!isUndefinedOrNull(oldValue) &&
         isUndefinedOrNull(fcn)) {
 
-        const oldFcn = typeof oldValue === 'function' ?
-            oldValue :
-            getGlobalFunction(oldValue as string);
+        const oldFcn = typeof oldValue === 'string' ?
+            getGlobalFunction(oldValue) :
+            oldValue;
 
         node.removeEventListener(eventName, oldFcn as EventListenerOrEventListenerObject, useCapture);
     }

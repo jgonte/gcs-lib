@@ -26,6 +26,11 @@ export default abstract class CustomElement extends
     ) {
 
     /**
+     * Flag to allow testing for derived classes of CustomElement
+     */
+    static readonly _isCustomElement: boolean = true;
+
+    /**
      * The render method that needs to be implemented by the derived elements
      */
     abstract render(): NodePatchingData | NodePatchingData[] | null;

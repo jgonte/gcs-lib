@@ -54,11 +54,6 @@ function initializeProperty(ctor: CustomHTMLElementConstructor, name: string, pr
 
                 const value = this._properties[name];
 
-                if (type === undefined) {
-
-                    type = ConversionTypes.String;
-                }
-
                 if (!Array.isArray(type)) {
 
                     type = [type];
@@ -106,7 +101,7 @@ function getAllProperties(ctor: CustomHTMLElementConstructor,): Record<string, C
 
     let baseClass = Object.getPrototypeOf(ctor.prototype).constructor;
 
-    while (baseClass.metadata !== undefined) {
+    while (baseClass._isCustomElement === true) {
 
         if (baseClass.properties !== undefined) {
 

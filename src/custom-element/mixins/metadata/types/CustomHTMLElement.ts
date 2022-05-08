@@ -59,15 +59,15 @@ export default interface CustomHTMLElement extends HTMLElement {
 
     handleSlotChange: EventListenerOrEventListenerObject;
 
-    updateDom(): void;
-
-    get updateComplete(): Promise<void>;
-
+    
     // Whished protected
     _setProperty(name: string, value: unknown): boolean;
 
     _setState(name: string, value: unknown): boolean;
 
-    clearChangedProperties(): void
+    clearChangedProperties(): void;
 
+    updateDom(): void;
+
+    get updateComplete(): Promise<void>;
 }

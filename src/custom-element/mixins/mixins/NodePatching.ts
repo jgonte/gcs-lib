@@ -70,7 +70,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
          */
         private async _waitForChildrenToMount() {
 
-            const updatePromises = [...this.adoptedChildren].map(child => (child as CustomHTMLElement)._updatePromise);
+            const updatePromises = [...this.adoptedChildren].map(child => (child as CustomHTMLElement).updateComplete);
 
             if (updatePromises.length > 0) {
 
@@ -85,7 +85,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
          */
         private async _waitForChildrenToUpdate() {
 
-            const updatePromises = [...this.adoptedChildren].map(child => (child as CustomHTMLElement)._updatePromise);
+            const updatePromises = [...this.adoptedChildren].map(child => (child as CustomHTMLElement).updateComplete);
 
             if (updatePromises.length > 0) {
 

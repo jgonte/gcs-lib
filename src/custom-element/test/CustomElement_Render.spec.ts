@@ -1,5 +1,6 @@
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import CustomElement from "../CustomElement";
 import defineCustomElement from "../defineCustomElement";
 import CustomElementPropertyMetadata, { ConversionTypes } from "../mixins/metadata/types/CustomElementPropertyMetadata";
@@ -154,6 +155,15 @@ describe("custom element render tests", () => {
         await component.updateComplete; // Wait for the component to render
 
         expect(component.shadowRoot?.innerHTML).toBe("<style>:host { background-color: yellowgreen; }</style><span>Hello, my name is <!--_$bm_-->Sarah<!--_$em_--></span>\n                    <span>My age is <!--_$bm_-->19<!--_$em_--></span>");
+
+        // Update the properties
+        component.name = "Mark";
+
+        component.age = 30;
+
+        await component.updateComplete; // Wait for the component to render
+
+        expect(component.shadowRoot?.innerHTML).toBe("<style>:host { background-color: yellowgreen; }</style><span>Hello, my name is <!--_$bm_-->Mark<!--_$em_--></span>\n                    <span>My age is <!--_$bm_-->30<!--_$em_--></span>");
     });
 
     it('should render the HTML with the set property and the style attached', async () => {
@@ -203,6 +213,54 @@ describe("custom element render tests", () => {
         expect(component.shadowRoot?.innerHTML).toBe("<style>:host { background-color: yellowgreen; }</style><span>Hello, my name is <!--_$bm_-->Mark<!--_$em_--></span>\n                    <span>My age is <!--_$bm_-->31<!--_$em_--></span>");
     });
 
+    it('should unmount the element', async () => {
+
+        class A extends CustomElement {
+
+            static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+                return {
+
+                    name: {
+                        type: ConversionTypes.String
+                    }
+                };
+            }
+
+            render(): NodePatchingData | null {
+
+                const {
+                    name
+                } = this;
+
+                if (isUndefinedOrNull(name) === true)  {
+
+                    return null;
+                }
+
+                return html`<span>Hello, my name is ${this.name}</span>`;
+            }
+        }
+
+        defineCustomElement('test-a', A);
+
+        // Attach it to the DOM
+        document.body.innerHTML = '<test-a name="Sarah"></test-a>"';
+
+        // Test the element
+        const component = document.querySelector('test-a') as CustomElement;
+
+        await component.updateComplete; // Wait for the component to render
+
+        expect(component.shadowRoot?.innerHTML).toBe("<span>Hello, my name is <!--_$bm_-->Sarah<!--_$em_--></span>");
+
+        component.name = null;
+
+        await component.updateComplete; // Wait for the component to render
+
+        expect(component.shadowRoot?.innerHTML).toBe("");
+    });
+
     it('should remove the function from the attribute but keep its reference in the property. Attribute name and property names are different', async () => {
 
         class A extends CustomElement {
@@ -227,7 +285,7 @@ describe("custom element render tests", () => {
                 const {
                     itemTemplate
                 } = this;
-                
+
                 return (itemTemplate as () => NodePatchingData)();
             }
         }
@@ -271,4 +329,34 @@ describe("custom element render tests", () => {
         expect(childNode.itemTemplate).toBeDefined();
     });
 
+    it('should throw an error when an error is being thrown from render', async () => {
+
+        class A extends CustomElement {
+
+            render(): NodePatchingData {
+
+                throw new Error('Throwing from render');
+            }
+        }
+
+        defineCustomElement('test-a', A);
+
+        try {
+
+            // Attach it to the DOM
+            document.body.innerHTML = '<test-a></test-a>';
+
+            // Test the element
+            const component = document.querySelector('test-a') as CustomElement;
+
+            await component.updateComplete; // Wait for the component to render
+
+            expect(true).toBeFalsy(); // It should never reach here
+        }
+        catch (error) {
+
+            expect((error as Error).message).toBe("Throwing from render");
+        }
+    });
+    
 });

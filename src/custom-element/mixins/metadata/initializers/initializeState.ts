@@ -57,7 +57,7 @@ function getAllState(ctor: CustomHTMLElementConstructor, ): Record<string, Custo
 
     let baseClass = Object.getPrototypeOf(ctor.prototype).constructor;
 
-    while (baseClass.metadata !== undefined) {
+    while (baseClass._isCustomElement === true) {
 
         if (baseClass.state !== undefined) {
 

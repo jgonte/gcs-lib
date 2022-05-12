@@ -9,6 +9,8 @@ import CustomHTMLElement from "./CustomHTMLElement";
  * Defines the additional members of the constructor of the CustomHTMLElement
  */
 export default interface CustomHTMLElementConstructor extends Constructor<CustomHTMLElement> {
+    
+    _isCustomElement: boolean;
 
     component: CustomElementComponentMetadata;
 

@@ -111,7 +111,7 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
 
                 while (parent !== null) {
 
-                    if ((parent.constructor as CustomHTMLElementConstructor).metadata !== undefined) {  // It is a custom element
+                    if ((parent.constructor as CustomHTMLElementConstructor)._isCustomElement === true) {  // It is a custom element
 
                         break;
                     }

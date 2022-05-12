@@ -1,3 +1,4 @@
+import isUndefinedOrNull from "../../../utils/isUndefinedOrNull";
 import CustomHTMLElement from "../metadata/types/CustomHTMLElement";
 
 export default function findParentPropertyValue(element: CustomHTMLElement, name: string): unknown {
@@ -8,15 +9,14 @@ export default function findParentPropertyValue(element: CustomHTMLElement, name
 
         const value = parent[name];
 
-        if (value !== undefined &&
-            value !== '') {
+        if (!isUndefinedOrNull(value)) {
 
             return value;
         }
 
         parent = parent.parentElement as CustomHTMLElement;
 
-    } while (parent != null);
+    } while (parent !== null);
 
-    return undefined;
+    return null;
 }

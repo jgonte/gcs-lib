@@ -1,5 +1,6 @@
 import { attributeMarkerPrefix } from "../../rendering/template/markers";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
+import ensureValueIsInOptions from "./helpers/ensureValueIsInOptions";
 import findParentPropertyValue from "./helpers/findParentPropertyValue";
 import valueConverter from "./helpers/valueConverter";
 import CustomElementPropertyMetadata from "./metadata/types/CustomElementPropertyMetadata";
@@ -135,7 +136,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             for (const [name, property] of propertiesMetadata) {
 
                 const {
-                    value,
                     inherit
                 } = property;
 
@@ -151,11 +151,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
                 const parentValue = findParentPropertyValue(parent, name);
 
-                if (parentValue !== undefined) {
-
-                    this.setProperty(name, parentValue);
-                }
-                else if (this[name] !== value) { // It is different from the default value
+                if (parentValue !== null) {
 
                     this.setProperty(name, parentValue);
                 }
@@ -213,7 +209,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             if (propertyMetadata === undefined) {
 
-                throw new Error(`Attribute: ${attribute} is not configured for custom element: ${this.constructor.name}`);
+                throw new Error(`Attribute: '${attribute}' is not configured for custom element: '${this.constructor.name}'`);
             }
 
             const {
@@ -239,7 +235,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             if (propertyMetadata === undefined) {
 
-                throw new Error(`Property: ${name} is not configured for custom element: ${this.constructor.name}`);
+                throw new Error(`Property: '${name}' is not configured for custom element: '${this.constructor.name}'`);
             }
 
             const oldValue = this._properties[name];
@@ -265,11 +261,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 //afterUpdate - We call afterUpdate after the element was updated in the DOM
             } = propertyMetadata;
 
-            if (options !== undefined &&
-                !options.includes(value)) {
-
-                throw new Error(`Value: ${value} is not part of the options: [${options.join(', ')}]`);
-            }
+            ensureValueIsInOptions(value, options);
 
             const reflectOnAttribute = reflect === true ? attribute : undefined;
 
@@ -277,8 +269,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
                 value = valueConverter.toAttribute(value);
 
-                if (isUndefinedOrNull(value) ||
-                    value === '') {
+                if (isUndefinedOrNull(value)) {
 
                     this.removeAttribute(reflectOnAttribute);
                 }
@@ -294,11 +285,14 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             return true;
         }
 
-        protected callAttributesChange() {
+        /**
+         * Calls the afterUpdate method of any changed property if defined
+         */
+        protected callAfterUpdate() {
 
             this._changedProperties.forEach(p => {
 
-                if (p.afterUpdate !== undefined) { // Call the change function if defined
+                if (p.afterUpdate !== undefined) {
 
                     p.afterUpdate.call(this);
                 }

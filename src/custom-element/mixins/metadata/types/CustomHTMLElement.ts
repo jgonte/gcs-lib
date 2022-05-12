@@ -43,6 +43,8 @@ export default interface CustomHTMLElement extends HTMLElement {
 
     setState(name: string, value: unknown): void;
 
+    get updateComplete(): Promise<void>; // Returns this._updatePromise;
+
     /**
      * Whether the styles were already added to the document
      */
@@ -59,8 +61,7 @@ export default interface CustomHTMLElement extends HTMLElement {
 
     handleSlotChange: EventListenerOrEventListenerObject;
 
-    
-    // Whished protected
+    // Whish they were protected
     _setProperty(name: string, value: unknown): boolean;
 
     _setState(name: string, value: unknown): boolean;
@@ -68,6 +69,4 @@ export default interface CustomHTMLElement extends HTMLElement {
     clearChangedProperties(): void;
 
     updateDom(): void;
-
-    get updateComplete(): Promise<void>;
 }

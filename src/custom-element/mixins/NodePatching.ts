@@ -39,6 +39,8 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                     mountNodes(document, newPatchingData);
 
                     this._waitForChildrenToMount();
+
+                    this.callAfterUpdate();
                 }
                 // else newPatchingData === null - Nothing to do
             }
@@ -51,6 +53,8 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                     updateNodes(document, _oldPatchingData, newPatchingData);
 
                     this._waitForChildrenToUpdate();
+
+                    this.callAfterUpdate();
                 }
                 else { // newPatchingData === null - Unmount
 
@@ -77,7 +81,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                 await Promise.all(updatePromises);
             }
 
-            this.didMountCallback?.();
+            await this.didMountCallback?.();
         }
 
         /**
@@ -92,7 +96,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                 await Promise.all(updatePromises);
             }
 
-            this.didUpdateCallback?.();
+            await this.didUpdateCallback?.();
         }
     }
 }

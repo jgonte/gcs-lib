@@ -1,3 +1,4 @@
+import ensureValueIsInOptions from "./helpers/ensureValueIsInOptions";
 import CustomElementStateMetadata from "./metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "./metadata/types/CustomHTMLElementConstructor";
 
@@ -31,8 +32,11 @@ export default function StateHolder<TBase extends CustomHTMLElementConstructor>(
             for (const [name, state] of stateMetadata) {
 
                 const {
-                    value
+                    value,
+                    options
                 } = state;
+
+                ensureValueIsInOptions(value, options);
 
                 if (this._state[name] === undefined &&
                     value !== undefined) {
@@ -44,11 +48,19 @@ export default function StateHolder<TBase extends CustomHTMLElementConstructor>(
 
         /* protected */ _setState(key: string, value: unknown): boolean {
 
+            const stateMetadata = (this.constructor as CustomHTMLElementConstructor).metadata.state.get(key);
+            
             // Verify that the property of the state is one of the configured in the custom element
-            if ((this.constructor as CustomHTMLElementConstructor).metadata.state.get(key) === undefined) {
+            if (stateMetadata === undefined) {
 
                 throw Error(`There is no configured property for state: '${key}' in type: '${this.constructor.name}'`)
             }
+
+            const {
+                options
+            } = stateMetadata;
+
+            ensureValueIsInOptions(value, options);
 
             const oldValue = this._state[key];
 

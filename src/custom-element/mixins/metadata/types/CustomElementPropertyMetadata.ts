@@ -1,4 +1,5 @@
 import { ParameterlessVoidFunction } from "../../../../utils/types";
+import CustomElementStateMetadata from "./CustomElementStateMetadata";
 
 export enum ConversionTypes {
     Boolean = "boolean",
@@ -12,13 +13,8 @@ export enum ConversionTypes {
 /**
  * Describes the configurator of the properties
  */
- export default interface CustomElementPropertyMetadata {
-    /**
-     * The name of the property in the props object
-     * It corresponds to the key of the record
-     */
-    name?: string;
-
+ export default interface CustomElementPropertyMetadata  extends CustomElementStateMetadata{
+    
     /**
      * The name of the HTML attribute mapped to the property
      */
@@ -36,11 +32,6 @@ export enum ConversionTypes {
     defer?: boolean;
 
     /**
-     * The default value of the property if no attribute is set in HTML
-     */
-    value?: unknown;
-
-    /**
      * Whether the value of the property can be changed
      */
     mutable?: boolean;
@@ -54,11 +45,6 @@ export enum ConversionTypes {
      * Whether to request the value of the property in the parent if it is not set in the child. e.g., size, kind, etc.
      */
     inherit?: boolean;
-
-    /**
-     * The range to restrict the values of the property
-     */
-    options?: unknown[];
 
     /**
      * Whether the property must have a value by the time the connectedCallback method is called

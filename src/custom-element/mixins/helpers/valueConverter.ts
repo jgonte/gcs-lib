@@ -5,20 +5,18 @@ const valueConverter = {
 
     toProperty: (value: string, type: ConversionTypes | ConversionTypes[]) => {
 
+        if (value === null) {
+
+            return null;
+        }
+
         if (!Array.isArray(type)) { // Convert type to array so we can handle multiple types as well
 
             type = [type];
         }
 
-        if (value === null &&
-            type.includes(ConversionTypes.String)) { // When an attribute gets removed attributeChangedCallback gives the value of null
-
-            return '';
-        }
-
         // First try a function since that can create any of the objects below
-        if (value !== null &&
-            value[value.length - 2] === '(' && value[value.length - 1] === ')' // The function by convention must end in ()
+        if (value[value.length - 2] === '(' && value[value.length - 1] === ')' // The function by convention must end in ()
             && type.includes(ConversionTypes.Function)) {
 
             const fcn = getGlobalFunction(value);
@@ -28,11 +26,6 @@ const valueConverter = {
                 return fcn;
             }
         }
-
-        // if (type.includes(ElementNode)) {
-
-        //     return createVirtualNode(value);
-        // }
 
         if (type.includes(ConversionTypes.Object) ||
             type.includes(ConversionTypes.Array)
@@ -74,12 +67,12 @@ const valueConverter = {
 
         if (type.includes(ConversionTypes.Boolean)) {
 
-            return value !== null && value !== 'false';
+            return true;
         }
 
         if (type.includes(ConversionTypes.Number)) {
 
-            return value === null ? null : Number(value);
+            return Number(value);
         }
 
         return value;
@@ -87,16 +80,23 @@ const valueConverter = {
 
     toAttribute: (value: unknown): unknown => {
 
+        if (value === null) {
+
+            return null;
+        }
+        
         const type = typeof value;
 
         if (type === 'boolean') {
 
-            return value ? 'true' : 'false';
+            return value === true ?
+                '' :
+                null; // This will clear the attribute
         }
 
         if (type === 'object' || Array.isArray(value)) {
 
-            return value == null ? value : JSON.stringify(value);
+            return JSON.stringify(value);
         }
 
         return value;

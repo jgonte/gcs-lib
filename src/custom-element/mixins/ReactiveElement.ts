@@ -83,11 +83,11 @@ export default function ReactiveElement<TBase extends CustomHTMLElementConstruct
                 Promise.reject(error);
             }
 
-            return new Promise<void>((resolve, reject) => {
+            return new Promise<void>(async (resolve, reject) => {
 
                 try {
 
-                    this.updateDom();
+                    await this.updateDom();
 
                     this._markUpdated();
 

@@ -18,7 +18,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
          */
         private _oldPatchingData: NodePatchingData | NodePatchingData[] | null = null;
 
-        updateDom(): void {
+        async updateDom(): Promise<void> {
 
             let newPatchingData: NodePatchingData | NodePatchingData[] | null = this.render();
 
@@ -38,7 +38,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
 
                     mountNodes(document, newPatchingData);
 
-                    this._waitForChildrenToMount();
+                    await this._waitForChildrenToMount();
 
                     this.callAfterUpdate();
                 }
@@ -48,17 +48,17 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
 
                 if (newPatchingData !== null) { // Update
 
-                    this.willUpdateCallback?.();
+                    await this.willUpdateCallback?.();
 
                     updateNodes(document, _oldPatchingData, newPatchingData);
 
-                    this._waitForChildrenToUpdate();
+                    await this._waitForChildrenToUpdate();
 
                     this.callAfterUpdate();
                 }
                 else { // newPatchingData === null - Unmount
 
-                    this.willUnmountCallback?.();
+                    await this.willUnmountCallback?.();
 
                     (this.document as HTMLElement).replaceChildren(); // Remove all the existing children
 

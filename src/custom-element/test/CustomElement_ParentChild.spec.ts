@@ -119,11 +119,11 @@ describe("CustomElement parent children relationship tests", () => {
 
         expect(Array.from(parent.adoptedChildren)[0]).toBe(child);
 
-        //expect(spyMountedCallback).toHaveBeenCalledTimes(2); TODO: Research why it is not calling the spy on the parent
+        expect(spyMountedCallback).toHaveBeenCalledTimes(2);
 
         expect(spyMountedCallback).toHaveBeenNthCalledWith(1, child); // Children should be called first
 
-        //expect(spyMountedCallback).toHaveBeenNthCalledWith(2, parentComponent);
+        expect(spyMountedCallback).toHaveBeenNthCalledWith(2, parent);
     });
 
     it('should call the child didMountCallback before the slotted parent', async () => {
@@ -233,11 +233,11 @@ describe("CustomElement parent children relationship tests", () => {
 
         expect(Array.from(parent.adoptedChildren)[0]).toBe(child);
 
-        //expect(spyMountedCallback).toHaveBeenCalledTimes(2); TODO: Research why it is not calling the spy on the parent
+        expect(spyMountedCallback).toHaveBeenCalledTimes(2);
 
         expect(spyMountedCallback).toHaveBeenNthCalledWith(1, child); // Children should be called first
 
-        //expect(spyMountedCallback).toHaveBeenNthCalledWith(2, parentComponent);
+        expect(spyMountedCallback).toHaveBeenNthCalledWith(2, parent);
     });
 
     it('should set the inherited property if the property of the child has not been explicitly set', async () => {
@@ -668,7 +668,7 @@ describe("CustomElement parent children relationship tests", () => {
 
         expect(parent.shadowRoot?.innerHTML).toEqual("<div>\n                    <span>Hello, my name is <!--_$bm_-->Jorge<!--_$em_--></span>\n                    <slot></slot>\n                </div>");
 
-        expect(spyDidAdoptChildrenCallback).toBeCalledTimes(0); // It should be 1
+        expect(spyDidAdoptChildrenCallback).toBeCalledTimes(1);
     });
 
     it('should allow adding, replacing and removing children as slotted elements', async () => {

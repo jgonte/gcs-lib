@@ -20,7 +20,7 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
                     ConversionTypes.Object, 
                     ConversionTypes.Function
                 ],
-                value: {}
+                value: undefined
                 //required: true - We might need to load it after connecting the component
             },
 
@@ -42,7 +42,9 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
             template
         } = this;
 
-        return template(data);
+        return data === undefined ? 
+            template(data) :
+            null;
     }
 }
 

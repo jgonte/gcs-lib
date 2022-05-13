@@ -1,3 +1,4 @@
+import CustomHTMLElementConstructor from "./custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import CustomElement from "./custom-element/CustomElement";
 import defineCustomElement from "./custom-element/defineCustomElement";
 import CustomElementComponentMetadata from "./custom-element/mixins/metadata/types/CustomElementComponentMetadata";
@@ -6,6 +7,7 @@ import CustomElementStateMetadata from "./custom-element/mixins/metadata/types/C
 import { NodePatchingData } from "./rendering/nodes/NodePatchingData";
 
 export {
+    CustomHTMLElementConstructor,
     CustomElement,
     CustomElementComponentMetadata,
     CustomElementPropertyMetadata,

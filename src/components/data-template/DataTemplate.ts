@@ -43,8 +43,8 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
         } = this;
 
         return data === undefined ? 
-            template(data) :
-            null;
+            null :
+            template(data);
     }
 }
 

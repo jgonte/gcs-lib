@@ -20,7 +20,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
 
         async updateDom(): Promise<void> {
 
-            let newPatchingData: NodePatchingData | NodePatchingData[] | null = this.render();
+            let newPatchingData = await this.render();
 
             if (newPatchingData !== null) { // Only if there is something to render
 

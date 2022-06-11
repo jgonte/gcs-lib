@@ -1,6 +1,6 @@
 import CustomElement from "../CustomElement";
 import defineCustomElement from "../defineCustomElement";
-import mergeStyles from "../mergeStyles";
+import mergeStyles from "../styles/mergeStyles";
 import clearCustomElements from "./helpers/clearCustomElements";
 
 beforeEach(() => {

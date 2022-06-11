@@ -1,5 +1,9 @@
 import { NodePatchingData } from "../../../../rendering/nodes/NodePatchingData";
 
+export type RenderReturnTypes = NodePatchingData | NodePatchingData[] | Promise<NodePatchingData> | null;
+
+export type NodePatchingTypes = NodePatchingData | NodePatchingData[] | null;
+
 /**
  * Defines the additional members of the CustomHTMLElement
  */
@@ -21,9 +25,9 @@ export default interface CustomHTMLElement extends HTMLElement {
 
     // DOM patching
 
-    render(): NodePatchingData | NodePatchingData[] | null;
+    render(): RenderReturnTypes;
 
-    beforeRender(patchingData: NodePatchingData | NodePatchingData[]): NodePatchingData | NodePatchingData[];
+    beforeRender(patchingData: NodePatchingTypes): NodePatchingTypes;
 
     get document(): HTMLElement | ShadowRoot;
 

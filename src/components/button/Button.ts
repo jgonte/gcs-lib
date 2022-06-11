@@ -1,10 +1,12 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
+import mergeStyles from "../../custom-element/styles/mergeStyles";
 import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import Kind from "../mixins/Kind";
+import { styles } from "./Button.styles";
 
 export default class Button extends Kind(CustomElement as CustomHTMLElementConstructor) {
 
@@ -32,9 +34,14 @@ export default class Button extends Kind(CustomElement as CustomHTMLElementConst
             }
         };
     }
-    
+
+    static get styles(): string {
+
+        return mergeStyles(super.styles, styles);
+    }
+
     render(): NodePatchingData | NodePatchingData[] | null {
-        
+
         return html`<button onClick=${this.click}>
             <slot></slot>
         </button>`;

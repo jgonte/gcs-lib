@@ -49,6 +49,12 @@ export default function createTemplateString(strings: TemplateStringsArray): Tem
 
         s = trimNode(s);
 
+        if (s.endsWith('="') ||
+            s.endsWith("='")) {
+
+            throw new Error("Do not surround the placeholder for an attribute with single or double quotes");
+        }
+
         if (s.endsWith('=')) { // It is an attribute or an event
 
             if (beginMarkerSet === true) {

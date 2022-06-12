@@ -48,6 +48,10 @@ describe("CustomElement properties tests", () => {
         component.setAttribute('type', 'a');
 
         expect(component.type).toBe('a');
+
+        const metadata = (component.constructor as CustomHTMLElementConstructor).metadata;
+
+        expect(metadata.properties.size).toEqual(1);
     });
 
     it('should populate a property from a value from a function', () => {

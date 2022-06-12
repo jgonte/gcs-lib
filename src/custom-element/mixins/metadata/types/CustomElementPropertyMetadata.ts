@@ -4,7 +4,9 @@ import CustomElementStateMetadata from "./CustomElementStateMetadata";
 export enum ConversionTypes {
     Boolean = "boolean",
     Number = "number",
+    BigInt = "bigint",
     String = "string",
+    Date = "date",
     Object = "object",
     Array = "array",
     Function = "function"

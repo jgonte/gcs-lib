@@ -2092,4 +2092,19 @@ describe("render nodes tests", () => {
         expect(container.outerHTML).toEqual("<div><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--></div>");
     });
 
+    it('should throw an error if the placeholder is surrounded by double quotes', () => {
+
+        const icon = "person";
+
+        expect(() => html`<wcl-icon name="${icon}"></wcl-icon>`)
+            .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes"));
+    });
+
+    it('should throw an error if the placeholder is surrounded by single quotes', () => {
+
+        const icon = "person";
+
+        expect(() => html`<wcl-icon name='${icon}'></wcl-icon>`)
+            .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes"));
+    });
 });

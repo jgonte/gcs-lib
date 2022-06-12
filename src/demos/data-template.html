@@ -58,7 +58,8 @@
                         id: 2,
                         description: 'Medicine'
                     }
-                ]
+                ],
+                icon: 'person'
             };
         }
 
@@ -68,11 +69,15 @@
                 name,
                 age,
                 description,
-                skills
+                skills,
+                icon
             } = data;
 
             return html`<div style="width: 200px; margin: 10px;">
-                <div style="background-color: lightgreen; padding: 5px;">${name}</div>
+                <div style="background-color: lightgreen; padding: 5px;">
+                    <wcl-icon name=${icon}></wcl-icon>
+                    ${name}
+                </div>
                 <div style="background-color: yellow;">${age}</div>
                 <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
                 <gcl-data-list id-field="id" display-field="description" data=${skills}></gcl-data-list>
@@ -105,13 +110,13 @@
             }
         ]
     }' template="getTemplate()">
-</wcl-data-template>
+    </wcl-data-template>
 
-<wcl-data-template id="ti2" data='getData()' template="getTemplate()">
-</wcl-data-template>
+    <wcl-data-template id="ti2" data='getData()' template="getTemplate()">
+    </wcl-data-template>
 
-<wcl-data-template id="ti3" data='getData()' template="getSimpleTemplate()">
-</wcl-data-template>
+    <wcl-data-template id="ti3" data='getData()' template="getSimpleTemplate()">
+    </wcl-data-template>
 
 </body>
 

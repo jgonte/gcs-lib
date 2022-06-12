@@ -1,4 +1,4 @@
-import Observer from "../utils/observer/Observer";
+import Observer from "../utils/src/observer/Observer";
 
 export default class IntlProvider extends Observer {
 

@@ -4,8 +4,6 @@ import clearCustomElements from "../../custom-element/test/helpers/clearCustomEl
 import appCtrl from "../../services/appCtrl";
 import Icon from "../icon/Icon";
 
-
-
 beforeEach(() => {
 
     clearCustomElements();

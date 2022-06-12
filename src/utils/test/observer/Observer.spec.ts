@@ -1,5 +1,5 @@
-import Observer from '../observer/Observer';
-import Subscriber from '../observer/Subscriber';
+import Observer from '../../src/observer/Observer';
+import Subscriber from '../../src/observer/Subscriber';
 
 const values: unknown[] = [];
 
@@ -12,7 +12,7 @@ class Observed implements Subscriber {
 
 	constructor(public name: string) { }
 
-	[key: string]: ((...args: unknown[]) => void) | unknown |undefined;
+	[key: string]: ((...args: unknown[]) => void) | unknown | undefined;
 
 	onNotify(...args: unknown[]): void {
 

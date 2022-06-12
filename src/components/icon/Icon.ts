@@ -6,10 +6,10 @@ import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
-import Kind from "../mixins/Kind";
+import Kind from "../mixins/kind/Kind";
 import { styles } from "./Icon.styles";
 
-const cache = new Map<string, string>();
+const iconsCache = new Map<string, string>();
 
 export default class Icon extends Kind(CustomElement as CustomHTMLElementConstructor) {
 
@@ -42,9 +42,9 @@ export default class Icon extends Kind(CustomElement as CustomHTMLElementConstru
 
         let svg: string | undefined = undefined;
 
-        if (cache.has(iconPath)) {
+        if (iconsCache.has(iconPath)) {
 
-            svg = cache.get(iconPath);
+            svg = iconsCache.get(iconPath);
         }
         else {
 
@@ -58,7 +58,7 @@ export default class Icon extends Kind(CustomElement as CustomHTMLElementConstru
                 throw new Error(`Potencial XSS threat in file: ${iconPath}`);
             }
 
-            cache.set(iconPath, svg);
+            iconsCache.set(iconPath, svg);
         }
 
         return html([svg] as unknown as TemplateStringsArray);

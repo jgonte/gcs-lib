@@ -7,7 +7,7 @@ import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import IntlProvider from "../../services/IntlProvider";
-import Kind from "../mixins/Kind";
+import Kind from "../mixins/kind/Kind";
 import { styles } from "./LocalizedText.styles";
 
 export default class LocalizedText extends Kind(CustomElement as CustomHTMLElementConstructor) {

@@ -5,7 +5,7 @@ import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-ele
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
-import Kind from "../mixins/Kind";
+import Kind from "../mixins/kind/Kind";
 import { styles } from "./Button.styles";
 
 export default class Button extends Kind(CustomElement as CustomHTMLElementConstructor) {

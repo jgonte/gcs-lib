@@ -1,6 +1,6 @@
 import css from "../../custom-element/styles/css";
 
-export const styles = css`
+export const buttonStyles = css`
 button {
     display: inline-flex;
     align-items: center;

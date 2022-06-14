@@ -1,6 +1,6 @@
 import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
-import { styles } from "./Kind.styles";
+import { kindStyles } from "./Kind.styles";
 
 export default function Kind<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
@@ -22,7 +22,7 @@ export default function Kind<TBase extends CustomHTMLElementConstructor>(Base: T
 
         static get styles(): string {
 
-            return styles;
+            return kindStyles;
         }
     }
 }

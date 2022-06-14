@@ -1,7 +1,7 @@
+import defineCustomElement from "../../../custom-element/defineCustomElement";
+import html from "../../../rendering/html";
+import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import Field from "../Field";
-import defineCustomElement from "../../../custom-element/helpers/defineCustomElement";
-import html from "../../../renderer/html";
-import { NodePatchingData } from "../../../renderer/NodePatcher";
 
 function formatDate(value: string) {
 
@@ -27,10 +27,10 @@ export default class DateField extends Field {
             value=${value !== undefined ? formatDate(value) : undefined}
             onInput=${event => this.handleInput(event)}
             onChange=${event => this.handleChange(event)}
-            onBlur=${event => this.handleBlur(event)}
+            onBlur=${() => this.handleBlur()}
             disabled=${disabled}
         />`;
     }
 }
 
-defineCustomElement('gcl-date-field', DateField);
+defineCustomElement('wcl-date-field', DateField);

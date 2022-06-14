@@ -4,6 +4,7 @@ import CustomHTMLElement from "../../custom-element/mixins/metadata/types/Custom
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import RequiredValidator from "../../utils/validation/validators/field/RequiredValidator";
+import SingleValueFieldValidator from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
 import LocalizedText from "../localized-text/LocalizedText";
 import Validatable from "../mixins/validatable/Validatable";
@@ -96,7 +97,7 @@ export default abstract class Field extends
                         validators
                     } = this;
 
-                    const requiredValidator = validators.filter(v => v instanceof RequiredValidator)[0];
+                    const requiredValidator = validators.filter((v: SingleValueFieldValidator) => v instanceof RequiredValidator)[0];
 
                     if (requiredValidator !== undefined) {
 
@@ -143,9 +144,9 @@ export default abstract class Field extends
      * @param event 
      * @returns 
      */
-    handleInput(event: { target: HTMLInputElement; }) {
+    handleInput(event: Event) {
 
-        this._tempValue = this.getNewValue(event.target);
+        this._tempValue = this.getNewValue(event.target as HTMLInputElement);
 
         this.validate(); // Validate the field on input
 
@@ -195,7 +196,7 @@ export default abstract class Field extends
         }
     }
 
-    handleChange(event: { target: HTMLInputElement; }): void {
+    handleChange(event: Event): void {
 
         // Reset the temporary value
         this._tempValue = undefined;

@@ -1,15 +1,16 @@
+
 import CustomElement from "../../../custom-element/CustomElement";
-import defineCustomElement from "../../../custom-element/helpers/defineCustomElement";
-import { CustomElementPropertyMetadata } from "../../../custom-element/interfaces";
-import html  from "../../../renderer/html";
-import { NodePatchingData } from "../../../renderer/NodePatcher";
-import styles from "./Slider-css"
+import defineCustomElement from "../../../custom-element/defineCustomElement";
+import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import html from "../../../rendering/html";
+import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import { sliderStyles } from "./Slider.styles"
 
 export default class Slider extends CustomElement {
 
     static get styles(): string {
 
-        return styles;
+        return sliderStyles;
     }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
@@ -20,12 +21,12 @@ export default class Slider extends CustomElement {
              * The value of the slider
              */
             value: {
-                type: Number,
+                type: ConversionTypes.Number,
                 value: 0,
                 reflect: true,
                 afterUpdate: function () { // Do not use an arrow function so we can use Function.prototype.call()
 
-                    this.refreshSlider(this.value);
+                    (this as unknown as Slider).refreshSlider(this.value as number);
                 }
             }
         }
@@ -39,14 +40,13 @@ export default class Slider extends CustomElement {
         `;
     }
 
-    async refreshSlider(value: number) {
+    refreshSlider(value: number): void {
 
-        if (this.querySelector('.thumb')) {
+        const thumb = this.querySelector('.thumb') as HTMLElement;
 
-            this.querySelector('.thumb').style.left = (value / 100 *
-                this.offsetWidth -
-                this.querySelector('.thumb').offsetWidth / 2)
-                + 'px';
+        if (thumb !== null) {
+
+            thumb.style.left = (value / 100 * this.offsetWidth - thumb.offsetWidth / 2) + 'px';
         }
     }
 
@@ -65,10 +65,10 @@ export default class Slider extends CustomElement {
         // this.setColor(this.backgroundcolor);
     }
 
-    updateX(x) {
+    updateX(x: number) {
 
         // Offset the horizontal position to use the center of the thumbnail
-        let hPos = x - this.querySelector('.thumb').offsetWidth / 2;
+        let hPos = x - (this.querySelector('.thumb') as HTMLElement)?.offsetWidth / 2;
 
         // Restrict horizontal position to confines of component bounds
         if (hPos > this.offsetWidth) {
@@ -85,7 +85,7 @@ export default class Slider extends CustomElement {
         this.value = (hPos / this.offsetWidth) * 100; 3
     }
 
-    eventHandler(e) {
+    eventHandler(e: MouseEvent) {
 
         const bounds = this.getBoundingClientRect();
 
@@ -127,4 +127,4 @@ export default class Slider extends CustomElement {
     }
 }
 
-defineCustomElement('gcl-slider', Slider);
+defineCustomElement('wcl-slider', Slider);

@@ -8,13 +8,15 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import IntlProvider from "../../services/IntlProvider";
 import Kind from "../mixins/kind/Kind";
-import { styles } from "./LocalizedText.styles";
+import { localizedTextStyles } from "./LocalizedText.styles";
 
-export default class LocalizedText extends Kind(CustomElement as CustomHTMLElementConstructor) {
+export default class LocalizedText extends Kind(
+    CustomElement as CustomHTMLElementConstructor
+) {
 
     static get styles(): string {
 
-        return mergeStyles(super.styles, styles);
+        return mergeStyles(super.styles, localizedTextStyles);
     }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {

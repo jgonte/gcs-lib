@@ -1,6 +1,6 @@
-import defineCustomElement from "../../../custom-element/helpers/defineCustomElement";
-import { NodePatchingData } from "../../../renderer/NodePatcher";
-import html from "../../../renderer/html";
+import defineCustomElement from "../../../custom-element/defineCustomElement";
+import html from "../../../rendering/html";
+import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import Field from "../Field";
 
 export default class HiddenField extends Field {
@@ -20,4 +20,4 @@ export default class HiddenField extends Field {
     }
 }
 
-defineCustomElement('gcl-hidden-field', HiddenField);
+defineCustomElement('wcl-hidden-field', HiddenField);

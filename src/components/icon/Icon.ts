@@ -7,7 +7,7 @@ import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import Kind from "../mixins/kind/Kind";
-import { styles } from "./Icon.styles";
+import { iconStyles } from "./Icon.styles";
 
 const iconsCache = new Map<string, string>();
 
@@ -15,7 +15,7 @@ export default class Icon extends Kind(CustomElement as CustomHTMLElementConstru
 
     static get styles(): string {
 
-        return mergeStyles(super.styles, styles);
+        return mergeStyles(super.styles, iconStyles);
     }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {

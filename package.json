@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Web components framework",
   "main": "./dist/js/bundle.js",
-  "typings": "./dist/gcl-wc.d.ts",
+  "typings": "./dist/wcl.d.ts",
   "scripts": {
     "clean": "rimraf ./dist",
     "lint": "eslint ./src/**/*.ts",

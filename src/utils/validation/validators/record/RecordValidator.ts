@@ -1,16 +1,17 @@
-import { DataProvider, ReturnedData } from "../../../src/data/DataProvider";
+import { SingleRecordDataProvider } from "../../../data/DataProvider";
+import { DynamicObject } from "../../../types";
 import Validator, { ValidationContext } from "../Validator";
 
 export interface RecordValidationContext extends ValidationContext {
 
-    dataProvider: DataProvider;
+    dataProvider: SingleRecordDataProvider;
 }
 
 export default abstract class RecordValidator extends Validator {
 
     abstract validate(context: RecordValidationContext): boolean;
 
-    getData(context: RecordValidationContext): ReturnedData {
+    getData(context: RecordValidationContext): DynamicObject {
 
         return context.dataProvider.getData();
     }

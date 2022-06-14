@@ -1,6 +1,6 @@
 import css from "../../../custom-element/styles/css";
 
-export const styles = css`
+export const kindStyles = css`
 /* KindMixin */
 /* host applies to the text component*/
 :host([kind='primary']),

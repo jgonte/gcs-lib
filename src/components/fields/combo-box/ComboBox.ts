@@ -1,14 +1,16 @@
-import defineCustomElement from "../../../custom-element/helpers/defineCustomElement";
-import findChild from "../../../custom-element/helpers/findChild";
-import { CustomElementPropertyMetadata } from "../../../custom-element/interfaces";
-import SelectionContainerMixin from "../../../custom-element/mixins/components/selection-container/SelectionContainerMixin";
-import html from "../../../renderer/html";
-import { NodePatchingData } from "../../../renderer/NodePatcher";
+
+import defineCustomElement from "../../../custom-element/defineCustomElement";
+import findChild from "../../../custom-element/mixins/helpers/findChild";
+import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
+import html from "../../../rendering/html";
+import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import SelectionContainer, { ISelectionContainer, SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
 import Field from "../Field";
 
 export default class ComboBox extends
-    SelectionContainerMixin(
-        Field
+    SelectionContainer(
+        Field as unknown as CustomHTMLElementConstructor
     ) {
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
@@ -19,7 +21,7 @@ export default class ComboBox extends
              */
             headerTemplate: {
                 attribute: 'header-template',
-                type: Function,
+                type: ConversionTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -28,7 +30,7 @@ export default class ComboBox extends
              */
             selectTemplate: {
                 attribute: 'select-template',
-                type: Function,
+                type: ConversionTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -37,7 +39,7 @@ export default class ComboBox extends
              */
             singleSelectionTemplate: {
                 attribute: 'single-selection-template',
-                type: Function,
+                type: ConversionTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -46,7 +48,7 @@ export default class ComboBox extends
              */
             multipleSelectionTemplate: {
                 attribute: 'multiple-selection-template',
-                type: Function,
+                type: ConversionTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             }
         };
@@ -54,12 +56,12 @@ export default class ComboBox extends
 
     render(): NodePatchingData {
 
-        return html`<gcl-drop-down>
+        return html`<wcl-drop-down>
             <span slot="header">${this.renderHeader()}</span>
             <span slot="content">
                 <slot id="content" name="content"></slot>
             </span>
-        </gcl-drop-down>`;
+        </wcl-drop-down>`;
     }
 
     renderHeader(): NodePatchingData {
@@ -75,7 +77,7 @@ export default class ComboBox extends
         }
     }
 
-    renderSelectTemplate() : NodePatchingData {
+    renderSelectTemplate(): NodePatchingData {
 
         const {
             selectTemplate
@@ -87,11 +89,11 @@ export default class ComboBox extends
         }
         else {
 
-            return html`<gcl-localized-text intl-key="please-select">Please select</gcl-localized-text>`;
+            return html`<wcl-localized-text intl-key="please-select">Please select</wcl-localized-text>`;
         }
     }
 
-    renderSingleSelectionTemplate(selection) : NodePatchingData {
+    renderSingleSelectionTemplate(selection: SelectionTypes): NodePatchingData {
 
         const {
             singleSelectionTemplate,
@@ -108,7 +110,7 @@ export default class ComboBox extends
         }
     }
 
-    renderMultipleSelectionTemplate(selection) : NodePatchingData {
+    renderMultipleSelectionTemplate(selection: SelectionTypes): NodePatchingData {
 
         const {
             multipleSelectionTemplate,
@@ -126,15 +128,15 @@ export default class ComboBox extends
                 displayField
             } = container;
 
-            const data = selection.map(item => {
-                
+            const data = selection.map((item) => {
+
                 return {
                     [idField]: item[idField],
                     [displayField]: item[displayField]
                 };
             });
 
-            return html`<gcl-data-list data=${data} id-field=${idField} display-field=${displayField} selectable="false"></gcl-data-list>`;
+            return html`<wcl-data-list data=${data} id-field=${idField} display-field=${displayField} selectable="false"></wcl-data-list>`;
         }
     }
 
@@ -143,22 +145,22 @@ export default class ComboBox extends
         super.didMountCallback?.();
 
         // If the slotted content is a selection container, then attach the update header to the selectionChanged property
-        const content = this.document.getElementById('content');
+        const content = (this.document as ShadowRoot).getElementById('content');
 
         const container = findChild(
-            content.assignedElements({ flatten: false }),
-            child => child.isSelectionContainer === true
-        ) as any;
+            (content as HTMLSlotElement).assignedElements({ flatten: false }) as unknown as HTMLCollection,
+            (child) => (child as ISelectionContainer).isSelectionContainer === true
+        ) as ISelectionContainer;
 
         const selectionChangedHandler = container.selectionChanged;
 
         if (selectionChangedHandler === undefined) {
 
-            container.selectionChanged = selection => this.selection = selection;
+            container.selectionChanged = (selection: SelectionTypes) => this.selection = selection;
         }
         else {
 
-            container.selectionChanged = selection => {
+            container.selectionChanged = (selection: SelectionTypes) => {
 
                 this.selection = selection;
 
@@ -171,4 +173,4 @@ export default class ComboBox extends
 
 }
 
-defineCustomElement('gcl-combo-box', ComboBox);
+defineCustomElement('wcl-combo-box', ComboBox);

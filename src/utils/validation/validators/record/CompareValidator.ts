@@ -1,4 +1,4 @@
-import { ComparisonOperatorsEnum } from "../../../src/operators/ComparisonOperatorsEnum";
+import { ComparisonOperatorsEnum } from "../../../operators/ComparisonOperatorsEnum";
 import { ValidatorOptions } from "../Validator";
 import RecordValidator, { RecordValidationContext } from "./RecordValidator";
 

@@ -13,6 +13,12 @@ import Icon from "./components/icon/Icon";
 import LocalizedText from "./components/localized-text/LocalizedText";
 import Button from "./components/button/Button";
 import DataTemplate from "./components/data-template/DataTemplate";
+// Fields
+import ComboBox from "./components/fields/combo-box/ComboBox";
+import DateField from "./components/fields/date/DateField";
+import FileField from "./components/fields/file/FileField";
+import HiddenField from "./components/fields/hidden/HiddenField";
+import TextField from "./components/fields/text/TextField";
 
 // Make it available in the global object of the browser
 (window as unknown as Record<string, unknown>).html = html;
@@ -31,5 +37,12 @@ export {
     Icon,
     LocalizedText,
     Button,
-    DataTemplate
+    DataTemplate,
+
+    // Fields 
+    TextField,
+    DateField,
+    FileField,
+    ComboBox,
+    HiddenField,
 }

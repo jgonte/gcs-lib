@@ -1,6 +1,6 @@
-import { ValidatorConfig } from "./interfaces";
-import RequiredValidator from "./validators/field/RequiredValidator";
+import { ValidatorConfig } from "./validators/ValidatorConfig";
 import Validator from "./validators/Validator";
+import RequiredValidator from "./validators/field/RequiredValidator";
 
 export default function createValidator(cfg: ValidatorConfig): Validator {
 

@@ -20,10 +20,10 @@ export default class TextField extends Field {
             value=${value}
             onInput=${event => this.handleInput(event)}
             onChange=${event => this.handleChange(event)}
-            onBlur=${event => this.handleBlur(event)}
+            onBlur=${() => this.handleBlur()}
             disabled=${disabled}
         />`;
     }
 }
 
-defineCustomElement('gcl-text-field', TextField);
+defineCustomElement('wcl-text-field', TextField);

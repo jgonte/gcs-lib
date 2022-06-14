@@ -1,10 +1,11 @@
+import defineCustomElement from "../../../custom-element/defineCustomElement";
+import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import html from "../../../rendering/html";
+import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import Field from "../Field";
-import { CustomElementPropertyMetadata } from "../../../custom-element/interfaces";
-import defineCustomElement from "../../../custom-element/helpers/defineCustomElement";
-import { NodePatchingData } from "../../../renderer/NodePatcher";
-import html from "../../../renderer/html";
 
-function formatSize(fileSize) {
+
+function formatSize(fileSize: number) : string {
 
     if (fileSize < 1024) {
 
@@ -18,6 +19,8 @@ function formatSize(fileSize) {
 
         return (fileSize / 1048576).toFixed(1) + 'MB';
     }
+
+    throw new Error(`Not implemented for file size: ${fileSize}`);
 }
 
 export default class FileField extends Field {
@@ -27,21 +30,21 @@ export default class FileField extends Field {
         return {
 
             accept: {
-                type: String
+                type: ConversionTypes.String
             },
 
             capture: {
-                type: Boolean,
+                type: ConversionTypes.Boolean,
                 value: true
             },
 
             multiple: {
-                type: Boolean
+                type: ConversionTypes.Boolean
             },
 
             /** Whether to preview the files (that can be previewed) */
             preview: {
-                type: Boolean
+                type: ConversionTypes.Boolean
             }
         };
     }
@@ -73,15 +76,15 @@ export default class FileField extends Field {
                 disabled=${disabled}
                 onInput=${event => this.handleInput(event)}
                 onChange=${event => this.handleChange(event)}
-                onBlur=${event => this.handleBlur(event)}
+                onBlur=${() => this.handleBlur()}
             />
 
             ${this.renderFileList()}
 
-            <gcl-button kind="secondary" variant="contained" click=${() => this.openFileDialog()}>
-                <gcl-icon name="upload"></gcl-icon>
-                <gcl-localized-text>Click here to upload files</gcl-localized-text>
-            </gcl-button>`;
+            <wcl-button kind="secondary" variant="contained" click=${() => this.openFileDialog()}>
+                <wcl-icon name="upload"></wcl-icon>
+                <wcl-localized-text>Click here to upload files</wcl-localized-text>
+            </wcl-button>`;
     }
 
     openFileDialog(): void {
@@ -90,10 +93,10 @@ export default class FileField extends Field {
             name
         } = this;
 
-        this.document.getElementById(name).click();
+        (this.document as ShadowRoot).getElementById(name)?.click();
     }
 
-    renderFileList(): NodePatchingData[] {
+    renderFileList(): NodePatchingData[] | null {
 
         const {
             preview,
@@ -126,13 +129,13 @@ export default class FileField extends Field {
                 content;
 
             return html`
-                <gcl-row value={name}>
+                <wcl-row value={name}>
                     <img style="width: 48px; height: 48px;" src=${src} />
                     <span>${name}</span>
                     <span>${formatSize(size)}</span>     
-                </gcl-row>`;
+                </wcl-row>`;
         });
     }
 }
 
-defineCustomElement('gcl-file-field', FileField);
+defineCustomElement('wcl-file-field', FileField);

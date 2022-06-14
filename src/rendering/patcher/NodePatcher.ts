@@ -1,5 +1,6 @@
 import { INodePatcher } from "./INodePatcher";
 import isPrimitive from "../../utils/isPrimitive";
+import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import createNodes from "../nodes/createNodes";
 import mountNodes from "../nodes/mountNodes";
 import { NodePatchingData, NodePatchingDataValues } from "../nodes/NodePatchingData";
@@ -15,7 +16,6 @@ import updateNodes from "../nodes/updateNodes";
 import replaceChild from "../dom/replaceChild";
 import removeLeftSiblings from "../dom/removeLeftSiblings";
 import removeLeftSibling from "../dom/removeLeftSibling";
-import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { setEvent } from "../dom/setEvent";
 
 export default class NodePatcher implements INodePatcher {

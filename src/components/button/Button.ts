@@ -6,7 +6,7 @@ import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/t
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import Kind from "../mixins/kind/Kind";
-import { styles } from "./Button.styles";
+import { buttonStyles } from "./Button.styles";
 
 export default class Button extends Kind(CustomElement as CustomHTMLElementConstructor) {
 
@@ -37,7 +37,7 @@ export default class Button extends Kind(CustomElement as CustomHTMLElementConst
 
     static get styles(): string {
 
-        return mergeStyles(super.styles, styles);
+        return mergeStyles(super.styles, buttonStyles);
     }
 
     render(): NodePatchingData | NodePatchingData[] | null {

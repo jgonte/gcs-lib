@@ -3,7 +3,7 @@ import isPrimitive from "../../utils/isPrimitive";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import createNodes from "../nodes/createNodes";
 import mountNodes from "../nodes/mountNodes";
-import { NodePatchingData, NodePatchingDataValues } from "../nodes/NodePatchingData";
+import { ExtensibleHTMLElement, NodePatchingData, NodePatchingDataValues } from "../nodes/NodePatchingData";
 import { CompiledNodePatcherRule } from "../rules/CompiledNodePatcherRule";
 import createNodePatcherRules from "../rules/createNodePatcherRules";
 import { CompiledNodePatcherAttributeRule } from "../rules/NodePatcherAttributeRule";
@@ -128,7 +128,7 @@ export default class NodePatcher implements INodePatcher {
                             property
                         } = rule as CompiledNodePatcherAttributeRule;
 
-                        setAttribute(node as HTMLElement & Record<string, unknown>, name, property, value);
+                        setAttribute(node as ExtensibleHTMLElement, name, property, value);
                     }
                     break;
                 case NodePatcherRuleTypes.PATCH_EVENT:
@@ -228,7 +228,7 @@ export default class NodePatcher implements INodePatcher {
                             property
                         } = rule as CompiledNodePatcherAttributeRule;
 
-                        setAttribute(node as HTMLElement & Record<string, unknown>, name, property, newValue);
+                        setAttribute(node as ExtensibleHTMLElement, name, property, newValue);
                     }
                     break;
                 case NodePatcherRuleTypes.PATCH_EVENT:
@@ -273,7 +273,7 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
 
                 const oldChild = keyedNodes.get(newChildKey);
 
-                updateNodes((oldChild as NodePatchingData).node as HTMLElement & Record<string, unknown>, oldChild as NodePatchingData, newChild); // Patch the old node if there are differences
+                updateNodes((oldChild as NodePatchingData).node as ExtensibleHTMLElement, oldChild as NodePatchingData, newChild); // Patch the old node if there are differences
             }
             else { // There is no old child with that key
 
@@ -294,7 +294,7 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
                 }
                 else {
 
-                    updateNodes((oldChild as NodePatchingData).node as HTMLElement & Record<string, unknown>, oldChild as NodePatchingData, newChild); // Patch the old node if there are differences
+                    updateNodes((oldChild as NodePatchingData).node as ExtensibleHTMLElement, oldChild as NodePatchingData, newChild); // Patch the old node if there are differences
                 }
             }
             else { // newChildKey !== oldChildKey
@@ -303,7 +303,7 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
 
                     const oldKeyedChild = keyedNodes.get(newChildKey);
 
-                    updateNodes((oldKeyedChild as NodePatchingData).node as  HTMLElement & Record<string, unknown>, oldKeyedChild as NodePatchingData, newChild); // Patch the old node if there are differences
+                    updateNodes((oldKeyedChild as NodePatchingData).node as  ExtensibleHTMLElement, oldKeyedChild as NodePatchingData, newChild); // Patch the old node if there are differences
 
                     replaceChild(markerNode, oldKeyedChild as NodePatchingData, oldChild as NodePatchingData);
                 }

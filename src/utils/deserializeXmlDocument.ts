@@ -1,6 +1,8 @@
-export default function deserializeXmlDocument(document: Document): Record<string, unknown> {
+import { GenericRecord } from "./types";
 
-    const o: Record<string, unknown> = {};
+export default function deserializeXmlDocument(document: Document): GenericRecord {
+
+    const o: GenericRecord = {};
 
     const childNodes = document.documentElement.childNodes;
 

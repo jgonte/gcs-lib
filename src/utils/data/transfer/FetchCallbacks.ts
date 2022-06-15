@@ -1,3 +1,4 @@
+import { GenericRecord } from "../../types";
 import { ErrorResponse } from "./ErrorResponse";
 
 /**
@@ -9,5 +10,5 @@ import { ErrorResponse } from "./ErrorResponse";
 
     onError?: (error: ErrorResponse) => void;
 
-    onData?: (data: Record<string, unknown>) => void;
+    onData?: (data: GenericRecord) => void;
 }

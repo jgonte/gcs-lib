@@ -1,3 +1,4 @@
+import { GenericRecord } from "../../utils/types";
 import ensureValueIsInOptions from "./helpers/ensureValueIsInOptions";
 import CustomElementStateMetadata from "./metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "./metadata/types/CustomHTMLElementConstructor";
@@ -14,7 +15,7 @@ export default function StateHolder<TBase extends CustomHTMLElementConstructor>(
         /**
          * The state of the instance
          */
-        private _state: Record<string, unknown> = {};
+        private _state: GenericRecord = {};
 
         connectedCallback() {
 

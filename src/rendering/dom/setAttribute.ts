@@ -1,7 +1,8 @@
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
+import { ExtensibleHTMLElement } from "../nodes/NodePatchingData";
 
 export default function setAttribute(
-    node: HTMLElement & Record<string, unknown>,
+    node: ExtensibleHTMLElement,
     attributeName: string,
     propertyName: string,
     value: unknown): void {

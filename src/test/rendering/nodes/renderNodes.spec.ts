@@ -1148,7 +1148,7 @@ describe("render nodes tests", () => {
             node: itemNode
         } = itemPatchingData;
 
-        expect(itemNode).toBe((containerNode?.childNodes as ChildNode[])[1]); // it should refer to the same child node
+        expect(itemNode).toBe((containerNode?.childNodes as unknown as ChildNode[])[1]); // it should refer to the same child node
 
         expect((itemNode as HTMLElement).outerHTML).toEqual("<x-item class=\"item\">\n                My name is: <!--_$bm_-->Sarah<!--_$em_--></x-item>");
 

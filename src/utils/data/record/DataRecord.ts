@@ -20,12 +20,12 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
     /**
      * The cached id of the record
      */
-    private _id: any;
+    private _id: unknown;
 
     /**
      * The cached data of the record
      */
-    private _data?: any = undefined;
+    private _data?: DynamicObject = undefined;
 
     [key: string]: ((...args: unknown[]) => void) | unknown | undefined;
 
@@ -103,7 +103,7 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
             return _data;
         }
 
-        const data: any = {};
+        const data: DynamicObject = {};
 
         for (const key in _fields) {
 
@@ -123,7 +123,7 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
         return data;
     }
 
-    set id(id: any) {
+    set id(id: unknown) {
 
         this._id = id;
     }
@@ -136,7 +136,7 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
 
         if (this._id === undefined) {
 
-            const idInfo = this._recordDescriptor.getId(_fields, f => (f as any).value);
+            const idInfo = this._recordDescriptor.getId(_fields, f => (f as { value: unknown}).value);
 
             this._id = idInfo.value;
         }
@@ -193,7 +193,7 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
         //this._modifiedFields = {}; It should be empty
     }
 
-    onValueSet(descriptor: DataFieldDescriptor, value: any, oldValue: any, initialValue: any) {
+    onValueSet(descriptor: DataFieldDescriptor, value: unknown, oldValue: unknown, initialValue: unknown) {
 
         if (areEqual(value, oldValue)) {
 

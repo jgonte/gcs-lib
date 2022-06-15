@@ -1,7 +1,7 @@
 
 import deserializeXmlDocument from "../../deserializeXmlDocument";
 import template from "../../template";
-import { DynamicObject } from "../../types";
+import { DynamicObject, GenericRecord } from "../../types";
 import { ErrorResponse } from "./ErrorResponse";
 import { FetchCallbacks } from "./FetchCallbacks";
 import { FetchRequest } from "./FetchRequest";
@@ -13,7 +13,7 @@ export default class Fetcher implements FetchCallbacks {
 
     onError?: (error: ErrorResponse) => void;
 
-    onData?: (data: Record<string, unknown>) => void;
+    onData?: (data: GenericRecord) => void;
 
     constructor(callbacks: FetchCallbacks) {
 

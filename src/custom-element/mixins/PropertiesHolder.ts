@@ -1,5 +1,6 @@
 import { attributeMarkerPrefix } from "../../rendering/template/markers";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
+import { GenericRecord } from "../../utils/types";
 import ensureValueIsInOptions from "./helpers/ensureValueIsInOptions";
 import findParentPropertyValue from "./helpers/findParentPropertyValue";
 import valueConverter from "./helpers/valueConverter";
@@ -27,7 +28,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
         /**
         * The properties of the instance
         */
-        private _properties: Record<string, unknown> = {};
+        private _properties: GenericRecord = {};
 
         /**
          * Map of the metadata of the changed properties so that the "afterUpdate" method can be called on the property after the update of the DOM

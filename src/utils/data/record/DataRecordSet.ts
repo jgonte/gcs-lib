@@ -38,7 +38,7 @@ export default class DataRecordSet implements CollectionDataProvider {
 
             dataRecord.initialize(data[i]);
 
-            (this._records as any)[JSON.stringify(dataRecord.id)] = dataRecord;
+            this._records[JSON.stringify(dataRecord.id)] = dataRecord;
         }
 
         this._addedRecords = {};
@@ -63,7 +63,7 @@ export default class DataRecordSet implements CollectionDataProvider {
             return _data;
         }
 
-        const data: any = [];
+        const data: DynamicObject[] = [];
 
         for (const key in _records) {
 
@@ -87,7 +87,7 @@ export default class DataRecordSet implements CollectionDataProvider {
             Object.keys(this._removedRecords).length > 0;
     }
 
-    findById(id: any): DataRecord | undefined {
+    findById(id: unknown): DataRecord | undefined {
 
         const strId = typeof id === 'string' ?
             id :
@@ -228,7 +228,7 @@ export default class DataRecordSet implements CollectionDataProvider {
         this._data = undefined;
     }
 
-    remove(data: any) {
+    remove(data: DynamicObject) {
 
         const idInfo = this._recordDescriptor?.getId(data);
 
@@ -318,6 +318,6 @@ export default class DataRecordSet implements CollectionDataProvider {
         callback(addedRecords, modifiedRecords, removedRecords);
 
         // Set the changes as not modified anymore
-        this.initialize((this as any)._data);
+        this.initialize((this as DataRecordSet)._data as DynamicObject[]);
     }
 }

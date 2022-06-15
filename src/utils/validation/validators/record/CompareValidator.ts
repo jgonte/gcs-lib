@@ -1,4 +1,5 @@
 import { ComparisonOperatorsEnum } from "../../../operators/ComparisonOperatorsEnum";
+import { GenericRecord } from "../../../types";
 import { ValidatorOptions } from "../Validator";
 import RecordValidator, { RecordValidationContext } from "./RecordValidator";
 
@@ -47,7 +48,7 @@ export default class CompareValidator extends RecordValidator {
             _operator
         } = this;
 
-        const data = this.getData(context) as Record<string, unknown>;
+        const data = this.getData(context) as GenericRecord;
 
         const valueToValidate = data[_propertyToValidate] as string | number;
 

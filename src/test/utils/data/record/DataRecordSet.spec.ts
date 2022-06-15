@@ -1,6 +1,7 @@
 import { ConversionTypes } from "../../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import DataRecordDescriptor from "../../../../utils/data/record/DataRecordDescriptor";
 import DataRecordSet from "../../../../utils/data/record/DataRecordSet";
+import { DynamicObject } from "../../../../utils/types";
 
 const recordDescriptorWithId = new DataRecordDescriptor();
 
@@ -111,7 +112,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -132,7 +141,7 @@ describe("DataRecordSet tests", () => {
             isActive: false
         }]);
 
-        expect(changedRecords?.removedRecords).toEqual([]);
+        expect(changedRecords.removedRecords).toEqual([]);
 
         expect(dataRecordSet.isModified).toEqual(false);
 
@@ -230,7 +239,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -348,7 +365,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -457,7 +482,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -468,7 +501,7 @@ describe("DataRecordSet tests", () => {
             }
         });
 
-        expect(changedRecords).toEqual(undefined); // Since there is nothing to commit, the callback is not called
+        expect(changedRecords).toEqual({addedRecords: [], modifiedRecords: [], removedRecords: []}); // Since there is nothing to commit, the callback is not called
 
         expect(dataRecordSet.isModified).toEqual(false);
 
@@ -563,7 +596,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -676,7 +717,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -687,7 +736,7 @@ describe("DataRecordSet tests", () => {
             }
         });
 
-        expect(changedRecords).toEqual(undefined);
+        expect(changedRecords).toEqual({addedRecords: [], modifiedRecords: [], removedRecords: []});
 
         expect(dataRecordSet.isModified).toEqual(false);
 
@@ -787,7 +836,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -902,7 +959,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1039,7 +1104,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1050,7 +1123,7 @@ describe("DataRecordSet tests", () => {
             }
         });
 
-        expect(changedRecords).toEqual(undefined);
+        expect(changedRecords).toEqual({addedRecords: [], modifiedRecords: [], removedRecords: []});
 
         expect(dataRecordSet.isModified).toEqual(false);
 
@@ -1135,7 +1208,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1261,7 +1342,15 @@ describe("DataRecordSet tests", () => {
             },
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1272,7 +1361,7 @@ describe("DataRecordSet tests", () => {
             }
         });
 
-        expect(changedRecords).toEqual(undefined);
+        expect(changedRecords).toEqual({addedRecords: [], modifiedRecords: [], removedRecords: []});
 
         expect(dataRecordSet.isModified).toEqual(false);
 
@@ -1375,7 +1464,15 @@ describe("DataRecordSet tests", () => {
             },
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1386,7 +1483,7 @@ describe("DataRecordSet tests", () => {
             }
         });
 
-        expect(changedRecords).toEqual(undefined);
+        expect(changedRecords).toEqual({addedRecords: [], modifiedRecords: [], removedRecords: []});
         
         expect(dataRecordSet.isModified).toEqual(false);
 
@@ -1524,7 +1621,15 @@ describe("DataRecordSet tests", () => {
             },
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1681,7 +1786,15 @@ describe("DataRecordSet tests", () => {
             },
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 
@@ -1959,7 +2072,15 @@ describe("DataRecordSet tests", () => {
             }
         ]);
 
-        let changedRecords: any = undefined;
+        let changedRecords: { 
+            addedRecords: DynamicObject[];
+            modifiedRecords: DynamicObject[];
+            removedRecords: DynamicObject[];
+        } = { 
+            addedRecords: [],
+            modifiedRecords: [],
+            removedRecords: []
+        };
 
         dataRecordSet.commit((addedRecords, modifiedRecords, removedRecords) => {
 

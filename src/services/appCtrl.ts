@@ -1,3 +1,4 @@
+import { GenericRecord } from "../utils/types";
 import AppErrorHandler from "./errors/AppErrorHandler";
 import ErrorHandler from "./errors/ErrorHandler";
 import IntlProvider from "./IntlProvider";
@@ -38,7 +39,7 @@ class AppCtrl {
 
 		console.log('Initializing appCtrl...');
 
-		const getAppConfig = (window as unknown as Record<string, unknown>).getAppConfig as () => {
+		const getAppConfig = (window as unknown as GenericRecord).getAppConfig as () => {
 			errorHandler: ErrorHandler,
 			intl: IntlProvider,
 			iconsPath: string

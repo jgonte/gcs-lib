@@ -1,3 +1,5 @@
+import { GenericRecord } from "./types";
+
 /**
  * Compares two objects for equality recursively
  * @param o1 
@@ -28,16 +30,16 @@ export default function areEqual(o1: unknown, o2: unknown): boolean {
     
                 if ((o2 as object).hasOwnProperty(prop)) {
     
-                    if (typeof (o1 as Record<string, unknown>)[prop] === 'object') {
+                    if (typeof (o1 as GenericRecord)[prop] === 'object') {
     
-                        if (!areEqual((o1 as Record<string, unknown>)[prop], (o2 as Record<string, unknown>)[prop])) {
+                        if (!areEqual((o1 as GenericRecord)[prop], (o2 as GenericRecord)[prop])) {
     
                             return false;
                         }
                     }
                     else {
     
-                        if ((o1 as Record<string, unknown>)[prop] !== (o2 as Record<string, unknown>)[prop]) {
+                        if ((o1 as GenericRecord)[prop] !== (o2 as GenericRecord)[prop]) {
     
                             return false;
                         }

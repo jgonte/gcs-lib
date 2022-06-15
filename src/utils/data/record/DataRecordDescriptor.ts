@@ -1,6 +1,7 @@
 import { DataFieldModel, DataFieldDescriptor, IdentifierInfo } from "./interfaces";
 import defaultValueConverter from "../converter/defaultValueConverter";
 import { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import { DynamicObject, GenericRecord } from "../../types";
 //import RecordValidator from "../validation/validators/record/RecordValidator";
 
 class RecordValidator {
@@ -117,9 +118,9 @@ export default class DataRecordDescriptor {
      * @param data 
      * @param fcn A function to process the data further if necessary
      */
-    getId(data: object & Record<string, unknown>, fcn?: (data: unknown) => unknown): IdentifierInfo {
+    getId(data: DynamicObject, fcn?: (data: unknown) => unknown): IdentifierInfo {
 
-        const id: Record<string, unknown> = {};
+        const id: GenericRecord = {};
 
         const idDescriptors = this._fieldDescriptors.filter(f => f.isId === true);
 

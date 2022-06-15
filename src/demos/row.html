@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../variables.css">
+
+    <script>
+        function getAppConfig() {
+
+            return {
+                iconsPath: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/icons/'
+                // auth: {
+                //     authority: "https://localhost:5000",
+                //     client_id: "wclib-demo",
+                //     redirect_uri: "https://localhost:5501/oidc-callback.html",
+                //     response_type: "id_token token",
+                //     scope: "openid profile email wclib-demo.user",
+                //     post_logout_redirect_uri: "https://localhost:5501/"
+                // },
+                // intl: {
+                //     lang: 'en',
+                //     data: {
+                //         'en': {
+                //             'goodMorning': 'Good morning'
+                //         },
+                //         'de': {
+                //             'goodMorning': 'Guten Morgen'
+                //         },
+                //         'fr': {
+                //             'goodMorning': 'Bonjour'
+                //         }
+                //     }
+                // }
+            };
+        }
+    </script>
+
+    <script type="module" src="../../dist/js/bundle.js"></script>
+
+    <title>Row</title>
+
+</head>
+
+<body>
+    <h4>Short text</h4>
+    <wcl-row>
+        <wcl-icon name="alarm" kind="primary"></wcl-icon>
+        <wcl-localized-text>Some sample text 1</wcl-localized-text>
+        <wcl-localized-text>Some text 2</wcl-localized-text>
+        <wcl-localized-text>Some text 3</wcl-localized-text>
+    </wcl-row>
+
+    <h4>Long text</h4>
+    <wcl-row>
+        <wcl-localized-text>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid laboriosam in aspernatur facilis et tempora qui ad unde recusandae nam, tempore soluta vel beatae, laborum autem at. Distinctio, amet voluptatem.</wcl-localized-text>
+        <wcl-localized-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque possimus animi saepe minus debitis nesciunt.</wcl-localized-text>
+        <wcl-localized-text>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad, aut numquam! Natus at eveniet exercitationem recusandae illum eaque commodi veniam nesciunt itaque accusantium? Laudantium architecto, tempore temporibus dignissimos qui, quibusdam dicta ullam accusamus voluptatem animi dolorum neque? Dolorem qui cupiditate, sequi quos voluptas expedita temporibus?</wcl-localized-text>
+    </wcl-row>
+</body>
+
+</html>

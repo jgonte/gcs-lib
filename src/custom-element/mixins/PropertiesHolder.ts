@@ -168,7 +168,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          * @param oldValue 
          * @param newValue 
          */
-        attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null) {
+        attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null) : void {
 
             if (oldValue === newValue) {
 
@@ -226,7 +226,9 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 v = transform.call(this, v); // Transform the data if necessary
             }
 
-            return this._setProperty(name as string, v);
+            this.setProperty(name as string, v); // Call the setProperty of the Reactive mixin
+
+            return true;
         }
 
         _setProperty(name: string, value: unknown): boolean {

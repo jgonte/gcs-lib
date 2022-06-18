@@ -12,8 +12,11 @@ import html from "./rendering/html";
 import Icon from "./components/icon/Icon";
 import LocalizedText from "./components/localized-text/LocalizedText";
 import Alert from "./components/alert/Alert";
+import Badge from "./components/badge/Badge";
 import Button from "./components/button/Button";
+import ToolTip from "./components/tool-tip/ToolTip";
 import DataTemplate from "./components/data-template/DataTemplate";
+
 
 // Layout
 import Row from "./components/row/Row";
@@ -21,6 +24,12 @@ import Overlay from "./components/overlay/Overlay";
 
 // Data
 import Loader from "./components/loader/Loader";
+
+// Tools
+import CloseTool from "./components/tools/close/CloseTool";
+import ExpanderTool from "./components/tools/expander/ExpanderTool";
+import SorterTool from "./components/tools/sorter/SorterTool";
+import Tool from "./components/tools/Tool";
 
 // Fields
 import ComboBox from "./components/fields/combo-box/ComboBox";
@@ -31,8 +40,14 @@ import TextField from "./components/fields/text/TextField";
 import Slider from "./components/fields/slider/Slider";
 import { GenericRecord } from "./utils/types";
 
+// Form
+import FormLabel from "./components/form/form-label/FormLabel";
+import FormField from "./components/form/form-field/FormField";
+import Form from "./components/form/Form";
+
 // Display
 import DataList from "./components/data-list/DataList";
+import Selector from "./components/selector/Selector";
 
 // Make it available in the global object of the browser
 (window as unknown as GenericRecord).html = html;
@@ -51,8 +66,11 @@ export {
     Icon,
     LocalizedText,
     Alert,
+    Badge,
     Button,
+    ToolTip,
     DataTemplate,
+    Selector,
 
     // Layout
     Row,
@@ -61,6 +79,12 @@ export {
     // Data
     Loader,
 
+    // Tools
+    Tool,
+    CloseTool,
+    ExpanderTool as DropTool,
+    SorterTool,
+    
     // Fields 
     TextField,
     DateField,
@@ -68,6 +92,11 @@ export {
     ComboBox,
     HiddenField,
     Slider,
+
+    // Form
+    FormLabel,
+    FormField,
+    Form,
 
     // Display
     DataList

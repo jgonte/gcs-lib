@@ -52,7 +52,7 @@ describe("Data list tests", () => {
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"1\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selectable selectable=\"false\" select-value=\"{&quot;code&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selectable>\n            </li><!--_$em_--></ul>");
+        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"1\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><!--_$em_--></ul>");
 
         // Add another item
         component.data = [
@@ -68,7 +68,7 @@ describe("Data list tests", () => {
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"1\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selectable selectable=\"false\" select-value=\"{&quot;code&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selectable>\n            </li><li key=\"2\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selectable selectable=\"false\" select-value=\"{&quot;code&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selectable>\n            </li><!--_$em_--></ul>");
+        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"1\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><li key=\"2\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><!--_$em_--></ul>");
 
         // Remove the first item
         component.data = [
@@ -80,7 +80,7 @@ describe("Data list tests", () => {
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"2\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selectable selectable=\"false\" select-value=\"{&quot;code&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selectable>\n            </li><!--_$em_--></ul>");
+        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"2\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><!--_$em_--></ul>");
     });
 
     // it('should render when the data of the attributes is provided via functions', async () => {

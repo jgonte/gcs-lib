@@ -6,6 +6,7 @@ import NodePatching from "./mixins/NodePatching";
 import ShadowRoot from "./mixins/ShadowRoot";
 import MetadataInitializer from "./mixins/metadata/MetadataInitializer";
 import { RenderReturnTypes } from "./mixins/metadata/types/CustomHTMLElement";
+import { GenericRecord } from "../utils/types";
 
 /**
  * The base class for all the custom elements
@@ -34,4 +35,17 @@ export default abstract class CustomElement extends
      * The render method that needs to be implemented by the derived elements
      */
     abstract render(): RenderReturnTypes;
+
+    dispatchCustomEvent(type: string, detail: GenericRecord) : void {
+
+        setTimeout(() => { // Repaint before dispatching the event
+
+            this.dispatchEvent(new CustomEvent(type, {
+                detail: detail,
+                bubbles: true,
+                composed: true // To bubble through the shadow DOM
+            }));
+
+        }, 0);  
+    }
 }

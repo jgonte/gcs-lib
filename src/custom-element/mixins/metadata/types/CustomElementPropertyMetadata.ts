@@ -34,11 +34,6 @@ export enum ConversionTypes {
     defer?: boolean;
 
     /**
-     * Whether the value of the property can be changed
-     */
-    mutable?: boolean;
-
-    /**
      * Whether to reflect the change of the property in its mapped HTML attribute
      */
     reflect?: boolean;

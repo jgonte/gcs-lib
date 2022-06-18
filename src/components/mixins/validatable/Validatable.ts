@@ -14,7 +14,6 @@ export default function Validatable<TBase extends CustomHTMLElementConstructor>(
 
                 validators: {
                     type: ConversionTypes.Array,
-                    mutable: true,
                     value: [],
                     transform: function (value) {
 

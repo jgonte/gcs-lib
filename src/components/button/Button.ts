@@ -20,7 +20,6 @@ export default class Button extends Kind(CustomElement as CustomHTMLElementConst
             variant: {
                 type: ConversionTypes.String,
                 value: 'outlined',
-                mutable: true,
                 reflect: true,
                 options: ['outlined', 'text', 'contained']
             },

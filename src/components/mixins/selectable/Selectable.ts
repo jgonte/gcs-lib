@@ -39,7 +39,6 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                  */
                 selected: {
                     type: ConversionTypes.Boolean,
-                    mutable: true, // It also acts as state
                     reflect: true
                 },
 

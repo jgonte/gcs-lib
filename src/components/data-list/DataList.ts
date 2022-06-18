@@ -74,7 +74,7 @@ export default class DataList extends
             const id = record[idField];
 
             return html`<li key=${id} style=${this.getItemStyle()}>
-                <wcl-selectable selectable=${this.selectable} select-value=${record}>${this.renderItem(record)}</wcl-selectable>
+                <wcl-selector selectable=${this.selectable} select-value=${record}>${this.renderItem(record)}</wcl-selector>
             </li>`;
         });
     }

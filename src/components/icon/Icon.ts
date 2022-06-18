@@ -38,7 +38,7 @@ export default class Icon extends Kind(CustomElement as CustomHTMLElementConstru
             name
         } = this;
 
-        const iconPath = `${appCtrl.iconsPath}${name}.svg`;
+        const iconPath = `${appCtrl.iconsPath}${typeof name === 'function' ? name() : name}.svg`;
 
         let svg: string | undefined = undefined;
 

@@ -49,7 +49,6 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                 selection: {
                     type: ConversionTypes.Array,
                     value: [],
-                    mutable: true,
                     reflect: true
                 },
 

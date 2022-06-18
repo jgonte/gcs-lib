@@ -55,20 +55,17 @@ export default abstract class Field extends
                     ConversionTypes.String,
                     ConversionTypes.Object // Ideally is a string but could be a more complex object
                 ],
-                mutable: true,
                 reflect: true
             },
 
             disabled: {
                 type: ConversionTypes.Boolean,
-                mutable: true,
                 reflect: true
             },
 
             required: {
                 type: ConversionTypes.Boolean,
                 inherit: true,
-                mutable: true,
                 reflect: true
             }
         };

@@ -14,7 +14,6 @@ export default function Kind<TBase extends CustomHTMLElementConstructor>(Base: T
                     type: ConversionTypes.String,
                     inherit: true,
                     options: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger']
-                    // mutable: true,
                     // reflect: true,
                 }
             };

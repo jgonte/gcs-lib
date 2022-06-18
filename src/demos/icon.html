@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../variables.css">
 
     <script>
@@ -51,9 +52,9 @@
     <wcl-icon name="calculator-fill" kind="success" size="large"></wcl-icon>
     <wcl-icon name="calendar" kind="warning" size="large"></wcl-icon>
     <wcl-icon name="camera-fill" kind="danger"></wcl-icon>
-    <!-- <wcl-icon name="camera-video-fill" kind="light" size="large"></wcl-icon>
-    <wcl-icon name="card-checklist" kind="medium"></wcl-icon>
-    <wcl-icon name="chat-fill" kind="dark"></wcl-icon> -->
+    <wcl-icon id="mutable-icon" name="camera-video-fill" kind="success" size="large"></wcl-icon>
+    <wcl-icon name="card-checklist" kind="primary"></wcl-icon>
+    <wcl-icon name="chat-fill" kind="secondary"></wcl-icon> -->
     <wcl-icon name="compass" size="large" style="color:magenta"></wcl-icon>
     <wcl-icon name="arrow-right" size="large" kind="success" dir="rtl"></wcl-icon>
     <!-- <wcl-icon name="chevron-right" size="large" kind="medium" dir="rtl"></wcl-icon> -->
@@ -67,7 +68,14 @@
 
             if (alarmIcon !== null) { // User might have left the page after the timeout was set
 
-                alarmIcon.setAttribute("kind", "tertiary");
+                alarmIcon.setAttribute("kind", "danger");
+            }
+
+            const mutableIcon = document.querySelector("#mutable-icon");
+
+            if (mutableIcon !== null) { // User might have left the page after the timeout was set
+
+                mutableIcon.setAttribute("name", "bullseye");
             }
 
         }, 5000);

@@ -37,7 +37,8 @@ export default class Alert extends
              * If it is not defined, then the close tool will not be shown
              */
             close: {
-                type: ConversionTypes.Function
+                type: ConversionTypes.Function,
+                defer: true
             }
 
         };

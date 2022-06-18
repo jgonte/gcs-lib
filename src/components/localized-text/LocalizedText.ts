@@ -36,7 +36,6 @@ export default class LocalizedText extends Kind(
              */
             lang: {
                 type: ConversionTypes.String,
-                mutable: true,
                 reflect: true
             },
 
@@ -45,7 +44,6 @@ export default class LocalizedText extends Kind(
              */
             value: {
                 type: ConversionTypes.String,
-                mutable: true,
                 reflect: true
             }
         };

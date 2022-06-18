@@ -1,28 +1,27 @@
 import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
-import { hoverableStyles } from "./Hoverable.styles";
+import { sizableStyles } from "./Sizable.styles";
 
-export default function Hoverable<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
+export default function Sizable<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
-    return class HoverableMixin extends Base {
+    return class SizableMixin extends Base {
 
         static get styles(): string {
 
-            return mergeStyles(super.styles, hoverableStyles);
+            return mergeStyles(super.styles, sizableStyles);
         }
 
         static get properties(): Record<string, CustomElementPropertyMetadata> {
 
             return {
 
-                /**
-                 * Whether the element is hoverable
-                 */
-                hoverable: {
-                    type: ConversionTypes.Boolean,
-                    value: true,
-                    reflect: true
+                size: {
+                    type: ConversionTypes.String,
+                    value: 'medium',
+                    reflect: true,
+                    inherit: true,
+                    options: ['small', 'large', 'medium']
                 }
             };
         }

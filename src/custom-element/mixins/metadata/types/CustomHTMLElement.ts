@@ -1,4 +1,5 @@
 import { NodePatchingData } from "../../../../rendering/nodes/NodePatchingData";
+import { GenericRecord } from "../../../../utils/types";
 
 export type RenderReturnTypes = NodePatchingData | NodePatchingData[] | Promise<NodePatchingData> | null;
 
@@ -73,4 +74,6 @@ export default interface CustomHTMLElement extends HTMLElement {
     clearChangedProperties(): void;
 
     updateDom(): void;
+
+    dispatchCustomEvent(type: string, detail: GenericRecord) : void;
 }

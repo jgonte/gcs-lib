@@ -5,14 +5,15 @@ import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/t
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import Sizable from "../mixins/sizable/Sizable";
 import Kind from "../mixins/kind/Kind";
 import { alertStyles } from "./Alert.styles";
 
 export default class Alert extends
-    //SizableMixin(
+    Sizable(
         Kind(
             CustomElement as CustomHTMLElementConstructor
-        //)
+        )
     ) {
 
     static get styles(): string {
@@ -80,7 +81,7 @@ export default class Alert extends
         }
     }
 
-    private _renderCloseTool(): NodePatchingData | null{
+    private _renderCloseTool(): NodePatchingData | null {
 
         const {
             kind,

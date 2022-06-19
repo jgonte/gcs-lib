@@ -9,7 +9,14 @@ export default function Sizable<TBase extends CustomHTMLElementConstructor>(Base
 
         static get styles(): string {
 
-            return mergeStyles(super.styles, sizableStyles);
+            if (this.atomic === true) { // Do not include the Sizable styles
+
+                return super.styles as string;
+            }
+            else {
+
+                return mergeStyles(super.styles, sizableStyles);
+            }
         }
 
         static get properties(): Record<string, CustomElementPropertyMetadata> {

@@ -5,10 +5,16 @@ import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-ele
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import Sizable from "../mixins/sizable/Sizable";
 import Kind from "../mixins/kind/Kind";
 import { buttonStyles } from "./Button.styles";
 
-export default class Button extends Kind(CustomElement as CustomHTMLElementConstructor) {
+export default class Button extends
+    Sizable(
+        Kind(
+            CustomElement as CustomHTMLElementConstructor
+        )
+    ) {
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 

@@ -4,14 +4,17 @@ import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/t
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import Sizable from "../mixins/sizable/Sizable";
 import Kind from "../mixins/kind/Kind";
 import { badgeStyles } from "./Badge.styles";
 
 export default class Badge extends
-    Kind(
-        CustomElement as CustomHTMLElementConstructor
-    ) {
-
+    Sizable(
+        Kind(
+            CustomElement as CustomHTMLElementConstructor
+        )
+    )
+{
     static get styles(): string {
 
         return mergeStyles(super.styles, badgeStyles);

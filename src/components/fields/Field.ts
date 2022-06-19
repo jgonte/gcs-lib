@@ -7,6 +7,7 @@ import RequiredValidator from "../../utils/validation/validators/field/RequiredV
 import SingleValueFieldValidator from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
 import LocalizedText from "../localized-text/LocalizedText";
+import Sizable from "../mixins/sizable/Sizable";
 import Validatable from "../mixins/validatable/Validatable";
 import { fieldStyles } from "./Field.styles";
 
@@ -17,10 +18,10 @@ export const changeEvent = "changeEvent";
 export const fieldAddedEvent = "fieldAddedEvent";
 
 export default abstract class Field extends
-    //SizableMixin(
-    Validatable(
-        CustomElement as CustomHTMLElementConstructor
-        //)
+    Sizable(
+        Validatable(
+            CustomElement as CustomHTMLElementConstructor
+        )
     ) {
 
     // The temporary value being validated on input

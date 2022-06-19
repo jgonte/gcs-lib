@@ -7,11 +7,20 @@ import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import Kind from "../mixins/kind/Kind";
+import Sizable from "../mixins/sizable/Sizable";
 import { iconStyles } from "./Icon.styles";
 
 const iconsCache = new Map<string, string>();
 
-export default class Icon extends Kind(CustomElement as CustomHTMLElementConstructor) {
+export default class Icon extends
+    Sizable(
+        Kind(
+            CustomElement as CustomHTMLElementConstructor
+        )
+    ) {
+
+    // Do not include the sizable styles
+    static atomic = true;
 
     static get styles(): string {
 

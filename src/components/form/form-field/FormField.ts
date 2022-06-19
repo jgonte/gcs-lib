@@ -2,18 +2,20 @@ import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
+import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { inputEvent } from "../../fields/Field";
+import Sizable from "../../mixins/sizable/Sizable";
 import { validationEvent } from "../../mixins/validatable/Validatable";
 import { formFieldStyles } from "./FormField.styles";
 
 export default class FormField extends
-    //SizableMixin(
-        CustomElement
-    //) 
-    {
+    Sizable(
+        CustomElement as CustomHTMLElementConstructor
+    )
+{
 
     static get styles(): string {
 
@@ -59,7 +61,7 @@ export default class FormField extends
             /**
              * The key to retrieve a localized help value from an i18n provider
              */
-             helpResourceKey: {
+            helpResourceKey: {
                 attribute: 'help-resource-key',
                 type: ConversionTypes.String
             },

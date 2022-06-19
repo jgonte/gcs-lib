@@ -22,7 +22,7 @@ export default abstract class Tool extends
              */
             iconName: {
                 type: [
-                    ConversionTypes.String, 
+                    ConversionTypes.String,
                     ConversionTypes.Function
                 ],
                 defer: true,
@@ -40,7 +40,7 @@ export default abstract class Tool extends
         } = this;
 
         return html`<wcl-button kind=${kind} size=${size} variant="text" click=${() => this.click()}>
-            <wcl-icon name=${ typeof iconName === 'function' ? iconName() : iconName}></wcl-icon>
+            <wcl-icon name=${typeof iconName === 'function' ? iconName() : iconName}></wcl-icon>
         </wcl-button>`;
     }
 }

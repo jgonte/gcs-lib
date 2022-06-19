@@ -17,7 +17,6 @@ import Button from "./components/button/Button";
 import ToolTip from "./components/tool-tip/ToolTip";
 import DataTemplate from "./components/data-template/DataTemplate";
 
-
 // Layout
 import Row from "./components/row/Row";
 import Overlay from "./components/overlay/Overlay";
@@ -38,16 +37,18 @@ import FileField from "./components/fields/file/FileField";
 import HiddenField from "./components/fields/hidden/HiddenField";
 import TextField from "./components/fields/text/TextField";
 import Slider from "./components/fields/slider/Slider";
-import { GenericRecord } from "./utils/types";
 
 // Form
 import FormLabel from "./components/form/form-label/FormLabel";
 import FormField from "./components/form/form-field/FormField";
 import Form from "./components/form/Form";
+import ValidationSummary from "./components/validation-summary/ValidationSummary";
 
 // Display
 import DataList from "./components/data-list/DataList";
 import Selector from "./components/selector/Selector";
+
+import { GenericRecord } from "./utils/types";
 
 // Make it available in the global object of the browser
 (window as unknown as GenericRecord).html = html;
@@ -97,6 +98,7 @@ export {
     FormLabel,
     FormField,
     Form,
+    ValidationSummary,
 
     // Display
     DataList

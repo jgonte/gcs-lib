@@ -8,11 +8,18 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import IntlProvider from "../../services/IntlProvider";
 import Kind from "../mixins/kind/Kind";
+import Sizable from "../mixins/sizable/Sizable";
 import { localizedTextStyles } from "./LocalizedText.styles";
 
-export default class LocalizedText extends Kind(
-    CustomElement as CustomHTMLElementConstructor
-) {
+export default class LocalizedText extends
+    Sizable(
+        Kind(
+            CustomElement as CustomHTMLElementConstructor
+        )
+    ) {
+
+    // Do not include the sizable styles
+    static atomic = true;
 
     static get styles(): string {
 

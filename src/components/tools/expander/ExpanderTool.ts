@@ -6,12 +6,12 @@ export const expanderChanged = 'expanderChanged';
 
 export default class ExpanderTool extends Tool {
 
-    // constructor() {
+    constructor() {
 
-    //     super();
+        super();
 
-    //     this.updateShowing = this.updateShowing.bind(this);
-    // }
+        this.updateShowing = this.updateShowing.bind(this);
+    }
 
     static get state(): Record<string, CustomElementStateMetadata> {
 

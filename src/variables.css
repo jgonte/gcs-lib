@@ -2,26 +2,54 @@
     --wcl-font-family: Arial, Helvetica, sans-serif;
 
     /* Colors */
+
+    --wcl-color-info: #1f87b8;
+    --wcl-background-color-info: #e6f7ff;
+
+    --wcl-color-contained-info: rgb(255, 255, 255);
+    --wcl-background-color-contained-info: #26295c;
+    
     --wcl-color-primary: #3880ff;
-    --wcl-color-on-primary: #fff;
+    --wcl-background-color-primary: #e6f7ff;
 
-    --wcl-color-secondary: #0cd1e8;
-    --wcl-color-on-secondary: #032517;
+    --wcl-color-contained-primary: #fff;
+    --wcl-background-color-contained-primary: #3880ff;
 
-    --wcl-color-tertiary: #f4a942;
-    --wcl-color-on-tertiary: #4419aa;
+    --wcl-color-success: #009E52;
+    --wcl-background-color-success: #f6ffed;
 
-    --wcl-color-info: #e6f7ff;
-    --wcl-color-on-info: #1f87b8;
+    --wcl-color-contained-success: #fff;
+    --wcl-background-color-contained-success: #009E52;
+    
+    --wcl-color-warning: #ecbf09;
+    --wcl-background-color-warning: #fffbe6;
 
-    --wcl-color-success: #f6ffed;
-    --wcl-color-on-success: #10dc60;
+    --wcl-color-contained-warning: #000;
+    --wcl-background-color-contained-warning: yellow;
+    
+    --wcl-color-danger: #b12020;
+    --wcl-background-color-danger: #fff2f0;
 
-    --wcl-color-warning: #fffbe6;
-    --wcl-color-on-warning: #ffce00;
+    --wcl-color-contained-danger: white;
+    --wcl-background-color-contained-danger: crimson;
 
-    --wcl-color-danger: #fff2f0;
-    --wcl-color-on-danger: #f14141;
+    --wcl-background-color-secondary: #0cd1e8;
+    --wcl-color-secondary: #032517;
+
+    --wcl-color-contained-secondary: #fff;
+    --wcl-background-color-contained-secondary: #e8c00c;
+
+    --wcl-background-color-tertiary: #f4a942;
+    --wcl-color-tertiary: #b446b4;
+    
+/*
+    
+
+    
+
+    
+    
+    
     
     --wcl-color-light: #f4f5f8;
     --wcl-color-medium: #989aa2;
@@ -37,6 +65,8 @@
 
     --wcl-header-background-color: #1d62d8;
 
+    */
+
     /* Border width */
     --wcl-border-width: 2px;
 
@@ -51,9 +81,9 @@
     --wcl-font-size-small: 1rem;
 
     /* Padding sizes */
-    --wcl-padding-size-large: .375rem;
-    --wcl-padding-size-medium: .25rem;
-    --wcl-padding-size-small: .125rem;
+    --wcl-padding-large: .375rem;
+    --wcl-padding-medium: .25rem;
+    --wcl-padding-small: .125rem;
 
     /* Radius sizes */
     --wcl-radius-size-large: .3rem;

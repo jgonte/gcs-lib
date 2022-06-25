@@ -19,9 +19,6 @@ export default class Icon extends
         )
     ) {
 
-    // Do not include the sizable styles
-    static atomic = true;
-
     static get styles(): string {
 
         return mergeStyles(super.styles, iconStyles);
@@ -41,11 +38,16 @@ export default class Icon extends
         };
     }
 
-    async render(): Promise<NodePatchingData> {
+    async render(): Promise<NodePatchingData | null> {
 
         const {
             name
         } = this;
+
+        if (name === undefined) {
+
+            return null;
+        }
 
         const iconPath = `${appCtrl.iconsPath}${typeof name === 'function' ? name() : name}.svg`;
 

@@ -7,28 +7,26 @@ import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import Sizable from "../mixins/sizable/Sizable";
 import Kind from "../mixins/kind/Kind";
+import Variant from "../mixins/variant/Variant";
 import { buttonStyles } from "./Button.styles";
 
 export default class Button extends
     Sizable(
-        Kind(
-            CustomElement as CustomHTMLElementConstructor
+        Variant(
+            Kind(
+                CustomElement as CustomHTMLElementConstructor
+            )
         )
     ) {
+
+    static get styles(): string {
+
+        return mergeStyles(super.styles, buttonStyles);
+    }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
         return {
-
-            /**
-             * The variant of the button
-             */
-            variant: {
-                type: ConversionTypes.String,
-                value: 'outlined',
-                reflect: true,
-                options: ['outlined', 'text', 'contained']
-            },
 
             /**
              * Callback when the button is clicked
@@ -38,11 +36,6 @@ export default class Button extends
                 defer: true
             }
         };
-    }
-
-    static get styles(): string {
-
-        return mergeStyles(super.styles, buttonStyles);
     }
 
     render(): NodePatchingData | NodePatchingData[] | null {

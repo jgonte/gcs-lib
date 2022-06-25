@@ -29,14 +29,14 @@ export default class Form extends
 
     private _record: DataRecord = new DataRecord();
 
-    // constructor() {
+    constructor() {
 
-    //     super();
+        super();
 
-    //     this.handleFieldAdded = this.handleFieldAdded.bind(this);
+        this.handleFieldAdded = this.handleFieldAdded.bind(this);
 
-    //     this.handleChange = this.handleChange.bind(this);
-    // }
+        this.handleChange = this.handleChange.bind(this);
+    }
 
     static get styles(): string {
 

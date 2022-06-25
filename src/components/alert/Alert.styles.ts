@@ -12,28 +12,4 @@ export const alertStyles = css`
     max-width: 80%;
     padding: 1rem;
     word-break: normal;
-}
-
-:host([kind='info']) {
-    background-color: var(--wcl-color-info);
-    color: var(--wcl-color-on-info);
-    border-color: var(--wcl-color-on-info);
-}
-
-:host([kind='success']) {
-    background-color: var(--wcl-color-success);
-    color: var(--wcl-color-on-success);
-    border-color: var(--wcl-color-on-success);
-}
-
-:host([kind='warning']) {
-    background-color: var(--wcl-color-warning);
-    color: var(--wcl-color-on-warning);
-    border-color: var(--wcl-color-on-warning);
-}
-
-:host([kind='error']) {
-    background-color: var(--wcl-color-danger);
-    color: var(--wcl-color-on-danger);
-    border-color: var(--wcl-color-on-danger);
 }`;

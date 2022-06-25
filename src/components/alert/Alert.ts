@@ -47,11 +47,9 @@ export default class Alert extends
 
     render(): NodePatchingData {
 
-        return html`<wcl-row>
-            ${this._renderIcon()}
+        return html`${this._renderIcon()}
             <slot></slot>
-            ${this._renderCloseTool()}
-        </wcl-row>`;
+            ${this._renderCloseTool()}`;
     }
 
     private _renderIcon(): NodePatchingData | null {
@@ -81,7 +79,7 @@ export default class Alert extends
         }
     }
 
-    private _renderCloseTool(): NodePatchingData | null {
+    private _renderCloseTool(): NodePatchingData {
 
         const {
             kind,
@@ -90,7 +88,7 @@ export default class Alert extends
 
         if (this.close === undefined) {
 
-            return null;
+            return html`<span></span>`; // Create an empty element so the slotted content stays centered
         }
 
         return html`<wcl-close-tool kind=${kind} size=${size} close=${evt => this.close(evt)} />`;

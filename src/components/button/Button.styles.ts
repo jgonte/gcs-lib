@@ -43,7 +43,9 @@ button {
     border-style: none;
 }
 
-/* Contained buttons */
+/*
+
+Contained buttons
 :host([variant='contained'][kind='primary']) button {
     background-color: var(--wcl-color-primary);
     color: var(--wcl-color-on-primary);
@@ -59,7 +61,6 @@ button {
     color: var(--wcl-color-on-tertiary);
 }
 
-/* Outlined or Text buttons */
 :host(:not([variant='contained'])[kind='primary']) button {
     color: var(--wcl-color-primary);
 }
@@ -72,7 +73,7 @@ button {
     color: var(--wcl-color-tertiary);
 }
 
-/* Border*/
+
 :host([kind='primary']) button {
     border-color: var(--wcl-color-primary);
 }
@@ -83,4 +84,5 @@ button {
 
 :host([kind='tertiary']) button {
     border-color: var(--wcl-color-tertiary);
-}`;
+}
+*/`;

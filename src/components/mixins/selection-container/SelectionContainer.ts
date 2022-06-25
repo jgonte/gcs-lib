@@ -5,8 +5,7 @@ import { selectionChangedEvent } from "../selectable/Selectable";
 
 export type SelectionTypes = Array<string> & { [x: string]: string };
 
-export interface ISelectionContainer extends HTMLElement
-{
+export interface ISelectionContainer extends HTMLElement {
     isSelectionContainer: boolean;
 
     selectionChanged?: (selection: SelectionTypes) => void;
@@ -76,12 +75,14 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
             };
         }
 
-        // constructor() {
+        // The mixin constructor requires the parameters signature to be of type any
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        constructor(...args: any[]) {
 
-        //     super();
+            super(args);
 
-        //     this.updateSelection = this.updateSelection.bind(this);
-        // }
+            this.updateSelection = this.updateSelection.bind(this);
+        }
 
         attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
 

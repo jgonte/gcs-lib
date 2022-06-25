@@ -18,9 +18,6 @@ export default class LocalizedText extends
         )
     ) {
 
-    // Do not include the sizable styles
-    static atomic = true;
-
     static get styles(): string {
 
         return mergeStyles(super.styles, localizedTextStyles);

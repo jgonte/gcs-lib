@@ -2,6 +2,7 @@ import { DataFieldDescriptor, IDataField } from "./interfaces";
 import Observer from "../../observer/Observer";
 import Subscriber from "../../observer/Subscriber";
 import { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import isUndefinedOrNull from "../../isUndefinedOrNull";
 
 function toTypeOf(type: ConversionTypes) {
 
@@ -63,11 +64,10 @@ export default class DataField implements IDataField {
     initialize(value: string | unknown) {
 
         // Convert the value if its type is different from the expected type of the field descriptor
-        if (value !== undefined &&
-            value != null &&
+        if (isUndefinedOrNull(value) &&
             typeof value !== toTypeOf(this._fieldDescriptor.type)) {
 
-            value = this._fieldDescriptor.converter?.fromString(value as string, this._fieldDescriptor.type);
+            value = this._fieldDescriptor.converter?.fromString(value as string, this._fieldDescriptor.type || ConversionTypes.String);
         }
 
         this._value = value;

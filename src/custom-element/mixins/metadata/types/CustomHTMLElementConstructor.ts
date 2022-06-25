@@ -20,7 +20,5 @@ export default interface CustomHTMLElementConstructor extends Constructor<Custom
 
     styles?: string;
 
-    atomic?: boolean;
-
     get metadata(): CustomElementMetadata;
 }

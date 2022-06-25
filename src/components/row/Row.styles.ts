@@ -16,10 +16,6 @@ export const rowStyles = css`
     justify-content: start;
 }
 
-:host([justify-content='end']) {
-    justify-content: end;
-}
-
 :host([justify-content='center']) {
     justify-content: center;
 }

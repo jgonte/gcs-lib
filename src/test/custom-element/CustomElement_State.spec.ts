@@ -186,7 +186,7 @@ describe("CustomElement state tests", () => {
         }
         catch (error) {
 
-            expect((error as Error).message).toBe('Value: d is not part of the options: [a, b, c]');
+            expect((error as Error).message).toBe("Value: 'd' is not part of the options: [a, b, c]");
         }
     });
 

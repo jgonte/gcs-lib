@@ -11,7 +11,14 @@ export default function setAttribute(
 
         node.removeAttribute(attributeName);
 
-        node[propertyName] = value;
+        if (attributeName === 'value') {
+
+            (node as unknown as HTMLInputElement).value = '';
+        }
+        else {
+
+            node[propertyName] = value;
+        }
     }
     else {
 

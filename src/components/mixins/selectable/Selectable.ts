@@ -48,19 +48,21 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                 selectValue: {
                     attribute: 'select-value',
                     type: [
-                        ConversionTypes.String, 
+                        ConversionTypes.String,
                         ConversionTypes.Object
                     ]
                 }
             };
         }
 
-        // constructor() {
+        // The mixin constructor requires the parameters signature to be of type any
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        constructor(...args: any[]) {
 
-        //     super();
+            super(args);
 
-        //     this.toggleSelect = this.toggleSelect.bind(this);
-        // }
+            this.toggleSelect = this.toggleSelect.bind(this);
+        }
 
         connectedCallback() {
 

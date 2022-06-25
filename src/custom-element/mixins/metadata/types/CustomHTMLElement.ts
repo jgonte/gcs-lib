@@ -1,7 +1,7 @@
 import { NodePatchingData } from "../../../../rendering/nodes/NodePatchingData";
 import { GenericRecord } from "../../../../utils/types";
 
-export type RenderReturnTypes = NodePatchingData | NodePatchingData[] | Promise<NodePatchingData> | null;
+export type RenderReturnTypes = NodePatchingData | NodePatchingData[] | Promise<NodePatchingData | null> | null;
 
 export type NodePatchingTypes = NodePatchingData | NodePatchingData[] | null;
 

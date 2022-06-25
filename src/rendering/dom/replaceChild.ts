@@ -1,4 +1,5 @@
 import isPrimitive from "../../utils/isPrimitive";
+import createNodes from "../nodes/createNodes";
 import { AnyPatchedNode, NodePatchingData } from "../nodes/NodePatchingData";
 import { endMarker } from "../template/markers";
 import areEquivalentValues from "../utils/areEquivalentValues";
@@ -83,22 +84,22 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
 
             ((oldChildNode as AnyPatchedNode)._$patchingData as NodePatchingData).values = values; // Update the latest values 
         }
-        // else { // Different patchers (type of nodes)
+        else { // Different patchers (type of nodes)
 
-        //     const {
-        //         parentNode
-        //     } = oldChildNode!;
+            const {
+                parentNode
+            } = oldChildNode;
 
-        //     const newChildNode = createNodes(newChild as any);
+            const newChildNode = createNodes(newChild);
 
-        //     parentNode!.replaceChild(newChildNode, oldChildNode!);
-        // }
+            (parentNode as Node).replaceChild(newChildNode, oldChildNode);
+        }
     }
-    // else { // They are nodes
+    else { // They are nodes
 
-    //     throw new Error('kuku')
-    //     //parentNode!.replaceChild(newChild, oldChild);
-    // }
+        throw new Error('kuku');
+        //parentNode!.replaceChild(newChild, oldChild);
+    }
 }
 
 function findPreviousSibling(markerNode: Node, predicate: (node: AnyPatchedNode) => boolean): Node | null {

@@ -75,7 +75,7 @@
 
             return html`<div style="width: 200px; margin: 10px;">
                 <div style="background-color: lightgreen; padding: 5px;">
-                    <wcl-icon name=${icon}></wcl-icon>
+                    ${icon !== undefined ? html`<wcl-icon name=${icon}></wcl-icon>` : null}
                     ${name}
                 </div>
                 <div style="background-color: yellow;">${age}</div>

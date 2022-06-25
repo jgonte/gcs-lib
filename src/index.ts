@@ -16,6 +16,8 @@ import Badge from "./components/badge/Badge";
 import Button from "./components/button/Button";
 import ToolTip from "./components/tool-tip/ToolTip";
 import DataTemplate from "./components/data-template/DataTemplate";
+import Selector from "./components/selector/Selector";
+import DropDown from "./components/drop-down/DropDown";
 
 // Layout
 import Row from "./components/row/Row";
@@ -46,9 +48,9 @@ import ValidationSummary from "./components/validation-summary/ValidationSummary
 
 // Display
 import DataList from "./components/data-list/DataList";
-import Selector from "./components/selector/Selector";
 
 import { GenericRecord } from "./utils/types";
+
 
 // Make it available in the global object of the browser
 (window as unknown as GenericRecord).html = html;
@@ -72,6 +74,7 @@ export {
     ToolTip,
     DataTemplate,
     Selector,
+    DropDown,
 
     // Layout
     Row,

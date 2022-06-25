@@ -64,7 +64,7 @@ export default class DataField implements IDataField {
     initialize(value: string | unknown) {
 
         // Convert the value if its type is different from the expected type of the field descriptor
-        if (isUndefinedOrNull(value) &&
+        if (!isUndefinedOrNull(value) &&
             typeof value !== toTypeOf(this._fieldDescriptor.type)) {
 
             value = this._fieldDescriptor.converter?.fromString(value as string, this._fieldDescriptor.type || ConversionTypes.String);

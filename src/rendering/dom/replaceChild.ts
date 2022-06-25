@@ -97,7 +97,7 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
     }
     else { // They are nodes
 
-        throw new Error('kuku');
+        throw new Error('Not implemented');
         //parentNode!.replaceChild(newChild, oldChild);
     }
 }

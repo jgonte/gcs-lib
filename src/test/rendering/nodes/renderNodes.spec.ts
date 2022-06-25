@@ -2107,4 +2107,69 @@ describe("render nodes tests", () => {
         expect(() => html`<wcl-icon name='${icon}'></wcl-icon>`)
             .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes"));
     });
+
+    it('should render two conditional child elements', () => {
+
+        let name: string = "Jorge";
+
+        let age: number = 55;
+
+        let patchingData = html`<div>
+            <span slot="header">${renderHeader(name, age)}</span>
+        </div>`;
+
+        function renderHeader(name: string, age: number): NodePatchingData {
+
+            if (age > 50) {
+
+                return html`<span style="color: yellow;">${name} - ${age} years</span>`;
+            }
+            else {
+                return html`<span style="color: green;">${name} - ${age} years</span>`;
+            }
+        }
+
+        const container = document.createElement('div');
+
+        mountNodes(container, patchingData);
+
+        expect(container.outerHTML).toEqual("<div><div>\n            <span slot=\"header\"><!--_$bm_--><span style=\"color: yellow;\"><!--_$bm_-->Jorge<!--_$em_--> - <!--_$bm_-->55<!--_$em_--> years</span><!--_$em_--></span>\n        </div></div>");
+
+        name = "Sarah";
+
+        age = 20;
+
+        let newPatchingData = html`<div>
+            <span slot="header">${renderHeader(name, age)}</span>
+        </div>`;
+
+        updateNodes(container, patchingData, newPatchingData);
+
+        expect(container.outerHTML).toEqual("<div><div>\n            <span slot=\"header\"><!--_$bm_--><span style=\"color: green;\"><!--_$bm_-->Sarah<!--_$em_--> - <!--_$bm_-->20<!--_$em_--> years</span><!--_$em_--></span>\n        </div></div>");
+
+        patchingData = newPatchingData;
+
+        name = "Jorge";
+
+        age = 45;
+
+        newPatchingData = html`<div>
+            <span slot="header">${renderHeader(name, age)}</span>
+        </div>`;
+
+        updateNodes(container, patchingData, newPatchingData);
+
+        expect(container.outerHTML).toEqual("<div><div>\n            <span slot=\"header\"><!--_$bm_--><span style=\"color: green;\"><!--_$bm_-->Jorge<!--_$em_--> - <!--_$bm_-->45<!--_$em_--> years</span><!--_$em_--></span>\n        </div></div>");
+
+        name = "Jorge";
+
+        age = 55;
+
+        newPatchingData = html`${name === "Sarah" ? html`<span style="color: green;">Special for Sarah</span>` : null}
+            ${age < 50 ? html`<span style="color: green;">You are too young</span>` : null}`;
+
+        updateNodes(container, patchingData, newPatchingData);
+
+        expect(container.outerHTML).toEqual("<div><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--></div>");
+    });
 });

@@ -29,7 +29,7 @@ export default abstract class Field extends
     private _tempValue: unknown = undefined;
 
     // Marker to mark the field as such so it can be filtered out from other components
-    isField = true;
+    isField = true; // TODO: Make it static?
 
     static get styles(): string {
 

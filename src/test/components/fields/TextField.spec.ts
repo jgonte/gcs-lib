@@ -2,6 +2,7 @@ import defineCustomElement from "../../../custom-element/defineCustomElement";
 import clearCustomElements from "../../custom-element/helpers/clearCustomElements";
 import TextField from "../../../components/fields/text/TextField";
 import CustomElement from "../../../custom-element/CustomElement";
+import getContentWithoutStyle from "../helpers/getContentWithoutStyle";
 
 beforeEach(() => {
 
@@ -36,19 +37,27 @@ describe("Text field tests", () => {
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<style>/* SizableMixin */\n/* host applies to the text component */\n:host([size='large']) *{\n    /* padding: var(--wcl-padding-size-large); */\n    font-size: var(--wcl-font-size-large);\n    min-height: var(--wcl-min-height-large);\n}\n\n:host([size='medium']) *{\n    /* padding: var(--wcl-padding-size-medium); */\n    font-size: var(--wcl-font-size-medium);\n    min-height: var(--wcl-min-height-medium);\n}\n\n:host([size='small']) *{\n    /* padding: var(--wcl-padding-size-small);  */\n    font-size: var(--wcl-font-size-small);\n    min-height: var(--wcl-min-height-small);\n}\n\n\n:host {\n    margin-left: 1rem;\n}\n\ninput, \nselect,\ntextarea {\n    flex: 1 0 0px;\n    outline: none;\n    border-style: solid;\n    border-color: #d0d0d0;\n}\n\ntextarea,\nselect {\n    min-width: 200px;\n    font-family: inherit;\n}\n\ninput[type='date'] {\n    font-family: inherit;\n}\n\ninput:focus,\ntextarea:focus,\nselect:focus {\n    border-style: solid;\n    border-color: #d0d0d0;\n}</style><input type=\"text\" name=\"name\"/>");
+        let contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<input type=\"text\" name=\"name\"/>");
+
+        expect(component.value).toBeUndefined();
 
         component.value = "Sarah";
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<style>/* SizableMixin */\n/* host applies to the text component */\n:host([size='large']) *{\n    /* padding: var(--wcl-padding-size-large); */\n    font-size: var(--wcl-font-size-large);\n    min-height: var(--wcl-min-height-large);\n}\n\n:host([size='medium']) *{\n    /* padding: var(--wcl-padding-size-medium); */\n    font-size: var(--wcl-font-size-medium);\n    min-height: var(--wcl-min-height-medium);\n}\n\n:host([size='small']) *{\n    /* padding: var(--wcl-padding-size-small);  */\n    font-size: var(--wcl-font-size-small);\n    min-height: var(--wcl-min-height-small);\n}\n\n\n:host {\n    margin-left: 1rem;\n}\n\ninput, \nselect,\ntextarea {\n    flex: 1 0 0px;\n    outline: none;\n    border-style: solid;\n    border-color: #d0d0d0;\n}\n\ntextarea,\nselect {\n    min-width: 200px;\n    font-family: inherit;\n}\n\ninput[type='date'] {\n    font-family: inherit;\n}\n\ninput:focus,\ntextarea:focus,\nselect:focus {\n    border-style: solid;\n    border-color: #d0d0d0;\n}</style><input type=\"text\" name=\"name\" value=\"Sarah\"/>");
+        contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<input type=\"text\" name=\"name\" value=\"Sarah\"/>");
 
         component.value = "Mark";
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<style>/* SizableMixin */\n/* host applies to the text component */\n:host([size='large']) *{\n    /* padding: var(--wcl-padding-size-large); */\n    font-size: var(--wcl-font-size-large);\n    min-height: var(--wcl-min-height-large);\n}\n\n:host([size='medium']) *{\n    /* padding: var(--wcl-padding-size-medium); */\n    font-size: var(--wcl-font-size-medium);\n    min-height: var(--wcl-min-height-medium);\n}\n\n:host([size='small']) *{\n    /* padding: var(--wcl-padding-size-small);  */\n    font-size: var(--wcl-font-size-small);\n    min-height: var(--wcl-min-height-small);\n}\n\n\n:host {\n    margin-left: 1rem;\n}\n\ninput, \nselect,\ntextarea {\n    flex: 1 0 0px;\n    outline: none;\n    border-style: solid;\n    border-color: #d0d0d0;\n}\n\ntextarea,\nselect {\n    min-width: 200px;\n    font-family: inherit;\n}\n\ninput[type='date'] {\n    font-family: inherit;\n}\n\ninput:focus,\ntextarea:focus,\nselect:focus {\n    border-style: solid;\n    border-color: #d0d0d0;\n}</style><input type=\"text\" name=\"name\" value=\"Mark\"/>");
+        contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<input type=\"text\" name=\"name\" value=\"Mark\"/>");
     });
 
     it('should render the value when it is provided', async () => {
@@ -64,12 +73,16 @@ describe("Text field tests", () => {
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<style>/* SizableMixin */\n/* host applies to the text component */\n:host([size='large']) *{\n    /* padding: var(--wcl-padding-size-large); */\n    font-size: var(--wcl-font-size-large);\n    min-height: var(--wcl-min-height-large);\n}\n\n:host([size='medium']) *{\n    /* padding: var(--wcl-padding-size-medium); */\n    font-size: var(--wcl-font-size-medium);\n    min-height: var(--wcl-min-height-medium);\n}\n\n:host([size='small']) *{\n    /* padding: var(--wcl-padding-size-small);  */\n    font-size: var(--wcl-font-size-small);\n    min-height: var(--wcl-min-height-small);\n}\n\n\n:host {\n    margin-left: 1rem;\n}\n\ninput, \nselect,\ntextarea {\n    flex: 1 0 0px;\n    outline: none;\n    border-style: solid;\n    border-color: #d0d0d0;\n}\n\ntextarea,\nselect {\n    min-width: 200px;\n    font-family: inherit;\n}\n\ninput[type='date'] {\n    font-family: inherit;\n}\n\ninput:focus,\ntextarea:focus,\nselect:focus {\n    border-style: solid;\n    border-color: #d0d0d0;\n}</style><input type=\"text\" name=\"name\" value=\"Sarah\"/>");
+        let contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<input type=\"text\" name=\"name\" value=\"Sarah\"/>");
 
         component.value = "Mark";
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<style>/* SizableMixin */\n/* host applies to the text component */\n:host([size='large']) *{\n    /* padding: var(--wcl-padding-size-large); */\n    font-size: var(--wcl-font-size-large);\n    min-height: var(--wcl-min-height-large);\n}\n\n:host([size='medium']) *{\n    /* padding: var(--wcl-padding-size-medium); */\n    font-size: var(--wcl-font-size-medium);\n    min-height: var(--wcl-min-height-medium);\n}\n\n:host([size='small']) *{\n    /* padding: var(--wcl-padding-size-small);  */\n    font-size: var(--wcl-font-size-small);\n    min-height: var(--wcl-min-height-small);\n}\n\n\n:host {\n    margin-left: 1rem;\n}\n\ninput, \nselect,\ntextarea {\n    flex: 1 0 0px;\n    outline: none;\n    border-style: solid;\n    border-color: #d0d0d0;\n}\n\ntextarea,\nselect {\n    min-width: 200px;\n    font-family: inherit;\n}\n\ninput[type='date'] {\n    font-family: inherit;\n}\n\ninput:focus,\ntextarea:focus,\nselect:focus {\n    border-style: solid;\n    border-color: #d0d0d0;\n}</style><input type=\"text\" name=\"name\" value=\"Mark\"/>");
+        contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<input type=\"text\" name=\"name\" value=\"Mark\"/>");
     });
 });

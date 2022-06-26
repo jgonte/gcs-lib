@@ -1,7 +1,7 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
@@ -9,6 +9,7 @@ import Sizable from "../mixins/sizable/Sizable";
 import Kind from "../mixins/kind/Kind";
 import Variant from "../mixins/variant/Variant";
 import { buttonStyles } from "./Button.styles";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 export default class Button extends
     Sizable(
@@ -32,7 +33,7 @@ export default class Button extends
              * Callback when the button is clicked
              */
             click: {
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true
             }
         };

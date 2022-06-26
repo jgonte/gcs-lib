@@ -1,7 +1,8 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import createSizeStyles, { sizes } from "../../../design-system/sizes";
+import { DataTypes } from "../../../utils/data/DataTypes";
 
 export default function Sizable<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
@@ -17,7 +18,7 @@ export default function Sizable<TBase extends CustomHTMLElementConstructor>(Base
             return {
 
                 size: {
-                    type: ConversionTypes.String,
+                    type: DataTypes.String,
                     value: sizes[1], //medium
                     reflect: true,
                     inherit: true,

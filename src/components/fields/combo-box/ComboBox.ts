@@ -1,10 +1,11 @@
 
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import findChild from "../../../custom-element/mixins/helpers/findChild";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import SelectionContainer, { ISelectionContainer, SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
 import Field from "../Field";
 
@@ -21,7 +22,7 @@ export default class ComboBox extends
              */
             headerTemplate: {
                 attribute: 'header-template',
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -30,7 +31,7 @@ export default class ComboBox extends
              */
             selectTemplate: {
                 attribute: 'select-template',
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -39,7 +40,7 @@ export default class ComboBox extends
              */
             singleSelectionTemplate: {
                 attribute: 'single-selection-template',
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -48,7 +49,7 @@ export default class ComboBox extends
              */
             multipleSelectionTemplate: {
                 attribute: 'multiple-selection-template',
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             }
         };

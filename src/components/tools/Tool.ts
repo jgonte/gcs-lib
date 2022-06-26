@@ -1,8 +1,9 @@
 import CustomElement from "../../custom-element/CustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../utils/data/DataTypes";
 import Kind from "../mixins/kind/Kind";
 import Sizable from "../mixins/sizable/Sizable";
 
@@ -22,8 +23,8 @@ export default abstract class Tool extends
              */
             iconName: {
                 type: [
-                    ConversionTypes.String,
-                    ConversionTypes.Function
+                    DataTypes.String,
+                    DataTypes.Function
                 ],
                 defer: true,
                 required: true

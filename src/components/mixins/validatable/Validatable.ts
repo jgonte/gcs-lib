@@ -1,5 +1,6 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import Validator, { ValidationContext } from "../../../utils/validation/validators/Validator";
 
 export const validationEvent = 'validationEvent';
@@ -13,7 +14,7 @@ export default function Validatable<TBase extends CustomHTMLElementConstructor>(
             return {
 
                 validators: {
-                    type: ConversionTypes.Array,
+                    type: DataTypes.Array,
                     value: [],
                     transform: function (value) {
 

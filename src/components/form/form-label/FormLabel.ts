@@ -1,8 +1,9 @@
 import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { formLabelStyles } from "./FormLabel.styles";
 
 export default class FormLabel extends CustomElement {
@@ -21,7 +22,7 @@ export default class FormLabel extends CustomElement {
              * If true it sets a field indicator as required and adds a required validator to the field
              */
             required: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 reflect: true,
                 value: false
             },
@@ -30,7 +31,7 @@ export default class FormLabel extends CustomElement {
              * Whether the form field is modified to show it on the label
              */
             modified: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 reflect: true,
                 value: false
             },
@@ -40,7 +41,7 @@ export default class FormLabel extends CustomElement {
              */
             justifyContent: {
                 attribute: 'justify-content',
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 value: 'space-evenly',
                 options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
                 reflect: true,
@@ -52,14 +53,14 @@ export default class FormLabel extends CustomElement {
              */
             helpResourceKey: {
                 attribute: 'help-resource-key',
-                type: ConversionTypes.String
+                type: DataTypes.String
             },
 
             /**
              * The help content
              */
             help: {
-                type: ConversionTypes.String
+                type: DataTypes.String
             }
         };
     }

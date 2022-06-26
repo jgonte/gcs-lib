@@ -1,11 +1,12 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
+import { DataTypes } from "../../utils/data/DataTypes";
 import Kind from "../mixins/kind/Kind";
 import Sizable from "../mixins/sizable/Sizable";
 import { iconStyles } from "./Icon.styles";
@@ -32,7 +33,7 @@ export default class Icon extends
              * The name of the icon
              */
             name: {
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 required: true
             }
         };

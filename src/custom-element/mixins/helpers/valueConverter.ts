@@ -1,9 +1,9 @@
+import { DataTypes } from "../../../utils/data/DataTypes";
 import getGlobalFunction from "../../../utils/getGlobalFunction";
-import { ConversionTypes } from "../metadata/types/CustomElementPropertyMetadata";
 
 const valueConverter = {
 
-    toProperty: (value: string, type: ConversionTypes | ConversionTypes[]) => {
+    toProperty: (value: string, type: DataTypes | DataTypes[]) => {
 
         if (value === null) {
 
@@ -17,7 +17,7 @@ const valueConverter = {
 
         // First try a function since that can create any of the objects below
         if (value[value.length - 2] === '(' && value[value.length - 1] === ')' // The function by convention must end in ()
-            && type.includes(ConversionTypes.Function)) {
+            && type.includes(DataTypes.Function)) {
 
             const fcn = getGlobalFunction(value);
 
@@ -27,8 +27,8 @@ const valueConverter = {
             }
         }
 
-        if (type.includes(ConversionTypes.Object) ||
-            type.includes(ConversionTypes.Array)
+        if (type.includes(DataTypes.Object) ||
+            type.includes(DataTypes.Array)
         ) {
 
             let o;
@@ -39,7 +39,7 @@ const valueConverter = {
             }
             catch (error) {
 
-                if (!type.includes(ConversionTypes.String)) {
+                if (!type.includes(DataTypes.String)) {
 
                     throw error; // Malformed JSON
                 }
@@ -50,13 +50,13 @@ const valueConverter = {
             if (o !== undefined) {
 
                 if (!Array.isArray(o) &&
-                    !type.includes(ConversionTypes.Object)) {
+                    !type.includes(DataTypes.Object)) {
 
                     throw Error(`value: ${value} is not an array but there is no object type expected`);
                 }
 
                 if (Array.isArray(o) &&
-                    !type.includes(ConversionTypes.Array)) {
+                    !type.includes(DataTypes.Array)) {
 
                     throw Error(`value: ${value} is an array but there is no array type expected`);
                 }
@@ -65,12 +65,12 @@ const valueConverter = {
             }
         }
 
-        if (type.includes(ConversionTypes.Boolean)) {
+        if (type.includes(DataTypes.Boolean)) {
 
             return true;
         }
 
-        if (type.includes(ConversionTypes.Number)) {
+        if (type.includes(DataTypes.Number)) {
 
             return Number(value);
         }

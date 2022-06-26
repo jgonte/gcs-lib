@@ -1,5 +1,6 @@
+import { DataTypes } from "../../../../utils/data/DataTypes";
 import CustomElementMetadata from "../types/CustomElementMetadata";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../types/CustomElementPropertyMetadata";
 import CustomHTMLElement from "../types/CustomHTMLElement";
 import CustomHTMLElementConstructor from "../types/CustomHTMLElementConstructor";
 
@@ -59,7 +60,7 @@ function initializeProperty(ctor: CustomHTMLElementConstructor, name: string, pr
                     type = [type];
                 }
 
-                if (type.includes(ConversionTypes.Function) &&
+                if (type.includes(DataTypes.Function) &&
                     typeof value === 'function' &&
                     defer !== true) { // Only call the function if the type is a Function and it is not deferred
 

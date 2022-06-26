@@ -1,8 +1,9 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../utils/data/DataTypes";
 import { rowStyles } from "./Row.styles";
 
 export default class Row extends CustomElement {
@@ -21,7 +22,7 @@ export default class Row extends CustomElement {
              */
             justifyContent: {
                 attribute: 'justify-content',
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 value: 'space-between',
                 options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
                 reflect: true

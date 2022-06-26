@@ -1,6 +1,7 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import Hoverable from "../hoverable/Hoverable";
 import { selectableStyles } from "./Selectable.styles";
 
@@ -28,7 +29,7 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                  * Whether the component is selectable
                  */
                 selectable: {
-                    type: ConversionTypes.Boolean,
+                    type: DataTypes.Boolean,
                     value: true,
                     reflect: true,
                     inherit: true
@@ -38,7 +39,7 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                  * Whether the item is selected
                  */
                 selected: {
-                    type: ConversionTypes.Boolean,
+                    type: DataTypes.Boolean,
                     reflect: true
                 },
 
@@ -48,8 +49,8 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                 selectValue: {
                     attribute: 'select-value',
                     type: [
-                        ConversionTypes.String,
-                        ConversionTypes.Object
+                        DataTypes.String,
+                        DataTypes.Object
                     ]
                 }
             };

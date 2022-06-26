@@ -1,11 +1,12 @@
 import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { inputEvent } from "../../fields/Field";
 import Sizable from "../../mixins/sizable/Sizable";
 import { validationEvent } from "../../mixins/validatable/Validatable";
@@ -31,7 +32,7 @@ export default class FormField extends
              * If true it sets a field indicator as required and adds a required validator to the field
              */
             required: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 reflect: true,
                 value: false
             },
@@ -41,7 +42,7 @@ export default class FormField extends
              */
             labelWidth: {
                 attribute: 'label-width',
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 reflect: true,
                 inherit: true
             },
@@ -51,7 +52,7 @@ export default class FormField extends
              */
             justifyLabelContent: {
                 attribute: 'justify-label-content',
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 value: 'space-evenly',
                 options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
                 reflect: true,
@@ -63,14 +64,14 @@ export default class FormField extends
              */
             helpResourceKey: {
                 attribute: 'help-resource-key',
-                type: ConversionTypes.String
+                type: DataTypes.String
             },
 
             /**
              * The help content
              */
             help: {
-                type: ConversionTypes.String
+                type: DataTypes.String
             }
         };
     }

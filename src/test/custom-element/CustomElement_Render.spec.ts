@@ -4,7 +4,8 @@ import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import clearCustomElements from "../../test/custom-element/helpers/clearCustomElements";
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 beforeEach(() => {
 
@@ -47,7 +48,7 @@ describe("custom element render tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "Sarah"
                     }
                 };
@@ -83,7 +84,7 @@ describe("custom element render tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "Sarah"
                     }
                 };
@@ -119,12 +120,12 @@ describe("custom element render tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "Sarah"
                     },
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 19
                     }
                 };
@@ -175,12 +176,12 @@ describe("custom element render tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "Sarah"
                     },
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 19
                     }
                 };
@@ -222,7 +223,7 @@ describe("custom element render tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String
+                        type: DataTypes.String
                     }
                 };
             }
@@ -274,7 +275,7 @@ describe("custom element render tests", () => {
                      */
                     itemTemplate: {
                         attribute: 'item-template',
-                        type: ConversionTypes.Function,
+                        type: DataTypes.Function,
                         defer: true // Store the function itself instead of executing it to get its return value when initializing the property
                     }
                 };

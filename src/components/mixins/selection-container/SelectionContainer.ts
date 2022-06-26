@@ -1,6 +1,7 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { selectionChangedEvent } from "../selectable/Selectable";
 
 export type SelectionTypes = Array<string> & { [x: string]: string };
@@ -28,7 +29,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                  * Whether the component is selectable
                  */
                 selectable: {
-                    type: ConversionTypes.Boolean,
+                    type: DataTypes.Boolean,
                     value: true,
                     reflect: true,
                     //inherit: true
@@ -38,7 +39,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                  * Whether we can process multiple selection (false by default)
                  */
                 multiple: {
-                    type: ConversionTypes.Boolean,
+                    type: DataTypes.Boolean,
                     reflect: true
                 },
 
@@ -46,7 +47,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                  * The selected item or items. It is an attribute since it can be passed through a property initially
                  */
                 selection: {
-                    type: ConversionTypes.Array,
+                    type: DataTypes.Array,
                     value: [],
                     reflect: true
                 },
@@ -56,7 +57,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                  */
                 selectionChanged: {
                     attribute: 'selection-changed',
-                    type: ConversionTypes.Function,
+                    type: DataTypes.Function,
                     defer: true
                 }
             };

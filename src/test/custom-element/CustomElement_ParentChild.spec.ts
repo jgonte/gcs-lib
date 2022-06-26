@@ -2,8 +2,9 @@ import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import clearCustomElements from "./helpers/clearCustomElements";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 beforeEach(() => {
 
@@ -29,7 +30,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "Sarah"
                     }
                 };
@@ -66,7 +67,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 19
                     }
                 };
@@ -143,7 +144,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "Sarah"
                     }
                 };
@@ -180,7 +181,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 19
                     }
                 };
@@ -249,7 +250,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     size: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "medium",
                         options: ["small", "medium", "large"]
                     }
@@ -283,7 +284,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     size: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "medium",
                         options: ["small", "medium", "large"],
                         inherit: true
@@ -331,7 +332,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     size: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         // value: "medium", If this value is set, then it will be set as property and the grand child will inherit it
                         options: ["small", "medium", "large"]
                     }
@@ -365,7 +366,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     size: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         options: ["small", "medium", "large"],
                         inherit: true
                     }
@@ -412,7 +413,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     size: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "medium",
                         options: ["small", "medium", "large"]
                     }
@@ -436,7 +437,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     size: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "medium",
                         options: ["small", "medium", "large"],
                         inherit: true
@@ -486,12 +487,12 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         required: true
                     },
 
                     kids: {
-                        type: ConversionTypes.Array,
+                        type: DataTypes.Array,
                         value: []
                     }
                 };
@@ -520,12 +521,12 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         required: true
                     },
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         required: true
                     }
                 };
@@ -602,7 +603,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         required: true
                     }
                 };
@@ -633,12 +634,12 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         required: true
                     },
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         required: true
                     }
                 };
@@ -680,7 +681,7 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         required: true
                     }
                 };
@@ -704,12 +705,12 @@ describe("CustomElement parent children relationship tests", () => {
                 return {
 
                     name: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         required: true
                     },
 
                     age: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         required: true
                     }
                 };
@@ -734,8 +735,8 @@ describe("CustomElement parent children relationship tests", () => {
 
                     child: {
                         type: [
-                            ConversionTypes.Object,
-                            ConversionTypes.Function
+                            DataTypes.Object,
+                            DataTypes.Function
                         ]
                     }
                 };

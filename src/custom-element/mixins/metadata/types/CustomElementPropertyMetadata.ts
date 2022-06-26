@@ -1,16 +1,7 @@
+import { DataTypes } from "../../../../utils/data/DataTypes";
 import { ParameterlessVoidFunction } from "../../../../utils/types";
 import CustomElementStateMetadata from "./CustomElementStateMetadata";
 
-export enum ConversionTypes {
-    Boolean = "boolean",
-    Number = "number",
-    BigInt = "bigint",
-    String = "string",
-    Date = "date",
-    Object = "object",
-    Array = "array",
-    Function = "function"
-}
 
 /**
  * Describes the configurator of the properties
@@ -25,7 +16,7 @@ export enum ConversionTypes {
     /**
      * The type of the property. If not provided it defaults to a string
      */
-    type: ConversionTypes | ConversionTypes[];
+    type: DataTypes | DataTypes[];
 
     /**
      * When the type of the property is a function and we don't want to evaluate the function when initializing it value

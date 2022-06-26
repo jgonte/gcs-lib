@@ -1,94 +1,57 @@
-import Subscriber from "../../observer/Subscriber";
 import DataField from "./DataField";
-import DataRecordDescriptor from "./DataRecordDescriptor";
-import { DataFieldDescriptor, DataSetter } from "./interfaces";
 import { SingleRecordDataProvider } from "../DataProvider";
-import areEqual from "../../areEqual";
 import { DynamicObject } from "../../types";
+import isUndefinedOrNull from "../../isUndefinedOrNull";
 
 /**
  * The collection of data fields
  */
-export default class DataRecord implements SingleRecordDataProvider, DataSetter, Subscriber {
+export default class DataRecord implements SingleRecordDataProvider {
 
-    private _fields: Record<string, DataField> = {};
+    private _fields: Map<string, DataField> = new Map<string, DataField>();
 
-    private _modifiedFields: Record<string, DataField> = {};
-
-    private _recordDescriptor: DataRecordDescriptor;
-
-    /**
-     * The cached id of the record
-     */
-    private _id: unknown;
+    private _modifiedFields: Map<string, DataField> = new Map<string, DataField>();
 
     /**
      * The cached data of the record
      */
     private _data?: DynamicObject = undefined;
 
-    [key: string]: ((...args: unknown[]) => void) | unknown | undefined;
+    setField(name: string, dataField: DataField) : void {
 
-    constructor(recordDescriptor?: DataRecordDescriptor) {
-
-        this._recordDescriptor = recordDescriptor ?? new DataRecordDescriptor();
-
-        this._recordDescriptor.fieldDescriptors.forEach(fd => this._fields[fd.name] = new DataField(fd, this));
+        this._fields.set(name, dataField);
     }
 
-    addField(fd: DataFieldDescriptor): DataField {
+    setData(data: DynamicObject, acceptChanges: boolean = false): void {
 
-        this._recordDescriptor.addFieldDescriptor(fd);
-
-        this._fields[fd.name] = new DataField(fd, this);
-
-        return this._fields[fd.name];
-    }
-
-    getField(name: string) {
-
-        return this._fields[name];
-    }
-
-    removeField(fd: DataFieldDescriptor) {
-
-        this._recordDescriptor.removeFieldDescriptor(fd);
-
-        delete this._fields[fd.name];
-    }
-
-    /**
-     * Initializes the data record with the data passed in that matches the field descriptors
-     * If the property of the data is not described in the field descriptor, it will be ignored
-     * @param data The data to initialize the data record with
-     */
-    initialize(data: DynamicObject) {
-
-        const {
-            _fields
-        } = this;
+        this._modifiedFields.clear();
 
         for (const key in data) {
 
             if (data.hasOwnProperty(key)) {
 
-                if (_fields.hasOwnProperty(key)) { // The field exists, initialize it
+                const dataField = this._fields.get(key);
 
-                    _fields[key].initialize(data[key]);
+                if (dataField !== undefined) {
+
+                    dataField.value = data[key];
+
+                    if (acceptChanges === true) {
+
+                        dataField.acceptChanges();
+                    }
+                    else if (dataField.valueHasChanged()) {
+
+                        this._modifiedFields.set(key, dataField);
+                    }
                 }
-                else {
+                else { // The field does not need to exist for the given data member but let the programmer know it is missing
 
-                    console.warn(`There is no field for property: '${key}' that was passed as data`);
+                    console.warn(`Field of name: '${key}' was not found for data memeber with same name`);
                 }
-
             }
         }
 
-        this._id = undefined;
-
-        this._data = undefined;
-
-        this._modifiedFields = {};
     }
 
     getData(): DynamicObject {
@@ -107,14 +70,11 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
 
         for (const key in _fields) {
 
-            if (_fields.hasOwnProperty(key)) {
+            const value = _fields.get(key)?.value;
 
-                const value = _fields[key].value;
+            if (!isUndefinedOrNull(value)) {
 
-                if (value != undefined && value != null) {
-
-                    data[key] = value;
-                }
+                data[key] = value;
             }
         }
 
@@ -123,116 +83,8 @@ export default class DataRecord implements SingleRecordDataProvider, DataSetter,
         return data;
     }
 
-    set id(id: unknown) {
-
-        this._id = id;
-    }
-
-    get id() {
-
-        const {
-            _fields
-        } = this;
-
-        if (this._id === undefined) {
-
-            const idInfo = this._recordDescriptor.getId(_fields, f => (f as { value: unknown}).value);
-
-            this._id = idInfo.value;
-        }
-
-        return this._id;
-    }
-
     get isModified() {
 
-        return Object.keys(this._modifiedFields).length > 0;
+        return this._modifiedFields.size > 0;
     }
-
-    setData(data: DynamicObject): void {
-
-        for (const key in data) {
-
-            if (data.hasOwnProperty(key)) {
-
-                const field = this._fields[key];
-
-                if (field !== undefined) {
-
-                    field.value = data[key];
-                }
-                else { // The field does not need to exist for the given data member but let the programmer know it is missing
-
-                    console.warn(`Field of name: '${key}' was not found for data memeber with same name`);
-                }
-            }
-        }
-
-        this._id = undefined;
-    }
-
-    reset() {
-
-        if (!this.isModified) {
-
-            return;
-        }
-
-        const {
-            _fields
-        } = this;
-
-        for (const key in _fields) {
-
-            if (_fields.hasOwnProperty(key)) {
-
-                _fields[key].reset();
-            }
-        }
-
-        //this._modifiedFields = {}; It should be empty
-    }
-
-    onValueSet(descriptor: DataFieldDescriptor, value: unknown, oldValue: unknown, initialValue: unknown) {
-
-        if (areEqual(value, oldValue)) {
-
-            return; // Nothing to change
-        }
-
-        const {
-            name
-        } = descriptor;
-
-        const {
-            _fields,
-            _modifiedFields
-        } = this;
-
-        if (!areEqual(value, initialValue)) {
-
-            // Reference the field in the modified set
-            _modifiedFields[name] = _fields[name];
-        }
-        else {
-
-            // Remove it from the modified fields
-            delete _modifiedFields[name];
-        }
-
-        // Clear the data cache to get new data
-        this._data = undefined;
-    }
-
-    // commit(callback: (record: any) => void) {
-
-    //     if (!this.isModified) {
-
-    //         return;
-    //     }
-
-    //     callback(this._data);
-
-    //     this.initialize(this._data);
-    // }
 }

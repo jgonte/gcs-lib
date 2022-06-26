@@ -1,8 +1,10 @@
 import CustomElement from "../../custom-element/CustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElement from "../../custom-element/mixins/metadata/types/CustomHTMLElement";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
+import { DataTypes } from "../../utils/data/DataTypes";
+import DataField from "../../utils/data/record/DataField";
 import RequiredValidator from "../../utils/validation/validators/field/RequiredValidator";
 import SingleValueFieldValidator from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
@@ -24,6 +26,13 @@ export default abstract class Field extends
         )
     ) {
 
+    protected dataField: DataField = new DataField();
+
+    static getFieldType(): DataTypes {
+
+        return DataTypes.String;
+    }
+
     // The temporary value being validated on input
     // Since it is not the final one, there is no need to refresh it
     private _tempValue: unknown = undefined;
@@ -44,7 +53,7 @@ export default abstract class Field extends
              * The name of the field
              */
             name: {
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 required: true
             },
 
@@ -53,23 +62,31 @@ export default abstract class Field extends
              */
             value: {
                 type: [
-                    ConversionTypes.String,
-                    ConversionTypes.Object // Ideally is a string but could be a more complex object
+                    DataTypes.String,
+                    DataTypes.Object // Ideally is a string but could be a more complex object
                 ],
                 reflect: true
             },
 
             disabled: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 reflect: true
             },
 
             required: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 inherit: true,
                 reflect: true
             }
         };
+    }
+
+    connectedCallback() {
+
+        super.connectedCallback?.();
+
+        // Initialize the data field
+        this.dataField.type = (this.constructor as any).getFieldType();
     }
 
     attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
@@ -149,7 +166,7 @@ export default abstract class Field extends
         this.validate(); // Validate the field on input
 
         this.dispatchCustomEvent(inputEvent, {
-            modified: !this.dataField.hasSameInitialValue(this._tempValue)
+            modified: this.dataField?.isDifferentValue(this._tempValue)
         });
     }
 

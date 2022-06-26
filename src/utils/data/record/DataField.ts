@@ -1,114 +1,99 @@
-import { DataFieldDescriptor, IDataField } from "./interfaces";
-import Observer from "../../observer/Observer";
-import Subscriber from "../../observer/Subscriber";
-import { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import ValueConverter from "../converter/ValueConverter";
 import isUndefinedOrNull from "../../isUndefinedOrNull";
-
-function toTypeOf(type: ConversionTypes) {
-
-    switch (type) {
-        case ConversionTypes.String: return 'string';
-        case ConversionTypes.Boolean: return 'boolean';
-        case ConversionTypes.Number: return 'number';
-        case ConversionTypes.BigInt: return 'bigint';
-        default: return 'object';
-    }
-}
+import { DataTypes } from "../DataTypes";
+import defaultValueConverter from "../converter/defaultValueConverter";
 
 /**
  * The field that is stored in a record of a store
  */
-export default class DataField implements IDataField {
+export default class DataField {
 
     /**
-     * The descriptor of the field
+     * The type of the field
      */
-    private _fieldDescriptor: DataFieldDescriptor;
+    type?: DataTypes;
 
-    /** The current value */
-    private _value?: unknown;
+    /**
+     * The converter to convert the value if the value comes as a string
+     */
+    private converter: ValueConverter = defaultValueConverter;
 
     /** 
      * The initial value of the field 
-     * The initial value is the one set on the initialize function and
-     * corresponds to the value of the field of an empty record or a loaded one.
-     * A field is considered "modified" if its current value is different from the "initial" one
+     * A field is considered "modified" if its current value is different from the initial one
      */
     private _initialValue?: unknown;
 
-    /** The observer to notify when the value of the field changed */
-    private _observer: Observer = new Observer('onValueSet');
+    /**
+     * The current value of the field
+     */
+    private _value: unknown;
 
-    constructor(fieldDescriptor: DataFieldDescriptor, subscriber: Subscriber) {
+    /**
+     * Flag to determine whether the value has been set already
+     */
+    private _valueSet: boolean = false;
 
-        this._fieldDescriptor = fieldDescriptor;
-
-        if (fieldDescriptor.value !== undefined) {
-
-            this.initialize(fieldDescriptor.value);
-        }
-
-        this._observer.subscribe(subscriber);
-    }
-
-    get name() {
-
-        return this._fieldDescriptor.name;
-    }
-
-    get isId() {
-
-        return this._fieldDescriptor.isId;
-    }
-
-    initialize(value: string | unknown) {
+    /**
+     * Sets the value of the data field
+     */
+    set value(value: string | unknown) {
 
         // Convert the value if its type is different from the expected type of the field descriptor
         if (!isUndefinedOrNull(value) &&
-            typeof value !== toTypeOf(this._fieldDescriptor.type)) {
+            typeof value !== this.type) {
 
-            value = this._fieldDescriptor.converter?.fromString(value as string, this._fieldDescriptor.type || ConversionTypes.String);
+            value = this.converter.fromString(value as string, this.type as DataTypes);
         }
 
         this._value = value;
 
-        this._initialValue = value;
-    }
+        if (!this._valueSet) { // Synchronize the values
 
-    set value(value: string | unknown) {
+            this._valueSet = true;
 
-        const oldValue = this._value;
-
-        // Convert the value if its type is different from the expected type of the field descriptor
-        if (value !== undefined &&
-            value != null &&
-            typeof value !== toTypeOf(this._fieldDescriptor.type)) {
-
-            value = this._fieldDescriptor.converter?.fromString(value as string, this._fieldDescriptor.type);
+            this._initialValue = value;
         }
-
-        this._value = value;
-
-        this._observer.notify(
-            this._fieldDescriptor,
-            this._value,
-            oldValue,
-            this._initialValue
-        );
     }
 
+    /**
+     * Gets the value from the data field
+     */
     get value(): unknown {
 
         return this._value;
     }
 
-    reset(): void {
+    /**
+     * Reconciles the current value with the initial one
+     */
+    acceptChanges(): void {
 
-        this.value = this._initialValue as string;
+        this._value = this._initialValue;
     }
 
-    hasSameInitialValue(value: unknown): boolean {
+    /**
+     * Tests whether the incoming value is different from the initial one
+     * @param value 
+     * @returns 
+     */
+    isDifferentValue(value: string | unknown): boolean {
 
-        return this._initialValue === value
+        if (!isUndefinedOrNull(value) &&
+            typeof value !== this.type) {
+
+            value = this.converter.fromString(value as string, this.type as DataTypes);
+        }
+
+        return this._initialValue !== value;
+    }
+
+    /**
+     * Tests whether the current value is different from the initial one
+     * @returns 
+     */
+    valueHasChanged(): boolean {
+
+        return this._initialValue !== this._value;
     }
 }

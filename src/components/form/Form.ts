@@ -1,6 +1,6 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
@@ -13,6 +13,7 @@ import Loadable from "../mixins/data/Loadable";
 import Errorable from "../mixins/errorable/Errorable";
 import { formStyles } from "./Form.styles";
 import { DynamicObject, GenericRecord } from "../../utils/types";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 export default class Form extends
     Submittable(
@@ -52,7 +53,7 @@ export default class Form extends
              */
             labelWidth: {
                 attribute: 'label-width',
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 value: '50%',
             },
 
@@ -61,7 +62,7 @@ export default class Form extends
              */
             justifyLabelContent: {
                 attribute: 'justify-label-content',
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 value: 'space-evenly',
                 options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
                 reflect: true
@@ -129,7 +130,7 @@ export default class Form extends
 
         const d = data.payload ?? data;
 
-        this._record.initialize(d as DynamicObject); // Fill the record without seting any modified fields
+        this._record.setData(d as DynamicObject, true); // Fill the record without seting any modified fields
 
         this._populateFields(d as DynamicObject); // Update the form with the returned values
     }
@@ -144,7 +145,7 @@ export default class Form extends
 
         const d = data.payload ?? data;
 
-        this._record.setData(d as DynamicObject); // Fill the record without seting any modified fields
+        this._record.setData(d as DynamicObject, true); // Fill the record without seting any modified fields
 
         this._populateFields(d as DynamicObject); // Update the form with the returned values
     }
@@ -220,19 +221,12 @@ export default class Form extends
 
         const {
             name,
-            type,
-            value
+            dataField
         } = field;
 
         this._fields.set(name, field); // Add the field to the form
 
-        const dataField = this._record.addField({ // Add the field to the record
-            name,
-            type,
-            value
-        });
-
-        field.dataField = dataField; // Set the data field in the field so it "knows" if its value changed from the initial one
+        this._record.setField(name, dataField);
 
         event.stopPropagation();
     }

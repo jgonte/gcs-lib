@@ -1,7 +1,8 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../../rendering/html";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { ErrorResponse } from "../../../utils/data/transfer/ErrorResponse";
 import Fetcher from "../../../utils/data/transfer/Fetcher";
 import { GenericRecord } from "../../../utils/types";
@@ -20,7 +21,7 @@ export default function LoadableHolder<TBase extends CustomHTMLElementConstructo
                  */
                 loadUrl: {
                     attribute: 'load-url',
-                    type: ConversionTypes.String,
+                    type: DataTypes.String,
                     //required: true Loading the form or other component might be optional
                 },
 
@@ -29,7 +30,7 @@ export default function LoadableHolder<TBase extends CustomHTMLElementConstructo
                  */
                 autoLoad: {
                     attribute: 'auto-load',
-                    type: ConversionTypes.Boolean,
+                    type: DataTypes.Boolean,
                     value: true
                 }
             };

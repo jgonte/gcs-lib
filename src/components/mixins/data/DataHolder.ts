@@ -1,5 +1,6 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata"
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata"
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor"
+import { DataTypes } from "../../../utils/data/DataTypes"
 
 export default function DataHolder<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
@@ -14,8 +15,8 @@ export default function DataHolder<TBase extends CustomHTMLElementConstructor>(B
                  */
                 data: {
                     type: [
-                        ConversionTypes.Array, 
-                        ConversionTypes.Function
+                        DataTypes.Array, 
+                        DataTypes.Function
                     ],
                     value: []
                     //required: true - We might need to load it after connecting the component
@@ -26,7 +27,7 @@ export default function DataHolder<TBase extends CustomHTMLElementConstructor>(B
                  */
                 idField: {
                     attribute: 'id-field',
-                    type: ConversionTypes.String,
+                    type: DataTypes.String,
                     required: true
                 }
             }

@@ -1,7 +1,8 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../../rendering/html";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { ErrorResponse } from "../../../utils/data/transfer/ErrorResponse";
 import Fetcher from "../../../utils/data/transfer/Fetcher";
 import { GenericRecord } from "../../../utils/types";
@@ -20,14 +21,14 @@ export default function Submittable<TBase extends CustomHTMLElementConstructor>(
                  */
                 submitUrl: {
                     attribute: 'submit-url',
-                    type: ConversionTypes.String,
+                    type: DataTypes.String,
                     required: true
                 },
 
                 method: {
                     type: [
-                        ConversionTypes.String, 
-                        ConversionTypes.Function
+                        DataTypes.String, 
+                        DataTypes.Function
                     ],
                     options: ['post', 'put']
                 }

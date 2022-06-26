@@ -1,7 +1,8 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import createKindStyles, { kinds } from "../../../design-system/kinds";
+import { DataTypes } from "../../../utils/data/DataTypes";
 
 export default function Kind<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
@@ -12,7 +13,7 @@ export default function Kind<TBase extends CustomHTMLElementConstructor>(Base: T
             return {
 
                 kind: {
-                    type: ConversionTypes.String,
+                    type: DataTypes.String,
                     options: kinds,
                     inherit: true,
                     // reflect: true,

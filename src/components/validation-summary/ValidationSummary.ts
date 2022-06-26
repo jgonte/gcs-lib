@@ -1,8 +1,9 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 export default class ValidationSummary extends CustomElement {
 
@@ -14,7 +15,7 @@ export default class ValidationSummary extends CustomElement {
              * The warnings to display
              */
             warnings: {
-                type: ConversionTypes.Array,
+                type: DataTypes.Array,
                 value: []
             },
 
@@ -22,7 +23,7 @@ export default class ValidationSummary extends CustomElement {
              * The errors to display
              */
             errors: {
-                type: ConversionTypes.Array,
+                type: DataTypes.Array,
                 value: []
             }
         };

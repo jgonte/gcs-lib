@@ -1,7 +1,8 @@
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import Field from "../Field";
 
 
@@ -30,21 +31,21 @@ export default class FileField extends Field {
         return {
 
             accept: {
-                type: ConversionTypes.String
+                type: DataTypes.String
             },
 
             capture: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 value: true
             },
 
             multiple: {
-                type: ConversionTypes.Boolean
+                type: DataTypes.Boolean
             },
 
             /** Whether to preview the files (that can be previewed) */
             preview: {
-                type: ConversionTypes.Boolean
+                type: DataTypes.Boolean
             }
         };
     }

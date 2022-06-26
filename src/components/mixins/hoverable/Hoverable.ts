@@ -1,6 +1,7 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { hoverableStyles } from "./Hoverable.styles";
 
 export default function Hoverable<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
@@ -20,7 +21,7 @@ export default function Hoverable<TBase extends CustomHTMLElementConstructor>(Ba
                  * Whether the element is hoverable
                  */
                 hoverable: {
-                    type: ConversionTypes.Boolean,
+                    type: DataTypes.Boolean,
                     value: true,
                     reflect: true
                 }

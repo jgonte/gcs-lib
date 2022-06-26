@@ -1,6 +1,6 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import SelectionContainer from "../mixins/selection-container/SelectionContainer";
@@ -8,6 +8,7 @@ import DataHolder from "../mixins/data/DataHolder";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import { GenericRecord } from "../../utils/types";
 import getStyle from "../../custom-element/styles/getStyle";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 const defaultItemStyle = `
     list-style-type: none;
@@ -29,7 +30,7 @@ export default class DataList extends
              */
             displayField: {
                 attribute: 'display-field',
-                type: ConversionTypes.String
+                type: DataTypes.String
             },
 
             /**
@@ -38,9 +39,9 @@ export default class DataList extends
             itemStyle: {
                 attribute: 'item-style',
                 type: [
-                    ConversionTypes.String, 
-                    ConversionTypes.Object, 
-                    ConversionTypes.Function
+                    DataTypes.String, 
+                    DataTypes.Object, 
+                    DataTypes.Function
                 ]
             },
 
@@ -49,7 +50,7 @@ export default class DataList extends
              */
             itemTemplate: {
                 attribute: 'item-template',
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             }
         };

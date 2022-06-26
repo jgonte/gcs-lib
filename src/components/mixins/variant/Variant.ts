@@ -1,6 +1,7 @@
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import { variants } from "../../../design-system/variants";
+import { DataTypes } from "../../../utils/data/DataTypes";
 
 export default function Variant<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
@@ -14,7 +15,7 @@ export default function Variant<TBase extends CustomHTMLElementConstructor>(Base
                   * The variant of the button
                   */
                 variant: {
-                    type: ConversionTypes.String,
+                    type: DataTypes.String,
                     value: variants[0],
                     reflect: true,
                     options: variants

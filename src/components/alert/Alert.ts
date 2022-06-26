@@ -1,6 +1,6 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
@@ -8,6 +8,7 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import Sizable from "../mixins/sizable/Sizable";
 import Kind from "../mixins/kind/Kind";
 import { alertStyles } from "./Alert.styles";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 export default class Alert extends
     Sizable(
@@ -29,7 +30,7 @@ export default class Alert extends
              * Whether to show the icon
              */
             showIcon: {
-                type: ConversionTypes.Boolean,
+                type: DataTypes.Boolean,
                 value: true
             },
 
@@ -38,7 +39,7 @@ export default class Alert extends
              * If it is not defined, then the close tool will not be shown
              */
             close: {
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 defer: true
             }
 

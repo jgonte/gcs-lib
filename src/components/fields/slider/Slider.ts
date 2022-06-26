@@ -1,9 +1,10 @@
 
 import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import { sliderStyles } from "./Slider.styles"
 
 export default class Slider extends CustomElement {
@@ -21,7 +22,7 @@ export default class Slider extends CustomElement {
              * The value of the slider
              */
             value: {
-                type: ConversionTypes.Number,
+                type: DataTypes.Number,
                 value: 0,
                 reflect: true,
                 afterUpdate: function () { // Do not use an arrow function so we can use Function.prototype.call()

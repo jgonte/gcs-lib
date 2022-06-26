@@ -1,10 +1,11 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import clearCustomElements from "../../test/custom-element/helpers/clearCustomElements";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 beforeEach(() => {
 
@@ -22,7 +23,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a"
                     }
                 };
@@ -63,7 +64,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.Function
+                        type: DataTypes.Function
                     }
                 };
             }
@@ -96,7 +97,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     simple: {
-                        type: ConversionTypes.Boolean,
+                        type: DataTypes.Boolean,
                         reflect: true
                     }
                 };
@@ -136,7 +137,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     simple: {
-                        type: ConversionTypes.Object,
+                        type: DataTypes.Object,
                         reflect: true
                     }
                 };
@@ -170,7 +171,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.Object
+                        type: DataTypes.Object
                     }
                 };
             }
@@ -205,7 +206,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.Array
+                        type: DataTypes.Array
                     }
                 };
             }
@@ -240,7 +241,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.Object
+                        type: DataTypes.Object
                     }
                 };
             }
@@ -275,7 +276,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a",
                         reflect: true
                     }
@@ -317,7 +318,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a",
                         reflect: true
                     }
@@ -359,7 +360,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         // Transform before setting the property
                         transform: v => 2 * (v as number)
                     }
@@ -400,7 +401,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a", // Options: "a" | "b" | "c"
                         afterUpdate: function () {
 
@@ -442,7 +443,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.Function,
+                        type: DataTypes.Function,
                         value: () => 5
                     }
                 };
@@ -475,7 +476,7 @@ describe("CustomElement properties tests", () => {
 
                     baseProp: {
                         attribute: "base-prop",
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 13
                     }
                 };
@@ -497,7 +498,7 @@ describe("CustomElement properties tests", () => {
 
                     derivedProp: {
                         attribute: "derived-prop",
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 26
                     }
                 };
@@ -532,7 +533,7 @@ describe("CustomElement properties tests", () => {
 
                     baseProp: {
                         attribute: "base-prop",
-                        type: ConversionTypes.Number,
+                        type: DataTypes.Number,
                         value: 13
                     }
                 };
@@ -556,7 +557,7 @@ describe("CustomElement properties tests", () => {
 
                         derivedProp: {
                             attribute: "derived-prop",
-                            type: ConversionTypes.Number,
+                            type: DataTypes.Number,
                             value: 26
                         }
                     };
@@ -589,7 +590,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a",
                         options: ["a", "b", "c"]
                     }
@@ -625,7 +626,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         // value: "a", Do not provide a default value to enforce required
                         required: true
                     }
@@ -661,7 +662,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a",
                         required: true
                     }
@@ -701,7 +702,7 @@ describe("CustomElement properties tests", () => {
                 return {
 
                     type: {
-                        type: ConversionTypes.String,
+                        type: DataTypes.String,
                         value: "a",
                         required: true
                     }

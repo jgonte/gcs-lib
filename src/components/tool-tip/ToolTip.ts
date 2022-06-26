@@ -1,9 +1,10 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import applyClasses from "../../custom-element/styles/applyClasses";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import { DataTypes } from "../../utils/data/DataTypes";
 import { toolTipStyles } from "./ToolTip.styles";
 
 export default class ToolTip extends CustomElement {
@@ -21,7 +22,7 @@ export default class ToolTip extends CustomElement {
              * The position of the tool tip
              */
             position: {
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 value: 'bottom',
                 options: ['top', 'bottom', 'left', 'right']
             }

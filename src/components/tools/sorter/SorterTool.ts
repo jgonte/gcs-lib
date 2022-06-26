@@ -1,6 +1,7 @@
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import Tool from "../Tool";
 
 export const sorterChanged = 'sorterChanged';
@@ -15,7 +16,7 @@ export default class SorterTool extends Tool {
              * The name of the field to sort
              */
             field: {
-                type: ConversionTypes.String,
+                type: DataTypes.String,
                 required: true
             }
         };

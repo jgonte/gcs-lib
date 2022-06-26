@@ -1,5 +1,6 @@
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import CustomElementPropertyMetadata, { ConversionTypes } from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import { DataTypes } from "../../../utils/data/DataTypes";
 import Tool from "../Tool";
 
 export default class CloseTool extends Tool {
@@ -19,7 +20,7 @@ export default class CloseTool extends Tool {
              * What action to execute when the tool has been closed
              */
             close: {
-                type: ConversionTypes.Function,
+                type: DataTypes.Function,
                 required: true
             }
         };

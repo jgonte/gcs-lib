@@ -20,6 +20,10 @@ export const rowStyles = css`
     justify-content: center;
 }
 
+:host([justify-content='end']) {
+    justify-content: end;
+}
+
 :host([justify-content='space-around']) {
     justify-content: space-around;
 }

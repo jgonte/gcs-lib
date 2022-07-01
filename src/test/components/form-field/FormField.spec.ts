@@ -32,6 +32,6 @@ describe("form tests", () => {
 
         const contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<wcl-row id=\"field-row\" justify-content=\"start\">    \n            <wcl-form-label required=\"false\" modified=\"false\" justify-content=\"space-evenly\" style=\"width: undefined;\">\n                    <span slot=\"label\">\n                        <slot name=\"label\"></slot>\n                    </span>\n                    <wcl-row slot=\"tools\" justify-content=\"space-evenly\">\n                        <slot name=\"tools\"></slot>\n                    </wcl-row>\n            </wcl-form-label>           \n            <span>:</span>\n            <slot name=\"field\"></slot>      \n        </wcl-row>\n        <wcl-validation-summary warnings=\"[]\" errors=\"[]\">\n        </wcl-validation-summary>");
+        expect(contentWithoutStyle).toBe("<wcl-row id=\"form-field-row\">    \n            <wcl-form-label required=\"false\" modified=\"false\" label-align=\"left\" style=\"width: 50%; min-width: 50%;\">\n                    <span slot=\"label\">\n                        <slot name=\"label\"></slot>\n                    </span>\n                    <slot name=\"tools\"></slot>   \n            </wcl-form-label>            \n            <slot name=\"field\"></slot>      \n        </wcl-row>\n        <wcl-validation-summary warnings=\"[]\" errors=\"[]\">\n        </wcl-validation-summary>");
     });
 });

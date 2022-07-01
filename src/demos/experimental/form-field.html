@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../../variables.css">
+    <title>Form Field</title>
+
+    <style>
+        #form-field {
+            display: grid;
+            grid-template-columns: 50% max-content auto;
+            border: 3px solid red;
+        }
+
+        #label {
+            
+            border: 3px solid darkgreen;
+        }
+
+        #tools {
+            
+            border: 3px solid darkblue;
+        }
+
+        #field {
+            
+            border: 3px solid darkorchid;
+        }
+
+        /* #field > * {
+            width: 100%;
+        } */
+
+        #validation-errors {
+            
+            border: 3px solid darkcyan;
+        }
+    </style>
+</head>
+<body>
+    <div id="form-field">
+        <div id="label">Name</div>
+        <div id="tools">
+            <span>?</span>
+            <span>*</span>
+            <span>M</span>
+        </div>
+        <div id="field">
+            <input type="text" />
+        </div>
+        <div id="validation-errors">
+            <span>Error 1</span>
+            <span>Warning 1</span>
+        </div>
+    </div>
+</body>
+</html>

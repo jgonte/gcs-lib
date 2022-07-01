@@ -24,7 +24,7 @@ export default class Row extends CustomElement {
                 attribute: 'justify-content',
                 type: DataTypes.String,
                 value: 'space-between',
-                options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
+                options: ['start', 'center', 'end', 'space-around', 'space-between', 'space-evenly'],
                 reflect: true
             }
         };

@@ -8,7 +8,6 @@ import DataField from "../../utils/data/record/DataField";
 import RequiredValidator from "../../utils/validation/validators/field/RequiredValidator";
 import SingleValueFieldValidator from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
-import LocalizedText from "../localized-text/LocalizedText";
 import Sizable from "../mixins/sizable/Sizable";
 import Validatable from "../mixins/validatable/Validatable";
 import { fieldStyles } from "./Field.styles";
@@ -193,22 +192,40 @@ export default abstract class Field extends
         }
     }
 
+    /**
+     * The cached label
+     */
+    private _label?: HTMLElement;
+
     getLabel(): string {
 
-        const {
-            adoptingParent
-        } = this;
+        if (this._label === undefined) {
 
-        const lt = Array.from(adoptingParent.children).filter(c => c instanceof LocalizedText);
+            const {
+                adoptingParent
+            } = this;
 
-        if (lt.length > 0) {
+            const lt = Array.from(adoptingParent.children)
+                .filter(c => (c as HTMLElement).getAttribute('slot') === 'label');
 
-            return (lt[0] as LocalizedText).innerHTML;
+            switch (lt.length) {
+                case 0:
+                    {
+                        // Do nothing
+                    }
+                    break;
+                case 1:
+                    {
+                        this._label = lt[0] as HTMLElement;
+                    }
+                    break;
+                default: throw new Error('Only one element can have the attribute of slot=label in the Field');
+            }
         }
-        else {
 
-            throw new Error('Not implemented');
-        }
+        return this._label !== undefined ?
+            this._label.innerHTML :
+            "Element";
     }
 
     handleChange(event: Event): void {

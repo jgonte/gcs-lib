@@ -1,9 +1,11 @@
 import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import css from "../../../custom-element/styles/css";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
+import labelAlign from "../labelAlign";
 import { formLabelStyles } from "./FormLabel.styles";
 
 export default class FormLabel extends CustomElement {
@@ -37,16 +39,9 @@ export default class FormLabel extends CustomElement {
             },
 
             /**
-             * Content justification
+             * Label alignment
              */
-            justifyContent: {
-                attribute: 'justify-content',
-                type: DataTypes.String,
-                value: 'space-evenly',
-                options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
-                reflect: true,
-                inherit: true
-            },
+            labelAlign,
 
             /**
              * The key to retrieve a localized help value from an i18n provider
@@ -71,36 +66,38 @@ export default class FormLabel extends CustomElement {
             required,
             helpResourceKey,
             help,
-            modified
+            modified,
+            labelAlign
         } = this;
 
-        return html`<wcl-row justify-content=${this.justifyContent}>
-            <slot name="label"></slot> 
-            ${helpResourceKey !== undefined || help !== undefined ?
-                html`<wcl-tool-tip>
-                    <wcl-badge kind="primary" slot="trigger">
-                        <span>?</span>
-                    </wcl-badge>
-                    <wcl-localized-text resource-key=${helpResourceKey} slot="content">${help || ''}</wcl-localized-text>
-                </wcl-tool-tip>`
-                : null}   
-            ${required === true ?
-                html`<wcl-tool-tip>
-                    <wcl-badge kind="danger" slot="trigger">
-                        <span>*</span>
-                    </wcl-badge>
-                    <wcl-localized-text resource-key="thisFieldIsRequired" slot="content">This field is required</wcl-localized-text>
-                </wcl-tool-tip>`
-                : null}     
-            ${modified === true ?
-                html`<wcl-tool-tip>
-                    <wcl-badge kind="primary" slot="trigger">
-                        <span>M</span>
-                    </wcl-badge>
-                    <wcl-localized-text resource-key="thisFieldHasBeenModified" slot="content">This field has been modified</wcl-localized-text>
-                </wcl-tool-tip>`
-                : null}
-            <slot name="tools"></slot>   
+        const labelWrapperStyle = css`display: inline-block; text-align: ${labelAlign}; width: calc(100% - 80px);`;
+
+        return html`<wcl-row justify-content="space-between">
+            <span style=${labelWrapperStyle}>
+                <slot name="label"></slot> 
+            </span>   
+            <wcl-row justify-content="end">
+                ${helpResourceKey !== undefined || help !== undefined ?
+                    html`<wcl-tool-tip>
+                        <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+                        <wcl-localized-text resource-key=${helpResourceKey} slot="content">${help || ''}</wcl-localized-text>
+                    </wcl-tool-tip>`
+                    : null}   
+                ${required === true ?
+                    html`<wcl-tool-tip>
+                        <wcl-badge kind="danger" slot="trigger">*</wcl-badge>
+                        <wcl-localized-text resource-key="thisFieldIsRequired" slot="content">This field is required</wcl-localized-text>
+                    </wcl-tool-tip>`
+                    : null}     
+                ${modified === true ?
+                    html`<wcl-tool-tip>
+                        <wcl-badge kind="primary" slot="trigger">M</wcl-badge>
+                        <wcl-localized-text resource-key="thisFieldHasBeenModified" slot="content">This field has been modified</wcl-localized-text>
+                    </wcl-tool-tip>`
+                    : null}
+                <slot name="tools" id="tools-slot"></slot>
+                <span id="colon-span">:</span> 
+            </wcl-row>  
         </wcl-row>`;
     }
 }

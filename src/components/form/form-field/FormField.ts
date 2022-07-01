@@ -11,6 +11,9 @@ import { inputEvent } from "../../fields/Field";
 import Sizable from "../../mixins/sizable/Sizable";
 import { validationEvent } from "../../mixins/validatable/Validatable";
 import { formFieldStyles } from "./FormField.styles";
+import labelWidth from "../labelWidth";
+import css from "../../../custom-element/styles/css";
+import labelAlign from "../labelAlign";
 
 export default class FormField extends
     Sizable(
@@ -40,24 +43,12 @@ export default class FormField extends
             /**
              * The width of the labels of the form
              */
-            labelWidth: {
-                attribute: 'label-width',
-                type: DataTypes.String,
-                reflect: true,
-                inherit: true
-            },
+            labelWidth,
 
             /**
-             * Content justification
+             * Label alignment
              */
-            justifyLabelContent: {
-                attribute: 'justify-label-content',
-                type: DataTypes.String,
-                value: 'space-evenly',
-                options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
-                reflect: true,
-                inherit: true
-            },
+             labelAlign,
 
             /**
              * The key to retrieve a localized help value from an i18n provider
@@ -101,7 +92,7 @@ export default class FormField extends
 
         const {
             labelWidth,
-            justifyLabelContent,
+            labelAlign,
             required,
             helpResourceKey,
             help,
@@ -110,24 +101,21 @@ export default class FormField extends
             errors
         } = this;
 
-        const formLabelWidth = `width: ${labelWidth};`;
+        const formLabelWidth = css`width: ${labelWidth}; min-width: ${labelWidth};`;
 
-        return html`<wcl-row id="field-row" justify-content="start">    
+        return html`<wcl-row id="form-field-row">    
             <wcl-form-label 
                 required=${required}
                 help-resource-key=${helpResourceKey}
                 help=${help}
                 modified=${modified}
-                justify-content=${justifyLabelContent} 
+                label-align=${labelAlign} 
                 style=${formLabelWidth}>
                     <span slot="label">
                         <slot name="label"></slot>
                     </span>
-                    <wcl-row slot="tools" justify-content="space-evenly">
-                        <slot name="tools"></slot>
-                    </wcl-row>
-            </wcl-form-label>           
-            <span>:</span>
+                    <slot name="tools"></slot>   
+            </wcl-form-label>            
             <slot name="field"></slot>      
         </wcl-row>
         <wcl-validation-summary

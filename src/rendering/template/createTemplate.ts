@@ -15,12 +15,12 @@ interface TemplateData extends TemplateStringData {
  */
 export default function createTemplate(strings: TemplateStringsArray): TemplateData {
 
-    const template: HTMLTemplateElement = document.createElement('template');
-
     const {
         templateString,
         keyIndex
     } = createTemplateString(strings);
+
+    const template: HTMLTemplateElement = document.createElement('template');
 
     template.innerHTML = templateString;
 

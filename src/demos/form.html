@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="../variables.css">
 
     <script>
@@ -67,7 +67,7 @@
     <br /> -->
 
     <h4>Submit only</h4>
-    <wcl-form id="submitOnly" submit-url="http://localhost:60314/api/contacts/" justify-label-content="space-around">
+    <wcl-form id="submitOnly" submit-url="http://localhost:60314/api/contacts/" label-align="center">
 
         <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
 
@@ -87,7 +87,7 @@
     <wcl-row justify-content="center">
 
         <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
-            submit-url="http://localhost:60314/api/contacts/" label-width="35%" style="width: 700px;">
+            submit-url="http://localhost:60314/api/contacts/" label-width="35%" label-align="right" style="width: 700px;">
 
             <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
 

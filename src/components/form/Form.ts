@@ -13,7 +13,8 @@ import Loadable from "../mixins/data/Loadable";
 import Errorable from "../mixins/errorable/Errorable";
 import { formStyles } from "./Form.styles";
 import { DynamicObject, GenericRecord } from "../../utils/types";
-import { DataTypes } from "../../utils/data/DataTypes";
+import labelWidth from "./labelWidth";
+import labelAlign from "./labelAlign";
 
 export default class Form extends
     Submittable(
@@ -51,22 +52,12 @@ export default class Form extends
             /**
              * The width of the labels of the form
              */
-            labelWidth: {
-                attribute: 'label-width',
-                type: DataTypes.String,
-                value: '50%',
-            },
+            labelWidth,
 
             /**
-             * Content justification
+             * Label alignment
              */
-            justifyLabelContent: {
-                attribute: 'justify-label-content',
-                type: DataTypes.String,
-                value: 'space-evenly',
-                options: ['start', 'center', 'space-around', 'space-between', 'space-evenly'],
-                reflect: true
-            }
+            labelAlign
         };
     }
 
@@ -74,14 +65,14 @@ export default class Form extends
 
         const {
             labelWidth,
-            justifyLabelContent
+            labelAlign
         } = this;
 
         return html`<form>
             ${this.renderLoading()}
             ${this.renderSubmitting()}
             ${this.renderError()}
-            <slot label-width=${labelWidth} justify-label-content=${justifyLabelContent}key="form-fields"></slot>
+            <slot label-width=${labelWidth} label-align=${labelAlign} key="form-fields"></slot>
             ${this._renderButton()}
         </form>`;
     }

@@ -41,9 +41,9 @@
 
     <script>
 
-        window.addEventListener('change', event => alert(
+        window.addEventListener('changeEvent', event => alert(
             `
-                Event type: 'change'
+                Event type: 'changeEvent'
                 Field name: '${event.detail.name}'
                 Field old value: '${event.detail.oldValue}'
                 Field new value: '${event.detail.newValue}'
@@ -56,7 +56,7 @@
 </head>
 
 <body>
-    <wcl-text-field id="tf1" name="name"></wcl-text-field>
+    <wcl-text-field id="tf1" name="name" size="large"></wcl-text-field>
     <br />
     <wcl-text-field id="tf2" name="name" value="Sarah"></wcl-text-field>
 </body>

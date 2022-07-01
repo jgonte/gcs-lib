@@ -22,6 +22,33 @@ export default function createSizeStyles(ctor: CustomHTMLElementConstructor): st
                 );
             }
             break;
+        case "Badge": // The height of the badge should correspond to the size of the font
+            {
+                sizes.forEach(
+                    size => styles.push(
+                        css`
+:host([size='${size}']) {
+    max-height: var(${cssVariables.get("font-size")}${size});
+    font-size: calc(var(${cssVariables.get("font-size")}${size}) - 2px);
+}`
+                    )
+                );
+            }
+            break;
+        case "TextField":
+            {
+                sizes.forEach(
+                    size => styles.push(
+                        css`
+:host([size='${size}']) input[type='text'] {
+    font-size: var(${cssVariables.get("font-size")}${size});
+    padding: var(${cssVariables.get("padding")}${size});
+    height: var(${cssVariables.get("min-height")}${size});
+}`
+                    )
+                );
+            }
+            break;
         default: {
             sizes.forEach(
                 size => styles.push(
@@ -34,7 +61,7 @@ export default function createSizeStyles(ctor: CustomHTMLElementConstructor): st
                 )
             );
         }
-        break;
+            break;
     }
 
     return css`${styles.join('\n')}`;

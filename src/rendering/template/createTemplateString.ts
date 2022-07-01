@@ -49,10 +49,10 @@ export default function createTemplateString(strings: TemplateStringsArray): Tem
 
         s = trimNode(s);
 
-        if (s.endsWith('="') ||
-            s.endsWith("='")) {
+        if (s.lastIndexOf('>') < s.lastIndexOf('<') && // Opening tag
+            !s.endsWith('=')) { // Not a full property
 
-            throw new Error("Do not surround the placeholder for an attribute with single or double quotes");
+            throw new Error("Do not surround the placeholder for an attribute with single or double quotes or template a partial attribute");
         }
 
         if (s.endsWith('=')) { // It is an attribute or an event

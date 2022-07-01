@@ -323,6 +323,86 @@ describe("CustomElement parent children relationship tests", () => {
         expect(grandChild.size).toBe('large'); // Inherited
     });
 
+    it('should set the inherited property if the property of the child has not been explicitly set passing through a slot', async () => {
+
+        class Parent extends CustomElement {
+
+            static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+                return {
+
+                    size: {
+                        type: DataTypes.String,
+                        value: "medium",
+                        options: ["small", "medium", "large"]
+                    }
+                };
+            }
+
+            render(): null {
+
+                return null;
+            }
+        }
+
+        defineCustomElement('test-parent', Parent);
+
+        class Child extends CustomElement {
+
+            render(): NodePatchingData {
+
+                return html`<slot></slot>`;
+            }
+        }
+
+        defineCustomElement('test-child', Child);
+
+        class GrandChild extends CustomElement {
+
+            static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+                return {
+
+                    size: {
+                        type: DataTypes.String,
+                        value: "medium",
+                        options: ["small", "medium", "large"],
+                        inherit: true
+                    }
+                };
+            }
+
+            render(): null {
+
+                return null;
+            }
+        }
+
+        defineCustomElement('test-grand-child', GrandChild);
+
+        // Attach it to the DOM
+        document.body.innerHTML = `<test-parent size="large">
+            <test-child>
+                <test-grand-child></test-grand-child>
+            </test-child>
+        </test-parent>`;
+
+        // Test the element
+        const parent = document.querySelector('test-parent') as CustomElement;
+
+        await parent.updateComplete; // Wait for the component to render
+
+        const grandChild = document.querySelector('test-grand-child') as CustomElement;
+
+        //await childComponent.updateComplete; // The parent waits for the child to mount/update
+
+        expect(parent.adoptedChildren.size).toEqual(1);
+
+        expect(parent.size).toBe('large');
+
+        expect(grandChild.size).toBe('large'); // Inherited
+    });
+    
     it('should not set the property of the grand child if the parent with the inheritable property is not found', async () => {
 
         class Parent extends CustomElement {

@@ -41,7 +41,6 @@ import TextField from "./components/fields/text/TextField";
 import Slider from "./components/fields/slider/Slider";
 
 // Form
-import FormLabel from "./components/form/form-label/FormLabel";
 import FormField from "./components/form/form-field/FormField";
 import Form from "./components/form/Form";
 import ValidationSummary from "./components/validation-summary/ValidationSummary";
@@ -98,7 +97,6 @@ export {
     Slider,
 
     // Form
-    FormLabel,
     FormField,
     Form,
     ValidationSummary,

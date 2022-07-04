@@ -11,9 +11,9 @@ import { inputEvent } from "../../fields/Field";
 import Sizable from "../../mixins/sizable/Sizable";
 import { validationEvent } from "../../mixins/validatable/Validatable";
 import { formFieldStyles } from "./FormField.styles";
-import labelWidth from "../labelWidth";
 import css from "../../../custom-element/styles/css";
 import labelAlign from "../labelAlign";
+import labelWidth from "../labelWidth";
 
 export default class FormField extends
     Sizable(
@@ -30,6 +30,16 @@ export default class FormField extends
 
         return {
 
+            /**
+             * The alignment of the label
+             */
+            labelAlign,
+
+            /**
+             * The width of the labels of the form
+             */
+            labelWidth,
+
             /** 
              * Whether the form field is required
              * If true it sets a field indicator as required and adds a required validator to the field
@@ -38,31 +48,6 @@ export default class FormField extends
                 type: DataTypes.Boolean,
                 reflect: true,
                 value: false
-            },
-
-            /**
-             * The width of the labels of the form
-             */
-            labelWidth,
-
-            /**
-             * Label alignment
-             */
-             labelAlign,
-
-            /**
-             * The key to retrieve a localized help value from an i18n provider
-             */
-            helpResourceKey: {
-                attribute: 'help-resource-key',
-                type: DataTypes.String
-            },
-
-            /**
-             * The help content
-             */
-            help: {
-                type: DataTypes.String
             }
         };
     }
@@ -91,37 +76,45 @@ export default class FormField extends
     render(): NodePatchingData {
 
         const {
-            labelWidth,
             labelAlign,
+            labelWidth,
             required,
-            helpResourceKey,
-            help,
             modified,
             warnings,
             errors
         } = this;
 
-        const formLabelWidth = css`width: ${labelWidth}; min-width: ${labelWidth};`;
+        const labelStyle = css`display: inline-block; width: ${labelWidth}; text-align: ${labelAlign};`;
 
-        return html`<wcl-row id="form-field-row">    
-            <wcl-form-label 
-                required=${required}
-                help-resource-key=${helpResourceKey}
-                help=${help}
-                modified=${modified}
-                label-align=${labelAlign} 
-                style=${formLabelWidth}>
-                    <span slot="label">
-                        <slot name="label"></slot>
-                    </span>
-                    <slot name="tools"></slot>   
-            </wcl-form-label>            
-            <slot name="field"></slot>      
-        </wcl-row>
-        <wcl-validation-summary
-            warnings=${warnings} 
-            errors=${errors}>
-        </wcl-validation-summary>`;
+        return html`
+<div id="labeled-field">
+    <span id="label" style=${labelStyle}>
+        <slot name="label"></slot>
+    </span> 
+    <div id="tools">
+        <slot name="tools" id="tools-slot"></slot>
+        ${required === true ?
+        html`<wcl-tool-tip>
+            <wcl-badge kind="danger" slot="trigger">*</wcl-badge>
+            <wcl-localized-text resource-key="thisFieldIsRequired" slot="content"></wcl-localized-text>
+        </wcl-tool-tip>`
+        : null} 
+    </div>
+    <span id="colon-span">:</span>
+    <div id="field">
+        <slot name="field"></slot>
+        ${modified === true ?
+        html`<wcl-tool-tip>
+            <wcl-badge kind="primary" slot="trigger">M</wcl-badge>
+            <wcl-localized-text resource-key="thisFieldHasBeenModified" slot="content"></wcl-localized-text>
+        </wcl-tool-tip>`
+        : null}
+    </div>
+</div>      
+<wcl-validation-summary
+    warnings=${warnings} 
+    errors=${errors}>
+</wcl-validation-summary>`;
     }
 
     connectedCallback() {

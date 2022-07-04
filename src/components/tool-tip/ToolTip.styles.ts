@@ -3,7 +3,7 @@ import css from "../../custom-element/styles/css";
 export const toolTipStyles = css`
 .container {
     position: relative;
-    /* display: inline-block; */
+    display: inline-block;
 }
   
 .container #content {

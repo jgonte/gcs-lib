@@ -59,7 +59,6 @@ export default class LocalizedText extends
         super.connectedCallback?.();
 
         const {
-            lang,
             resourceKey
         } = this;
 
@@ -70,6 +69,8 @@ export default class LocalizedText extends
             } = appCtrl;
 
             intlProvider?.subscribe(this);
+
+            const lang = this.lang || window.document.documentElement.getAttribute('lang') || window.navigator.language;
 
             this.value = intlProvider?.getTranslation(lang, resourceKey);
         }

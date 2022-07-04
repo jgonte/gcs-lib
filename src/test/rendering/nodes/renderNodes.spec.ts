@@ -2100,11 +2100,27 @@ describe("render nodes tests", () => {
             .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes or template a partial attribute"));
     });
 
-    it('should throw an error if the placeholder is surrounded by double quotes because of an illegal attribute fragment', () => {
+    it('should throw an error if the placeholder is surrounded by double quotes because of an illegal attribute fragment (end)', () => {
 
         const icon = "person";
 
         expect(() => html`<wcl-icon name="my-${icon}"></wcl-icon>`)
+            .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes or template a partial attribute"));
+    });
+
+    it('should throw an error if the placeholder is surrounded by double quotes because of an illegal attribute fragment (begin)', () => {
+
+        const icon = "person";
+
+        expect(() => html`<wcl-icon name="${icon}-1"></wcl-icon>`)
+            .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes or template a partial attribute"));
+    });
+
+    it('should throw an error if the placeholder is surrounded by double quotes because of an illegal attribute fragment (middle)', () => {
+
+        const icon = "person";
+
+        expect(() => html`<wcl-icon name="my-${icon}-1"></wcl-icon>`)
             .toThrow(new Error("Do not surround the placeholder for an attribute with single or double quotes or template a partial attribute"));
     });
 

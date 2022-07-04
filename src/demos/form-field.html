@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
@@ -24,13 +24,22 @@
                     lang: 'en',
                     data: {
                         'en': {
-                            'fullName': 'Full Name'
+                            'fullName': 'Full Name',
+                            'fullNameHelp': 'This is the full name',
+                            'thisFieldIsRequired': 'This field is required',
+                            'thisFieldHasBeenModified': 'This field has been modified'
                         },
                         'de': {
-                            'fullName': 'Vollständiger Name'
+                            'fullName': 'Vollständiger Name',
+                            'fullNameHelp': 'Dies ist der vollständige Name',
+                            'thisFieldIsRequired': 'Dieses Feld ist erforderlich',
+                            'thisFieldHasBeenModified': 'Dieses Feld wurde geändert'
                         },
                         'fr': {
-                            'fullName': 'Nom et prénom'
+                            'fullName': 'Nom et prénom',
+                            'fullNameHelp': 'Ceci est le nom complet',
+                            'thisFieldIsRequired': 'Ce champ est requis',
+                            'thisFieldHasBeenModified': 'Ce champ a été modifié'
                         }
                     }
                 }
@@ -57,8 +66,14 @@
 </head>
 
 <body>
-    <wcl-form-field required label-align="right">
-        <span slot="label">Name</span>
+    <wcl-form-field required label-align="center">
+        <span slot="label">
+            <wcl-localized-text resource-key="fullName" slot="content"></wcl-localized-text>
+        </span>
+        <wcl-tool-tip slot="tools">
+            <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+            <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
+        </wcl-tool-tip>
         <wcl-text-field slot="field" id="tf1" name="name"></wcl-text-field>
     </wcl-form-field>
     <br />

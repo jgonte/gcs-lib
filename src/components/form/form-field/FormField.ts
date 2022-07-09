@@ -84,24 +84,29 @@ export default class FormField extends
             errors
         } = this;
 
-        const labelStyle = css`display: inline-block; width: ${labelWidth}; text-align: ${labelAlign};`;
+        const labelContainerStyle = css`width: ${labelWidth};`;
+
+        const labelStyle = css`text-align: ${labelAlign};`;
 
         return html`
 <div id="labeled-field">
-    <span id="label" style=${labelStyle}>
-        <slot name="label"></slot>
-    </span> 
-    <div id="tools">
-        <slot name="tools" id="tools-slot"></slot>
-        ${required === true ?
-        html`<wcl-tool-tip>
-            <wcl-badge kind="danger" slot="trigger">*</wcl-badge>
-            <wcl-localized-text resource-key="thisFieldIsRequired" slot="content"></wcl-localized-text>
-        </wcl-tool-tip>`
-        : null} 
-    </div>
-    <span id="colon-span">:</span>
-    <div id="field">
+    <span id="label-container" style=${labelContainerStyle}>
+        <span id="label" style=${labelStyle}>
+            <slot name="label"></slot>
+        </span> 
+        <span id="tools">
+            <slot name="tools" id="tools-slot">        
+            </slot>
+            ${required === true ?
+            html`<wcl-tool-tip>
+                <wcl-badge kind="danger" slot="trigger">*</wcl-badge>
+                <wcl-localized-text resource-key="thisFieldIsRequired" slot="content"></wcl-localized-text>
+            </wcl-tool-tip>`
+            : null}
+            <span id="colon-span">:</span>
+        </span>
+    </span>
+    <span id="field">
         <slot name="field"></slot>
         ${modified === true ?
         html`<wcl-tool-tip>
@@ -109,7 +114,7 @@ export default class FormField extends
             <wcl-localized-text resource-key="thisFieldHasBeenModified" slot="content"></wcl-localized-text>
         </wcl-tool-tip>`
         : null}
-    </div>
+    </span>
 </div>      
 <wcl-validation-summary
     warnings=${warnings} 

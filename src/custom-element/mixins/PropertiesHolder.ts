@@ -2,7 +2,7 @@ import { attributeMarkerPrefix } from "../../rendering/template/markers";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { GenericRecord } from "../../utils/types";
 import ensureValueIsInOptions from "./helpers/ensureValueIsInOptions";
-import findParentPropertyValue from "./helpers/findParentPropertyValue";
+import findSelfOrParent from "./helpers/findSelfOrParent";
 import valueConverter from "./helpers/valueConverter";
 import CustomElementPropertyMetadata from "./metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElement from "./metadata/types/CustomHTMLElement";
@@ -110,7 +110,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          * @param parent 
          * @param child 
          */
-        didAdoptChildCallback(parent: CustomHTMLElement, child: HTMLElement): void {
+        async didAdoptChildCallback(parent: CustomHTMLElement, child: HTMLElement): Promise<void> {
 
             const {
                 metadata
@@ -125,14 +125,24 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 properties
             } = metadata;
 
-            (child as InheritedPropertiesHandler).setInheritedProperties(properties, parent);
+            await (child as InheritedPropertiesHandler).setInheritedProperties(properties, parent);
         }
 
         /**
          * Sets the properties that can be inherited from the value of the parent if any
          * @param propertiesMetadata 
          */
-        protected setInheritedProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>, parent: CustomHTMLElement) {
+        protected async setInheritedProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>, parent: CustomHTMLElement): Promise<void> {
+
+            const inheritedProperties = new Map<string, unknown>();
+
+            const setInheritedProperties = (inheritedProperties: Map<string, unknown>) => {
+
+                for (const [name, value] of inheritedProperties) {
+
+                    this.setProperty(name, value);
+                }
+            }
 
             for (const [name, property] of propertiesMetadata) {
 
@@ -150,13 +160,20 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     continue; // Its value was initially set in the attribute markup
                 }
 
-                const parentValue = findParentPropertyValue(parent, name);
+                const selfOrParent = findSelfOrParent(
+                    parent,
+                    p => !isUndefinedOrNull((p as CustomHTMLElement)[name])
+                );
 
-                if (parentValue !== null) {
+                if (selfOrParent !== null) {
 
-                    this.setProperty(name, parentValue);
+                    //TODO: Subscribe this component to receive notifications when that property changes
+
+                    inheritedProperties.set(name, (selfOrParent as CustomHTMLElement)[name]);
                 }
             }
+
+            await setTimeout(() => setInheritedProperties(inheritedProperties), 0); // Wait for the next refresh to set the inherited property
         }
 
         // Without defining this method, the observedAttributes getter will not be called
@@ -168,7 +185,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          * @param oldValue 
          * @param newValue 
          */
-        attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null) : void {
+        attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null): void {
 
             if (oldValue === newValue) {
 
@@ -215,16 +232,10 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             const {
                 name,
-                type,
-                transform
+                type
             } = propertyMetadata;
 
-            let v = valueConverter.toProperty(value as string, type); // Convert from the value returned by the parameter
-
-            if (transform !== undefined) {
-
-                v = transform.call(this, v); // Transform the data if necessary
-            }
+            const v = valueConverter.toProperty(value as string, type); // Convert from the value returned by the parameter
 
             this.setProperty(name as string, v); // Call the setProperty of the Reactive mixin
 
@@ -239,6 +250,21 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             if (propertyMetadata === undefined) {
 
                 throw new Error(`Property: '${name}' is not configured for custom element: '${this.constructor.name}'`);
+            }
+
+            const {
+                attribute,
+                reflect,
+                options,
+                transform
+                //afterUpdate - We call afterUpdate after the element was updated in the DOM
+            } = propertyMetadata;
+
+            ensureValueIsInOptions(value, options);
+
+            if (transform !== undefined) {
+
+                value = transform.call(this, value); // Transform the data if necessary
             }
 
             const oldValue = this._properties[name];
@@ -257,14 +283,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 this._properties[name] = value;
             }
 
-            const {
-                attribute,
-                reflect,
-                options
-                //afterUpdate - We call afterUpdate after the element was updated in the DOM
-            } = propertyMetadata;
-
-            ensureValueIsInOptions(value, options);
+            this.onPropertyChanged?.(name, value);
 
             const reflectOnAttribute = reflect === true ? attribute : undefined;
 
@@ -278,8 +297,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 }
                 else {
 
-                    // This will trigger the attributeChangedCallback
-                    this.setAttribute(reflectOnAttribute, value as string);
+                    this.setAttribute(reflectOnAttribute, value as string); // This will trigger the attributeChangedCallback
                 }
             }
 

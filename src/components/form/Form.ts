@@ -63,6 +63,7 @@ export default class Form extends
 
     render(): NodePatchingData {
 
+        // They are not used but help to assert their intent
         const {
             labelWidth,
             labelAlign

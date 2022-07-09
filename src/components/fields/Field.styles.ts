@@ -1,9 +1,6 @@
 import css from "../../custom-element/styles/css";
 
 export const fieldStyles = css`
-:host {
-    margin-left: 1rem;
-}
 
 input, 
 select,

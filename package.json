@@ -34,7 +34,7 @@
     "@happy-dom/jest-environment": "^2.55.0",
     "@microsoft/api-extractor": "^7.23.2",
     "@tsconfig/recommended": "^1.0.1",
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^27.5.2",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "eslint-plugin-jest": "^26.1.5",

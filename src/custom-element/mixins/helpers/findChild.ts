@@ -1,8 +1,8 @@
 /**
- * Returns the first child whose evaluation by predicate returns true
+ * Returns the first child element whose satisfies the predicate (it returns true)
  * @param children 
  * @param predicate 
- * @returns The first HTMLElement for which the predicate function returns true
+ * @returns The first child element for which the predicate function returns true
  */
 export default function findChild(children: HTMLCollection, predicate: (element: Element) => boolean) : Element | null {
 

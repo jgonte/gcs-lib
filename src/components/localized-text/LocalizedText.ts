@@ -70,7 +70,7 @@ export default class LocalizedText extends
 
             intlProvider?.subscribe(this);
 
-            const lang = this.lang || window.document.documentElement.getAttribute('lang') || window.navigator.language;
+            const lang = this.lang || intlProvider?.lang;
 
             this.value = intlProvider?.getTranslation(lang, resourceKey);
         }

@@ -6,8 +6,9 @@ import mergeStyles from "../../custom-element/styles/mergeStyles";
 import { DataTypes } from "../../utils/data/DataTypes";
 import DataField from "../../utils/data/record/DataField";
 import RequiredValidator from "../../utils/validation/validators/field/RequiredValidator";
-import SingleValueFieldValidator from "../../utils/validation/validators/field/SingleValueFieldValidator";
+import SingleValueFieldValidator, { FieldValidationContext } from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
+import LocalizedText from "../localized-text/LocalizedText";
 import Sizable from "../mixins/sizable/Sizable";
 import Validatable from "../mixins/validatable/Validatable";
 import { fieldStyles } from "./Field.styles";
@@ -84,8 +85,15 @@ export default abstract class Field extends
 
         super.connectedCallback?.();
 
+        const {
+            dataField
+        } = this;
+
         // Initialize the data field
-        this.dataField.type = (this.constructor as any).getFieldType();
+        dataField.type = (this.constructor as any).getFieldType();
+
+        // Set the initial value if any
+        dataField.value = this.value;
     }
 
     attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
@@ -169,7 +177,7 @@ export default abstract class Field extends
         });
     }
 
-    createValidationContext() /*: ValidationContext */ {
+    createValidationContext(): FieldValidationContext & { value: unknown; } {
 
         const label = this.getLabel();
 
@@ -183,7 +191,7 @@ export default abstract class Field extends
         };
     }
 
-    initializeValidator(validator: string) {
+    initializeValidator(validator: string): Validator {
 
         switch (validator) {
 
@@ -223,9 +231,16 @@ export default abstract class Field extends
             }
         }
 
-        return this._label !== undefined ?
-            this._label.innerHTML :
-            "Element";
+        const cachedLabel = this._label;
+
+        if (cachedLabel === undefined) {
+
+            return "This field";
+        }
+
+        return cachedLabel instanceof LocalizedText ?
+            (cachedLabel as LocalizedText).value :
+            cachedLabel.innerHTML;
     }
 
     handleChange(event: Event): void {

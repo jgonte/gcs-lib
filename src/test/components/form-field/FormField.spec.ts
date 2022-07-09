@@ -32,6 +32,6 @@ describe("form tests", () => {
 
         const contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<wcl-row id=\"form-field-row\">    \n            <wcl-form-label required=\"false\" modified=\"false\" label-align=\"left\" style=\"width: 50%; min-width: 50%;\">\n                    <span slot=\"label\">\n                        <slot name=\"label\"></slot>\n                    </span>\n                    <slot name=\"tools\"></slot>   \n            </wcl-form-label>            \n            <slot name=\"field\"></slot>      \n        </wcl-row>\n        <wcl-validation-summary warnings=\"[]\" errors=\"[]\">\n        </wcl-validation-summary>");
+        expect(contentWithoutStyle).toBe("<div id=\"labeled-field\">\n    <span id=\"label-container\" style=\"width: 50%;\">\n        <span id=\"label\" style=\"text-align: left;\">\n            <slot name=\"label\"></slot>\n        </span> \n        <span id=\"tools\">\n            <slot name=\"tools\" id=\"tools-slot\">        \n            </slot><!--_$bm_--><!--_$em_--><span id=\"colon-span\">:</span>\n        </span>\n    </span>\n    <span id=\"field\">\n        <slot name=\"field\"></slot><!--_$bm_--><!--_$em_--></span>\n</div>      \n<wcl-validation-summary warnings=\"[]\" errors=\"[]\">\n</wcl-validation-summary>");
     });
 });

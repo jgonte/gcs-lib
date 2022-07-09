@@ -15,7 +15,7 @@ export default class DataRecord implements SingleRecordDataProvider {
     /**
      * The cached data of the record
      */
-    private _data?: DynamicObject = undefined;
+    private _cachedData?: DynamicObject = undefined;
 
     setField(name: string, dataField: DataField) : void {
 
@@ -25,6 +25,8 @@ export default class DataRecord implements SingleRecordDataProvider {
     setData(data: DynamicObject, acceptChanges: boolean = false): void {
 
         this._modifiedFields.clear();
+
+        this._cachedData = undefined;
 
         for (const key in data) {
 
@@ -47,7 +49,7 @@ export default class DataRecord implements SingleRecordDataProvider {
                 }
                 else { // The field does not need to exist for the given data member but let the programmer know it is missing
 
-                    console.warn(`Field of name: '${key}' was not found for data memeber with same name`);
+                    console.warn(`Field of name: '${key}' was not found for data member with same name`);
                 }
             }
         }
@@ -57,20 +59,20 @@ export default class DataRecord implements SingleRecordDataProvider {
     getData(): DynamicObject {
 
         const {
-            _data,
+            _cachedData,
             _fields
         } = this;
 
-        if (_data !== undefined) {
+        if (_cachedData !== undefined) {
 
-            return _data;
+            return _cachedData;
         }
 
         const data: DynamicObject = {};
 
-        for (const key in _fields) {
+        for (const [key, field] of _fields) {
 
-            const value = _fields.get(key)?.value;
+            const value = field.value;
 
             if (!isUndefinedOrNull(value)) {
 
@@ -78,7 +80,7 @@ export default class DataRecord implements SingleRecordDataProvider {
             }
         }
 
-        this._data = data;
+        this._cachedData = data;
 
         return data;
     }

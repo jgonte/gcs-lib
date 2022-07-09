@@ -1,5 +1,8 @@
+import appCtrl from "../../../../services/appCtrl";
 import { ValidatorOptions } from "../Validator";
 import SingleValueFieldValidator, { SingleValueFieldValidationContext } from "./SingleValueFieldValidator";
+
+const defaultMessage = "This field is required";
 
 export interface RequiredValidatorOptions extends ValidatorOptions {
 
@@ -16,7 +19,16 @@ export default class RequiredValidator extends SingleValueFieldValidator {
 
         if (options.message === undefined) {
 
-            options.message ='{{label}} is required';
+            const intlProvider = appCtrl.intlProvider;
+
+            if (intlProvider !== undefined) {
+
+                options.message = intlProvider.getTranslation(intlProvider.lang, '{{label}} is required') || defaultMessage;          
+            }
+            else {
+
+                options.message = defaultMessage;
+            }      
         }
 
         super(options);
@@ -31,9 +43,9 @@ export default class RequiredValidator extends SingleValueFieldValidator {
             value
         } = context;
 
-        let valid : boolean;
-        
-        valid= !(value === undefined || value === null);
+        let valid: boolean;
+
+        valid = !(value === undefined || value === null);
 
         if (valid === true && this.allowEmpty === false) {
 

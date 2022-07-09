@@ -6,13 +6,25 @@ import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadat
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
+import { DynamicObject } from "../../../utils/types";
 import SelectionContainer, { ISelectionContainer, SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
+import Selector from "../../selector/Selector";
 import Field from "../Field";
+
+interface DataItem extends ISelectionContainer {
+
+    idField: string;
+
+    displayField: string;
+}
 
 export default class ComboBox extends
     SelectionContainer(
         Field as unknown as CustomHTMLElementConstructor
     ) {
+
+    // The cached container of the selector items
+    private _container: DataItem | undefined = undefined;
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
@@ -98,7 +110,7 @@ export default class ComboBox extends
 
         const {
             singleSelectionTemplate,
-            container
+            _container
         } = this;
 
         if (singleSelectionTemplate !== undefined) {
@@ -107,7 +119,7 @@ export default class ComboBox extends
         }
         else {
 
-            return html`<span>${selection[container.displayField]}</span>`;
+            return html`<span>${selection[(_container as DataItem).displayField]}</span>`;
         }
     }
 
@@ -115,7 +127,7 @@ export default class ComboBox extends
 
         const {
             multipleSelectionTemplate,
-            container
+            _container
         } = this;
 
         if (multipleSelectionTemplate !== undefined) {
@@ -127,13 +139,13 @@ export default class ComboBox extends
             const {
                 idField,
                 displayField
-            } = container;
+            } = _container as DataItem;
 
-            const data = selection.map((item) => {
+            const data = selection.map((item: string): DynamicObject => {
 
                 return {
-                    [idField]: item[idField],
-                    [displayField]: item[displayField]
+                    [idField]: item[idField as any],
+                    [displayField]: item[displayField as any]
                 };
             });
 
@@ -151,7 +163,7 @@ export default class ComboBox extends
         const container = findChild(
             (content as HTMLSlotElement).assignedElements({ flatten: false }) as unknown as HTMLCollection,
             (child) => (child as ISelectionContainer).isSelectionContainer === true
-        ) as ISelectionContainer;
+        ) as DataItem;
 
         const selectionChangedHandler = container.selectionChanged;
 
@@ -169,9 +181,29 @@ export default class ComboBox extends
             }
         }
 
-        this.container = container; // Needed to reference to get idField and displayField
+        this._container = container; // Needed to reference to get idField and displayField
     }
 
+    onPropertyChanged(name: string, value: unknown) {
+
+        if (name === 'value') {
+
+            this.selectItemWithValue(value);
+        }
+    }
+
+    selectItemWithValue(value: unknown) {
+
+        const {
+            _container
+        } = this;
+
+        const selectors = (_container?.shadowRoot as ShadowRoot).querySelectorAll('wcl-selector');
+
+        const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[(_container as DataItem).idField] === value)[0] as Selector;
+
+        selector.select();
+    }
 }
 
 defineCustomElement('wcl-combo-box', ComboBox);

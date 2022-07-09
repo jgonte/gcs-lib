@@ -69,7 +69,7 @@ export default class DataField {
      */
     acceptChanges(): void {
 
-        this._value = this._initialValue;
+        this._initialValue = this._value;
     }
 
     /**

@@ -61,7 +61,9 @@ class AppCtrl {
 
 			if (intl !== undefined) {
 
-				appCtrl.intlProvider = new IntlProvider(intl.lang, intl.data);
+				const lang = intl.lang || window.document.documentElement.getAttribute('lang') || window.navigator.language;
+
+				appCtrl.intlProvider = new IntlProvider(lang, intl.data);
 			}
 
 			appCtrl.errorHandler = errorHandler !== undefined ?

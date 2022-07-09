@@ -118,6 +118,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                 value
             } = event.detail;
 
+
             if (multiple !== undefined) {
 
                 if (selected === true) { // Add the value to the selection

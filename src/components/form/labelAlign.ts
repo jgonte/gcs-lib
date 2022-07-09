@@ -8,7 +8,8 @@ const labelAlign = {
     type: DataTypes.String,
     value: 'left',
     options: ['left', 'right', 'center', 'justify'],
-    reflect: true
+    reflect: true,
+    inherit: true
 };
 
 export default labelAlign;

@@ -110,7 +110,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          * @param parent 
          * @param child 
          */
-        async didAdoptChildCallback(parent: CustomHTMLElement, child: HTMLElement): Promise<void> {
+        didAdoptChildCallback(parent: CustomHTMLElement, child: HTMLElement): void {
 
             const {
                 metadata
@@ -125,24 +125,14 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 properties
             } = metadata;
 
-            await (child as InheritedPropertiesHandler).setInheritedProperties(properties, parent);
+            (child as InheritedPropertiesHandler).setInheritedProperties(properties, parent);
         }
 
         /**
          * Sets the properties that can be inherited from the value of the parent if any
          * @param propertiesMetadata 
          */
-        protected async setInheritedProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>, parent: CustomHTMLElement): Promise<void> {
-
-            const inheritedProperties = new Map<string, unknown>();
-
-            const setInheritedProperties = (inheritedProperties: Map<string, unknown>) => {
-
-                for (const [name, value] of inheritedProperties) {
-
-                    this.setProperty(name, value);
-                }
-            }
+        protected setInheritedProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>, parent: CustomHTMLElement) {
 
             for (const [name, property] of propertiesMetadata) {
 
@@ -169,11 +159,13 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
                     //TODO: Subscribe this component to receive notifications when that property changes
 
-                    inheritedProperties.set(name, (selfOrParent as CustomHTMLElement)[name]);
+                   this.setProperty(name, (selfOrParent as CustomHTMLElement)[name]);
                 }
             }
 
-            await setTimeout(() => setInheritedProperties(inheritedProperties), 0); // Wait for the next refresh to set the inherited property
+            setTimeout(// The inherited properties are not updating right away
+                () => this.update(),
+                0);
         }
 
         // Without defining this method, the observedAttributes getter will not be called
@@ -266,7 +258,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
                 value = transform.call(this, value); // Transform the data if necessary
             }
-
+            
             const oldValue = this._properties[name];
 
             if (oldValue === value) {
@@ -296,7 +288,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     this.removeAttribute(reflectOnAttribute);
                 }
                 else {
-
+         
                     this.setAttribute(reflectOnAttribute, value as string); // This will trigger the attributeChangedCallback
                 }
             }

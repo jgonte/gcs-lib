@@ -186,6 +186,8 @@ export default class ComboBox extends
 
     onPropertyChanged(name: string, value: unknown) {
 
+        super.onPropertyChanged?.(name, value);
+
         if (name === 'value') {
 
             this.selectItemWithValue(value);

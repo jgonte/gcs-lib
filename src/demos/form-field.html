@@ -25,6 +25,11 @@
                 Field new value: '${event.detail.newValue}'
         `));
 
+        function showPropertyChanged(name, value) {
+
+            window.alert(`Property has changed: name: '${name}' value: '${value}'`);
+        }
+
     </script>
 
     <title>Form field demo</title>
@@ -32,13 +37,14 @@
 </head>
 
 <body>
+
     <wcl-form-field required label-width="50%" label-align="center">
         <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
         <wcl-tool-tip slot="tools">
             <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
             <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
         </wcl-tool-tip>
-        <wcl-text-field slot="field" name="name" value="Sarah"></wcl-text-field>
+        <wcl-text-field slot="field" name="name" value="Sarah" property-changed="showPropertyChanged()"></wcl-text-field>
     </wcl-form-field>
     <br />
     <!-- <wcl-form-field>

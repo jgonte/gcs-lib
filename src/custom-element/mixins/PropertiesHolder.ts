@@ -1,4 +1,5 @@
 import { attributeMarkerPrefix } from "../../rendering/template/markers";
+import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { GenericRecord } from "../../utils/types";
 import ensureValueIsInOptions from "./helpers/ensureValueIsInOptions";
@@ -15,6 +16,33 @@ interface InheritedPropertiesHandler extends CustomHTMLElement {
 
     setInheritedProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>, parent: CustomHTMLElement): void;
 }
+
+/**
+ * Attributes that need to be part of the component to allow certain functionality but do not need to be stored as a property
+ */
+const externalAttributes = [
+    'id',
+    'style',
+    'slot'
+];
+
+/**
+ * Attributes that listen for property and state changes. They are basically properties that can be set as attributes
+ * and need to be configured before the other properties so the can notify changes
+ * The get configured during the connectedCallback
+ */
+const instrinsicAttributes = [
+    {
+        attribute: 'property-changed',
+        property: 'propertyChanged'
+    },
+    {
+        attribute: 'state-changed',
+        property: 'stateChanged'
+    }
+];
+
+const instrinsicAttributeNames = instrinsicAttributes.map(a => a.attribute);
 
 /**
  * Sets up the properties of the custom element
@@ -38,7 +66,19 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
         /**
          * The properties that by the time the component gets connected, do not have any attribute explicitly set in the markup
          */
-        private _initiallyUndefinedProperties: Set<string> = new Set<string>();
+        private _explicitlyInitializedProperties: Set<string> = new Set<string>();
+
+        /**
+         *
+         */
+        // The mixin constructor requires the parameters signature to be of type any
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        constructor(...args: any[]) {
+
+            super(args);
+
+            this._initializeIntrinsicProperties();
+        }
 
         connectedCallback() {
 
@@ -48,31 +88,66 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 properties
             } = (this.constructor as CustomHTMLElementConstructor).metadata;
 
-            this._initializeDefaultProperties(properties);
+            this._initializeProperties(properties);
 
+            // Validate here since the required properties can be set before the component gets connected
             this._validateRequiredProperties(properties);
         }
 
         /**
-         * Initializes the properties that have a default value
+         * Initializes the intrinsic properties (listeners to property and state changes)
+         */
+        private _initializeIntrinsicProperties() {
+
+            instrinsicAttributes.forEach(attr => {
+
+                const val = this.getAttribute(attr.attribute);
+
+                if (val !== null) {
+
+                    const fcn = typeof val === 'string' ?
+                        getGlobalFunction(val) :
+                        val;
+
+                    this[attr.property] = (fcn as AnyFunction).bind(this);
+                }
+            });
+        }
+
+        /**
+         * Initializes the properties of the component
          * @param propertiesMetadata 
          */
-        private _initializeDefaultProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>) {
+        private _initializeProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>) {
 
             for (const [name, property] of propertiesMetadata) {
 
                 const {
-                    value
+                    attribute,
+                    value: defaultValue
                 } = property;
 
-                if (this._properties[name] === undefined) { // Not explicitly set
+                if (instrinsicAttributeNames.includes(attribute as string)) {
 
-                    this._initiallyUndefinedProperties.add(name);
+                    continue; // Not a part of the properties
+                }
 
-                    if (value !== undefined) { // Set the default value
+                if (externalAttributes.includes(attribute as string)) {
 
-                        this.setProperty(name, value);
-                    }
+                    continue; // Not a part of the properties
+                }
+
+                const value = this.getAttribute(attribute as string);
+
+                if (value !== null) {
+
+                    this._explicitlyInitializedProperties.add(name);
+
+                    this._setAttribute(attribute as string, value);
+                }
+                else if (defaultValue !== undefined) { // Set a default value if any
+  
+                    this._setProperty(name as string, defaultValue);
                 }
             }
         }
@@ -145,7 +220,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     continue; // Not inheritable
                 }
 
-                if (this._initiallyUndefinedProperties.has(name) === false) {
+                if (this._explicitlyInitializedProperties.has(name)) {
 
                     continue; // Its value was initially set in the attribute markup
                 }
@@ -153,13 +228,13 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 const selfOrParent = findSelfOrParent(
                     parent,
                     p => !isUndefinedOrNull((p as CustomHTMLElement)[name])
-                );
+                ) as CustomHTMLElement;
 
                 if (selfOrParent !== null) {
 
                     //TODO: Subscribe this component to receive notifications when that property changes
 
-                   this.setProperty(name, (selfOrParent as CustomHTMLElement)[name]);
+                    this.setProperty(name, selfOrParent[name]);
                 }
             }
 
@@ -258,7 +333,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
                 value = transform.call(this, value); // Transform the data if necessary
             }
-            
+
             const oldValue = this._properties[name];
 
             if (oldValue === value) {
@@ -275,7 +350,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 this._properties[name] = value;
             }
 
-            this.onPropertyChanged?.(name, value);
+            this.onPropertyChanged(name, value);
 
             const reflectOnAttribute = reflect === true ? attribute : undefined;
 
@@ -288,7 +363,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     this.removeAttribute(reflectOnAttribute);
                 }
                 else {
-         
+
                     this.setAttribute(reflectOnAttribute, value as string); // This will trigger the attributeChangedCallback
                 }
             }
@@ -296,6 +371,11 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             this._changedProperties.set(name, propertyMetadata);
 
             return true;
+        }
+
+        onPropertyChanged(name: string, value: unknown) {
+
+            this.propertyChanged?.(name, value); // Call the callback
         }
 
         /**

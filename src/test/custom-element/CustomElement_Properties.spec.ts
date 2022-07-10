@@ -733,4 +733,61 @@ describe("CustomElement properties tests", () => {
         }
     });
 
+    it('should call the "standard" propertyChanged callback when set', async () => {
+
+        class A extends CustomElement {
+
+            static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+                return {
+
+                    type: {
+                        type: DataTypes.String,
+                        value: "a",
+                        required: true
+                    }
+                };
+            }
+
+            render(): null {
+
+                return null;
+            }
+        }
+
+        defineCustomElement('test-a', A);
+
+        (window as unknown as { showPropertyChanged: (name: string, value: unknown) => string }).showPropertyChanged =
+            (name: string, value: unknown) => `Property has changed: name: '${name}' value: '${value}'`;
+
+        // Attach it to the DOM
+        document.body.innerHTML = '<test-a type="b" property-changed="showPropertyChanged()"></test-a>';
+
+        // Test the element
+        const component = document.querySelector('test-a') as CustomElement;
+
+        const spyPropertyChanged = jest.spyOn(component, 'propertyChanged');
+
+        await component.updateComplete;
+
+        expect(spyPropertyChanged).toBeCalledTimes(1);
+    });
+
+    it('should have access to the attributes inside the constructor', () => {
+
+        class A extends HTMLElement {
+
+            constructor() {
+
+                super();
+
+                console.log(this.attributes.length);
+            }
+        }
+
+        defineCustomElement('test-a', A);
+
+        // Attach it to the DOM
+        document.body.innerHTML = '<test-a type="b" property-changed="showPropertyChanged()"></test-a>';
+    });
 });

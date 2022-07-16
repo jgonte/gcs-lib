@@ -52,13 +52,13 @@ const valueConverter = {
                 if (!Array.isArray(o) &&
                     !type.includes(DataTypes.Object)) {
 
-                    throw Error(`value: ${value} is not an array but there is no object type expected`);
+                    throw new Error(`value: ${value} is not an array but there is no object type expected`);
                 }
 
                 if (Array.isArray(o) &&
                     !type.includes(DataTypes.Array)) {
 
-                    throw Error(`value: ${value} is an array but there is no array type expected`);
+                    throw new Error(`value: ${value} is an array but there is no array type expected`);
                 }
 
                 return o;

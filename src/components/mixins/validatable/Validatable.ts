@@ -28,7 +28,7 @@ export default function Validatable<TBase extends CustomHTMLElementConstructor>(
          * Validates a validatable object
          * @returns true is the value is valid, false otherwise
          */
-        validate(): boolean {
+        async validate(): Promise<boolean> {
 
             if (this.validators.length === 0) {
 
@@ -36,7 +36,7 @@ export default function Validatable<TBase extends CustomHTMLElementConstructor>(
             }
 
             // Create a new validation context
-            const context: ValidationContext = this.createValidationContext();
+            const context: ValidationContext = await this.createValidationContext();
 
             // Validate
             this.validators.forEach((validator: Validator) => validator.validate(context));

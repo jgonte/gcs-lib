@@ -19,10 +19,19 @@ export default function createVariantStyles(ctor: CustomHTMLElementConstructor, 
                             {
                                 styles.push(
                                     css`
-:host([kind='${kind}'][variant='${variant}']) button { 
+:host([kind='${kind}'][variant='${variant}']) button:not(disabled) { 
     color: var(${cssVariables.get("color")}${kind}); 
     background-color: var(${cssVariables.get("background-color")}${kind}); 
     border-color: var(${cssVariables.get("color")}${kind}); 
+}`
+                                );
+
+                                styles.push(
+                                    css`
+:host([kind='${kind}'][variant='${variant}']) button:disabled { 
+    color: var(${cssVariables.get("disabled-color")}); 
+    background-color: var(${cssVariables.get("disabled-background-color")}); 
+    border-color: var(${cssVariables.get("disabled-color")}); 
 }`
                                 );
                             }
@@ -31,8 +40,15 @@ export default function createVariantStyles(ctor: CustomHTMLElementConstructor, 
                             {
                                 styles.push(
                                     css`
-:host([kind='${kind}'][variant='${variant}']) button { 
+:host([kind='${kind}'][variant='${variant}']) button:not(disabled) { 
     color: var(${cssVariables.get("color")}${kind});
+}`
+                                );
+
+                                styles.push(
+                                    css`
+:host([kind='${kind}'][variant='${variant}']) button:disabled { 
+    color: var(${cssVariables.get("disabled-color")});
 }`
                                 );
                             }
@@ -41,9 +57,17 @@ export default function createVariantStyles(ctor: CustomHTMLElementConstructor, 
                             {
                                 styles.push(
                                     css`
-:host([kind='${kind}'][variant='${variant}']) button { 
+:host([kind='${kind}'][variant='${variant}']) button:not(disabled) { 
     color: var(${cssVariables.get("color-contained")}${kind}); 
     background-color: var(${cssVariables.get("background-color-contained")}${kind}); 
+}`
+                                );
+
+                                styles.push(
+                                    css`
+:host([kind='${kind}'][variant='${variant}']) button:disabled { 
+    color: var(${cssVariables.get("disabled-background-color")}); 
+    background-color: var(${cssVariables.get("disabled-color")}); 
 }`
                                 );
                             }

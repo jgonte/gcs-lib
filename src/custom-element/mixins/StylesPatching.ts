@@ -52,7 +52,7 @@ export default function StylesPatching<TBase extends CustomHTMLElementConstructo
             }
             else { // this.shadowRoot === null
 
-                throw Error('Not implemented'); // Maybe append the style to the parent document/ shadow root? More research when we encounter the specific scenario
+                throw new Error('Not implemented'); // Maybe append the style to the parent document/ shadow root? More research when we encounter the specific scenario
             }
 
             return node;

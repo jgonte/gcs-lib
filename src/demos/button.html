@@ -31,6 +31,7 @@
 
 <body>
     <h4>Text only</h4>
+    
     <wcl-button id="b1" click="onButtonClicked()" kind="primary">
         Outlined
     </wcl-button>
@@ -73,19 +74,28 @@
     </wcl-button>
 
     <h4>With localized text</h4>
-    <wcl-button id="b4" click="onButtonClicked()" kind="primary">
+    <wcl-button id="b7" click="onButtonClicked()" kind="primary">
         <wcl-localized-text resource-key="outlined">Outlined</wcl-localized-text>
     </wcl-button>
     <br />
-    <!-- <wcl-button id="b5" click="onButtonClicked()" kind="secondary" variant="contained" size="large">
-        <wcl-icon name="alarm-fill" size="small"></wcl-icon>
-        Contained
+
+    <h4>Disabled</h4>
+
+    <wcl-button click="onButtonClicked()" kind="primary" disabled>
+        <wcl-localized-text resource-key="outlined">Outlined</wcl-localized-text>
     </wcl-button>
     <br />
-    <wcl-button id="b6" click="onButtonClicked()" kind="tertiary" variant="text" size="small">
-        <wcl-icon name="archive"></wcl-icon>
-        Text
-    </wcl-button> -->
+
+    <wcl-button click="onButtonClicked()" variant="contained" kind="primary" disabled>
+        <wcl-localized-text resource-key="contained">Contained</wcl-localized-text>
+    </wcl-button>
+    <br />
+
+    <wcl-button click="onButtonClicked()" variant="text" kind="primary" disabled>
+        <wcl-localized-text resource-key="text">Text</wcl-localized-text>
+    </wcl-button>
+    <br />
+
 </body>
 
 </html>

@@ -11,18 +11,18 @@ beforeEach(() => {
 
 describe("Data list tests", () => {
 
-    it('should throw an error when the record and field attributes are not provided', () => {
+    // it('should throw an error when the record and field attributes are not provided', () => {
 
-        // Re-register the data list and its dependencies since all the custom elements are cleared before any test
-        defineCustomElement('wcl-data-list', DataList);
+    //     // Re-register the data list and its dependencies since all the custom elements are cleared before any test
+    //     defineCustomElement('wcl-data-list', DataList);
 
-        expect(() => {
+    //     expect(() => {
 
-            // Attach it to the DOM
-            document.body.innerHTML = `<wcl-data-list></wcl-data-list>`;
+    //         // Attach it to the DOM
+    //         document.body.innerHTML = `<wcl-data-list></wcl-data-list>`;
 
-        }).toThrow(new Error("The attributes: [id-field] must have a value"));
-    });
+    //     }).toThrow(new Error("The attributes: [id-field] must have a value"));
+    // });
 
     it('should render the data', async () => {
 

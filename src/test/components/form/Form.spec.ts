@@ -13,18 +13,18 @@ beforeEach(() => {
 
 describe("form tests", () => {
 
-    it('should throw an error when the submit url is not provided', () => {
+    // it('should throw an error when the submit url is not provided', () => {
 
-        // Re-register the form and its dependencies since all the custom elements are cleared before any test
-        defineCustomElement('wcl-form', Form);
+    //     // Re-register the form and its dependencies since all the custom elements are cleared before any test
+    //     defineCustomElement('wcl-form', Form);
 
-        expect(() => {
+    //     expect(() => {
 
-            // Attach it to the DOM
-            document.body.innerHTML = `<wcl-form></wcl-form>`;
+    //         // Attach it to the DOM
+    //         document.body.innerHTML = `<wcl-form></wcl-form>`;
 
-        }).toThrow(new Error("The attributes: [submit-url] must have a value"));
-    });
+    //     }).toThrow(new Error("The attributes: [submit-url] must have a value"));
+    // });
 
     it('should render a form', async () => {
 
@@ -36,22 +36,85 @@ describe("form tests", () => {
         defineCustomElement('wcl-form', Form);
 
         // Attach it to the DOM
-        document.body.innerHTML = `
-        <wcl-form submit-url="http://localhost:60314/api/contacts/">
-            <wcl-form-field>
-                <span slot="label">Name</span>
-                <wcl-text-field slot="field" id="tf2" name="name" value="Sarah"></wcl-text-field>
-            </wcl-form-field>
+        document.body.innerHTML = `<wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
+        submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right" style="width: 1060px;">
+
+        <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
+
+        <wcl-form-field required>
+            <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
+            <wcl-tool-tip slot="tools">
+                <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+                <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
+            </wcl-tool-tip>
+            <wcl-text-field slot="field" name="name" value="Sarah" property-changed="displayNameTextFieldPropertyChanged()"></wcl-text-field>
+        </wcl-form-field>
+        
         </wcl-form>`;
 
         // Test the element
-        const component = document.querySelector('wcl-form') as CustomElement;
+        const form = document.querySelector('wcl-form') as CustomElement;
 
-        await component.updateComplete; // Wait for the component to render
+        await form.updateComplete; // Wait for the component to render
 
-        const contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+        const contentWithoutStyle = getContentWithoutStyle(form.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"50%\" label-align=\"left\" key=\"form-fields\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
+        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"65%\" label-align=\"right\" key=\"form-fields\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
+
+        const formField = document.querySelector('wcl-form-field') as CustomElement;
+
+        expect(formField.parentElement).toEqual(form);
+
+        const textField = document.querySelector('wcl-text-field') as CustomElement;
+
+        expect(textField.parentElement).toEqual(formField);
+    });
+
+    it('should render a form inside a row', async () => {
+
+        // Re-register the form since all the custom elements are cleared before any test
+        defineCustomElement('wcl-text-field', TextField);
+
+        defineCustomElement('wcl-form-field', FormField);
+
+        defineCustomElement('wcl-form', Form);
+
+        // Attach it to the DOM
+        document.body.innerHTML = `wcl-row justify-content="center">
+
+        <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
+            submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right" style="width: 1060px;">
+
+            <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
+
+            <wcl-form-field required>
+                <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
+                <wcl-tool-tip slot="tools">
+                    <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+                    <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
+                </wcl-tool-tip>
+                <wcl-text-field slot="field" name="name" value="Sarah" property-changed="displayNameTextFieldPropertyChanged()"></wcl-text-field>
+            </wcl-form-field>
+
+        </wcl-form>
+        </wcl-row>`;
+
+        // Test the element
+        const form = document.querySelector('wcl-form') as CustomElement;
+
+        await form.updateComplete; // Wait for the component to render
+
+        const contentWithoutStyle = getContentWithoutStyle(form.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"65%\" label-align=\"right\" key=\"form-fields\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
+
+        const formField = document.querySelector('wcl-form-field') as CustomElement;
+
+        expect(formField.parentElement).toEqual(form);
+
+        const textField = document.querySelector('wcl-text-field') as CustomElement;
+
+        expect(textField.parentElement).toEqual(formField);
     });
 
     it('should render a form with non-default attributes set', async () => {

@@ -2,7 +2,6 @@ import { DataTypes } from "../../../../utils/data/DataTypes";
 import { ParameterlessVoidFunction } from "../../../../utils/types";
 import CustomElementStateMetadata from "./CustomElementStateMetadata";
 
-
 /**
  * Describes the configurator of the properties
  */
@@ -43,6 +42,11 @@ import CustomElementStateMetadata from "./CustomElementStateMetadata";
      * Hook to allow for extra manipulation of the property value before being set
      */
     transform?: (value: unknown) => unknown;
+
+    /**
+     * Function to execute when the value of the property has changed
+     */
+    change?: (value: unknown, oldValue: unknown) => void;
 
     /**
      * Called when the property has changed but after the DOM has been updated

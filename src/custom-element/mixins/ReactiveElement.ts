@@ -74,14 +74,7 @@ export default function ReactiveElement<TBase extends CustomHTMLElementConstruct
 
             this._hasPendingUpdate = true;
 
-            try {
-
-                await this._updatePromise; // Wait for the previous update to finish
-            }
-            catch (error) {
-
-                Promise.reject(error);
-            }
+            await this._updatePromise; // Wait for the previous update to finish
 
             return new Promise<void>(async (resolve, reject) => {
 

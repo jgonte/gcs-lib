@@ -24,6 +24,14 @@
             Field new value: '${event.detail.newValue}'
         `));
 
+        window.displayNameTextFieldPropertyChanged = (name, value) => {
+
+            if (name === 'required') {
+
+                //window.alert(`Property has changed: name: '${name}' value: '${value}'`);
+            }
+        };
+
     </script>
 
     <title>Form</title>
@@ -41,7 +49,7 @@
 
     <br /> -->
 
-    <h4>Submit only</h4>
+    <!-- <h4>Submit only</h4>
     <wcl-form id="submitOnly" submit-url="http://localhost:60314/api/contacts/" label-align="center">
 
         <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
@@ -56,13 +64,14 @@
             <wcl-localized-text slot="label">Avatar</wcl-localized-text>
             <wcl-file-field slot="field" name="avatar"></wcl-file-field>
         </wcl-form-field>
-    </wcl-form>
+    </wcl-form> -->
 
     <h4>Load and submit</h4>
     <wcl-row justify-content="center">
 
         <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
-            submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right" style="width: 1060px;">
+            submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right"
+            style="width: 1060px;">
 
             <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
 
@@ -72,7 +81,8 @@
                     <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
                     <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
                 </wcl-tool-tip>
-                <wcl-text-field slot="field" name="name" value="Sarah"></wcl-text-field>
+                <wcl-text-field slot="field" name="name" value="Sarah"
+                    property-changed="displayNameTextFieldPropertyChanged()"></wcl-text-field>
             </wcl-form-field>
 
             <wcl-form-field required help="This is the gender of the person">
@@ -108,6 +118,54 @@
 
         </wcl-form>
     </wcl-row>
+
+    <!-- <h4>Load and submit too</h4>
+    <wcl-form id="loadAndSubmitToo" load-url="http://localhost:60314/api/contacts/1"
+            submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right" style="width: 1060px;">
+
+            <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
+
+            <wcl-form-field required>
+                <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
+                <wcl-tool-tip slot="tools">
+                    <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+                    <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
+                </wcl-tool-tip>
+                <wcl-text-field slot="field" name="name" value="Sarah" property-changed="displayNameTextFieldPropertyChanged()"></wcl-text-field>
+            </wcl-form-field>
+
+            <wcl-form-field required help="This is the gender of the person">
+                <wcl-localized-text slot="label">Gender</wcl-localized-text>
+                <wcl-combo-box slot="field" name="gender">
+                    <div slot="content">
+                        <wcl-data-list data='[
+                            {
+                                "code": "M",
+                                "description": "Male"
+                            },
+                            {
+                                "code": "F",
+                                "description": "Female"
+                            }
+                        ]' id-field="code" display-field="description">
+                        </wcl-data-list>
+                    </div>
+                </wcl-combo-box>
+            </wcl-form-field>
+
+            <wcl-form-field required help-resource-key="dateOfBirth">
+                <wcl-localized-text slot="label">Date of Birth</wcl-localized-text>
+                <span slot="tools">!</span>
+                <wcl-date-field slot="field" name="dateOfBirth"></wcl-date-field>
+            </wcl-form-field>
+
+            <wcl-form-field required>
+                <wcl-localized-text slot="label">Avatar</wcl-localized-text>
+                <span slot="tools">!</span>
+                <wcl-file-field slot="field" name="avatar"></wcl-file-field>
+            </wcl-form-field>
+
+        </wcl-form> -->
 </body>
 
 </html>

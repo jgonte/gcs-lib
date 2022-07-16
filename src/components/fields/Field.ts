@@ -9,6 +9,7 @@ import RequiredValidator from "../../utils/validation/validators/field/RequiredV
 import SingleValueFieldValidator, { FieldValidationContext } from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
 import LocalizedText from "../localized-text/LocalizedText";
+import Disableable from "../mixins/disableable/Disableable";
 import Sizable from "../mixins/sizable/Sizable";
 import Validatable from "../mixins/validatable/Validatable";
 import { fieldStyles } from "./Field.styles";
@@ -20,9 +21,11 @@ export const changeEvent = "changeEvent";
 export const fieldAddedEvent = "fieldAddedEvent";
 
 export default abstract class Field extends
-    Sizable(
-        Validatable(
-            CustomElement as CustomHTMLElementConstructor
+    Disableable(
+        Sizable(
+            Validatable(
+                CustomElement as CustomHTMLElementConstructor
+            )
         )
     ) {
 
@@ -68,11 +71,6 @@ export default abstract class Field extends
                 reflect: true
             },
 
-            disabled: {
-                type: DataTypes.Boolean,
-                reflect: true
-            },
-
             required: {
                 type: DataTypes.Boolean,
                 inherit: true,
@@ -98,6 +96,8 @@ export default abstract class Field extends
 
     attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
 
+        super.attributeChangedCallback?.(attributeName, oldValue, newValue);
+        
         if (attributeName === 'required') {
 
             if (newValue !== "false") { // Add a required validator
@@ -177,9 +177,9 @@ export default abstract class Field extends
         });
     }
 
-    createValidationContext(): FieldValidationContext & { value: unknown; } {
+    async createValidationContext(): Promise<FieldValidationContext & { value: unknown; }> {
 
-        const label = this.getLabel();
+        const label = await this.getLabel();
 
         const value = this._tempValue ?? this.value;
 
@@ -205,13 +205,11 @@ export default abstract class Field extends
      */
     private _label?: HTMLElement;
 
-    getLabel(): string {
+    async getLabel(): Promise<string> {
 
         if (this._label === undefined) {
 
-            const {
-                adoptingParent
-            } = this;
+            const adoptingParent = await this.getAdoptingParent();
 
             const lt = Array.from(adoptingParent.children)
                 .filter(c => (c as HTMLElement).getAttribute('slot') === 'label');

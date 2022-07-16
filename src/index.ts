@@ -9,6 +9,7 @@ import { NodePatchingData } from "./rendering/nodes/NodePatchingData";
 import html from "./rendering/html";
 
 // Components
+import Panel from "./components/panel/Panel";
 import Icon from "./components/icon/Icon";
 import LocalizedText from "./components/localized-text/LocalizedText";
 import Alert from "./components/alert/Alert";
@@ -50,7 +51,6 @@ import DataList from "./components/data-list/DataList";
 
 import { GenericRecord } from "./utils/types";
 
-
 // Make it available in the global object of the browser
 (window as unknown as GenericRecord).html = html;
 
@@ -65,6 +65,7 @@ export {
     NodePatchingData,
 
     // Components
+    Panel,
     Icon,
     LocalizedText,
     Alert,

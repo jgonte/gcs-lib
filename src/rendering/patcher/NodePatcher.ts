@@ -140,7 +140,7 @@ export default class NodePatcher implements INodePatcher {
                         setEvent(name, value, null, node);
                     }
                     break;
-                default: throw Error(`firstPatch is not implemented for rule type: ${type}`);
+                default: throw new Error(`firstPatch is not implemented for rule type: ${type}`);
             }
         }
     }
@@ -240,7 +240,7 @@ export default class NodePatcher implements INodePatcher {
                         setEvent(name, newValue, oldValue, node);
                     }
                     break;
-                default: throw Error(`patch is not implemented for rule type: ${type}`);
+                default: throw new Error(`patch is not implemented for rule type: ${type}`);
             }
 
         }

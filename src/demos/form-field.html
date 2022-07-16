@@ -27,7 +27,7 @@
 
         function showPropertyChanged(name, value) {
 
-            window.alert(`Property has changed: name: '${name}' value: '${value}'`);
+            // window.alert(`Property has changed: name: '${name}' value: '${value}'`);
         }
 
     </script>
@@ -38,7 +38,30 @@
 
 <body>
 
+    <h4>Localized text required</h4>
     <wcl-form-field required label-width="50%" label-align="center">
+        <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
+        <wcl-tool-tip slot="tools">
+            <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+            <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
+        </wcl-tool-tip>
+        <wcl-text-field slot="field" name="name" value="Sarah" property-changed="showPropertyChanged()"></wcl-text-field>
+    </wcl-form-field>
+    <br />
+
+    <h4>Localized text not required</h4>
+    <wcl-form-field label-width="50%" label-align="center">
+        <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
+        <wcl-tool-tip slot="tools">
+            <wcl-badge kind="primary" slot="trigger">?</wcl-badge>
+            <wcl-localized-text resource-key="fullNameHelp" slot="content"></wcl-localized-text>
+        </wcl-tool-tip>
+        <wcl-text-field slot="field" name="name" value="Sarah" property-changed="showPropertyChanged()"></wcl-text-field>
+    </wcl-form-field>
+    <br />
+
+    <h4>Localized text disabled</h4>
+    <wcl-form-field disabled label-width="50%" label-align="center">
         <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
         <wcl-tool-tip slot="tools">
             <wcl-badge kind="primary" slot="trigger">?</wcl-badge>

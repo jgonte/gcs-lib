@@ -75,6 +75,45 @@ describe("custom element render tests", () => {
         expect(component.shadowRoot?.innerHTML.trim()).toBe('<span>Hello, my name is <!--_$bm_-->Sarah<!--_$em_--></span>');
     });
 
+    it('should not render a boolean property reflected property when it is false', async () => {
+
+        class A extends CustomElement {
+
+            static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+                return {
+
+                    name: {
+                        type: DataTypes.Boolean,
+                        value: false,
+                        reflect: true
+                    }
+                };
+            }
+
+            render(): NodePatchingData {
+
+                const {
+                    disabled
+                } = this;
+
+                return html`<span disabled=${disabled}>Sarah</span>`;
+            }
+        }
+
+        defineCustomElement('test-a', A);
+
+         // Attach it to the DOM
+         document.body.innerHTML = '<test-a></test-a>"';
+
+         // Test the element
+         const component = document.querySelector('test-a') as CustomElement;
+ 
+         await component.updateComplete; // Wait for the component to render
+ 
+         expect(component.shadowRoot?.innerHTML).toBe("<span>Sarah</span>");
+    });
+
     it('should render the HTML with the set property', async () => {
 
         class A extends CustomElement {

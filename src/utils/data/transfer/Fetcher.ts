@@ -193,7 +193,7 @@ export default class Fetcher implements FetchCallbacks {
                     }
                     else {
 
-                        throw Error(`Invalid form value: ${JSON.stringify(value)}`);
+                        throw new Error(`Invalid form value: ${JSON.stringify(value)}`);
                     }
                 }
                 else {

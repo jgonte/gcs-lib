@@ -1337,7 +1337,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><span cool=\"true\"></span></div>");
+        expect(container.outerHTML).toEqual("<div><span cool=\"\"></span></div>");
 
         const {
             patcher,
@@ -1369,7 +1369,7 @@ describe("render nodes tests", () => {
 
         expect(child.attributes.length).toEqual(1);
 
-        expect(child.getAttribute('cool')).toEqual('true');
+        expect(child.getAttribute('cool')).toEqual('');
 
         // Remove the attribute
         isCool = null;
@@ -1391,11 +1391,11 @@ describe("render nodes tests", () => {
 
         updateNodes(container, patchingData, newPatchingData);
 
-        expect(container.outerHTML).toEqual("<div><span cool=\"true\"></span></div>");
+        expect(container.outerHTML).toEqual("<div><span cool=\"\"></span></div>");
 
         expect(child.attributes.length).toEqual(1);
 
-        expect(child.getAttribute('cool')).toEqual('true');
+        expect(child.getAttribute('cool')).toEqual('');
 
         // Set the attribute to false
         isCool = false;
@@ -1406,11 +1406,9 @@ describe("render nodes tests", () => {
 
         updateNodes(container, patchingData, newPatchingData);
 
-        expect(container.outerHTML).toEqual("<div><span cool=\"false\"></span></div>");
+        expect(container.outerHTML).toEqual("<div><span></span></div>"); // It should not render a boolean false attribute
 
-        expect(child.attributes.length).toEqual(1);
-
-        expect(child.getAttribute('cool')).toEqual('false');
+        expect(child.attributes.length).toEqual(0);
     });
 
     it('should attach attributes of type function to the DOM node', () => {

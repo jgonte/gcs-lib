@@ -146,7 +146,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     this._setAttribute(attribute as string, value);
                 }
                 else if (defaultValue !== undefined) { // Set a default value if any
-  
+
                     this._setProperty(name as string, defaultValue);
                 }
             }
@@ -176,7 +176,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             if (missingValueAttributes.length > 0) {
 
-                throw Error(`The attributes: [${missingValueAttributes.join(', ')}] must have a value`);
+                throw new Error(`The attributes: [${missingValueAttributes.join(', ')}] must have a value`);
             }
         }
 
@@ -275,7 +275,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
         //     if ((this.constructor as any)._propertiesByAttribute[attribute] === undefined &&
         //         !(this.constructor as any).metadata.htmlElementProperties.has(attribute)) {
 
-        //         throw Error(`There is no configured property for attribute: '${attribute}' in type: '${this.constructor.name}'`)
+        //         throw new Error(`There is no configured property for attribute: '${attribute}' in type: '${this.constructor.name}'`)
         //     }
 
         //     super.setAttribute(attribute, value);
@@ -323,7 +323,8 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 attribute,
                 reflect,
                 options,
-                transform
+                transform,
+                change
                 //afterUpdate - We call afterUpdate after the element was updated in the DOM
             } = propertyMetadata;
 
@@ -338,19 +339,18 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             if (oldValue === value) {
 
-                return false;
+                return false; // Property has not changed
             }
 
-            if (typeof value === 'function') {
+            // Set the property
+            this._properties[name] = (typeof value === 'function') ?
+                (value as (...args: unknown[]) => unknown).bind(this) :
+                value;
 
-                this._properties[name] = (value as (...args: unknown[]) => unknown).bind(this);
-            }
-            else {
+            // Call any change value on the property
+            change?.call(this, value, oldValue);
 
-                this._properties[name] = value;
-            }
-
-            this.onPropertyChanged(name, value);
+            this.onPropertyChanged(name, value, oldValue);
 
             const reflectOnAttribute = reflect === true ? attribute : undefined;
 
@@ -373,9 +373,9 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             return true;
         }
 
-        onPropertyChanged(name: string, value: unknown) {
+        onPropertyChanged(name: string, value: unknown, oldValue: unknown) {
 
-            this.propertyChanged?.(name, value); // Call the callback
+            this.propertyChanged?.(name, value, oldValue); // Call the callback
         }
 
         /**
@@ -392,6 +392,9 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             });
         }
 
+        /**
+         * Removes the changed properties after the update
+         */
         clearChangedProperties() {
 
             this._changedProperties.clear();

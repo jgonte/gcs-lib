@@ -121,7 +121,7 @@
 //         // Can't do this since we need to add records
 //         // if (noDescriptorsId || hasUndefinedIdentifiers) {
 
-//         //     throw Error('Cannot use "set" when there are no id fields or the values of some/all identifiers are missing in the record');
+//         //     throw new Error('Cannot use "set" when there are no id fields or the values of some/all identifiers are missing in the record');
 //         // }
 
 //         const idStr = JSON.stringify(value);

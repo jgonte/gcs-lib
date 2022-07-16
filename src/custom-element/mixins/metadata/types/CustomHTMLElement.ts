@@ -66,6 +66,11 @@ export default interface CustomHTMLElement extends HTMLElement {
 
     handleSlotChange: EventListenerOrEventListenerObject;
 
+    // Enabling and disabling events
+    enableEvents(): void;
+
+    disableEvents(): void;
+
     // Whish they were protected
     _setProperty(name: string, value: unknown): boolean;
 

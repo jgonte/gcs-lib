@@ -69,18 +69,18 @@ export default class CompareValidator extends RecordValidator {
 
         return valid;
     }
-    
-    private _compare(valueToValidate: string | number, valueToCompare: string | number, operator: ComparisonOperatorsEnum) : boolean {
 
-        switch(operator) {
+    private _compare(valueToValidate: string | number, valueToCompare: string | number, operator: ComparisonOperatorsEnum): boolean {
+
+        switch (operator) {
             case ComparisonOperatorsEnum.Equal: return valueToValidate === valueToCompare;
             case ComparisonOperatorsEnum.NotEqual: return valueToValidate !== valueToCompare;
             case ComparisonOperatorsEnum.GreaterThan: return valueToValidate > valueToCompare;
             case ComparisonOperatorsEnum.GreaterOrEqual: return valueToValidate >= valueToCompare;
             case ComparisonOperatorsEnum.LessThan: return valueToValidate < valueToCompare;
             case ComparisonOperatorsEnum.LessThanOrEqual: return valueToValidate <= valueToCompare;
-            default:throw Error(`Invalid comparison operator: ${operator}`);
+            default: throw new Error(`Invalid comparison operator: ${operator}`);
         }
     }
-    
+
 }

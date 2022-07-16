@@ -7,7 +7,8 @@ export default function setAttribute(
     propertyName: string,
     value: unknown): void {
 
-    if (isUndefinedOrNull(value)) {
+    if (isUndefinedOrNull(value) ||
+        value === false) {
 
         node.removeAttribute(attributeName);
 
@@ -41,7 +42,11 @@ export default function setAttribute(
                 (node as unknown as HTMLInputElement).value = value as string;
             }
 
-            node.setAttribute(attributeName, value as string);
+            const v = (value === true) ?
+                '':
+                value as string;
+
+                node.setAttribute(attributeName, v);
         }
     }
 }

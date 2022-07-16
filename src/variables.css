@@ -41,6 +41,9 @@
 
     --wcl-background-color-tertiary: #f4a942;
     --wcl-color-tertiary: #b446b4;
+
+    --wcl-disabled-background-color: lightgray;
+    --wcl-disabled-color: darkgray;
     
 /*
     
@@ -85,8 +88,13 @@
     --wcl-padding-medium: .25rem;
     --wcl-padding-small: .125rem;
 
+    /* Margin sizes */
+    --wcl-margin-large: .9rem;
+    --wcl-margin-medium: .5rem;
+    --wcl-margin-small: .325rem;
+
     /* Radius sizes */
-    --wcl-radius-size-large: .3rem;
+    --wcl-radius-size-large: .4rem;
     --wcl-radius-size-medium: .25rem;
     --wcl-radius-size-small: .2rem;
 

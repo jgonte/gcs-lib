@@ -11,18 +11,18 @@ beforeEach(() => {
 
 describe("Text field tests", () => {
 
-    it('should throw an error when the required attributes are not provided', () => {
+    // it('should throw an error when the required attributes are not provided', () => {
 
-        // Re-register the data cell since all the custom elements are cleared before any test
-        defineCustomElement('wcl-text-field', TextField);
+    //     // Re-register the data cell since all the custom elements are cleared before any test
+    //     defineCustomElement('wcl-text-field', TextField);
 
-        expect(() => {
+    //     expect(() => {
 
-            // Attach it to the DOM
-            document.body.innerHTML = `<wcl-text-field></wcl-text-field>`;
+    //         // Attach it to the DOM
+    //         document.body.innerHTML = `<wcl-text-field></wcl-text-field>`;
 
-        }).toThrow(new Error("The attributes: [name] must have a value"));
-    });
+    //     }).toThrow(new Error("The attributes: [name] must have a value"));
+    // });
 
     it('should not render the value when it is not provided', async () => {
 

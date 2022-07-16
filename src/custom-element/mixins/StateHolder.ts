@@ -54,7 +54,7 @@ export default function StateHolder<TBase extends CustomHTMLElementConstructor>(
             // Verify that the property of the state is one of the configured in the custom element
             if (stateMetadata === undefined) {
 
-                throw Error(`There is no configured property for state: '${key}' in type: '${this.constructor.name}'`)
+                throw new Error(`There is no configured property for state: '${key}' in type: '${this.constructor.name}'`)
             }
 
             const {

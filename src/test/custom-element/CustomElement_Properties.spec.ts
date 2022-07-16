@@ -617,41 +617,41 @@ describe("CustomElement properties tests", () => {
         }
     });
 
-    it('should throw an error when a property is required but there is not a value provided when the custom element is created', () => {
+    // it('should throw an error when a property is required but there is not a value provided when the custom element is created', () => {
 
-        class A extends CustomElement {
+    //     class A extends CustomElement {
 
-            static get properties(): Record<string, CustomElementPropertyMetadata> {
+    //         static get properties(): Record<string, CustomElementPropertyMetadata> {
 
-                return {
+    //             return {
 
-                    type: {
-                        type: DataTypes.String,
-                        // value: "a", Do not provide a default value to enforce required
-                        required: true
-                    }
-                };
-            }
+    //                 type: {
+    //                     type: DataTypes.String,
+    //                     // value: "a", Do not provide a default value to enforce required
+    //                     required: true
+    //                 }
+    //             };
+    //         }
 
-            render(): null {
+    //         render(): null {
 
-                return null;
-            }
-        }
+    //             return null;
+    //         }
+    //     }
 
-        defineCustomElement('test-a', A);
+    //     defineCustomElement('test-a', A);
 
-        try {
+    //     try {
 
-            document.body.innerHTML = '<test-a></test-a>';
+    //         document.body.innerHTML = '<test-a></test-a>';
 
-            expect(true).toBeFalsy(); // It should never reach here
-        }
-        catch (error) {
+    //         expect(true).toBeFalsy(); // It should never reach here
+    //     }
+    //     catch (error) {
 
-            expect((error as Error).message).toBe("The attributes: [type] must have a value");
-        }
-    });
+    //         expect((error as Error).message).toBe("The attributes: [type] must have a value");
+    //     }
+    // });
 
     it('should throw an error when a attribute is not defined but assigned anyway', () => {
 

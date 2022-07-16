@@ -11,20 +11,19 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
 
     return class ParentChildMixin extends Base {
 
-        private _adoptingParent: ParentNode | null = null;
+        // undefined means not initialized yet, null means it does not have any custom element as a parent
+        private _adoptingParent: ParentNode | null | undefined = undefined;
 
         /**
          * The children elements of this one
          */
         /* protected */ adoptedChildren: Set<Node> = new Set<Node>();
 
-        connectedCallback() {
+        async connectedCallback(): Promise<void> {
 
             super.connectedCallback?.();
 
-            const {
-                adoptingParent
-            } = this;
+            const adoptingParent = await this.getAdoptingParent();
 
             if (adoptingParent === null) { // In slotted elements the parent is null when connected
 
@@ -36,13 +35,11 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
             this.didAdoptChildCallback?.(adoptingParent as CustomHTMLElement, this);
         }
 
-        disconnectedCallback(): void {
+        async disconnectedCallback(): Promise<void> {
 
             super.disconnectedCallback?.();
 
-            const {
-                adoptingParent
-            } = this;
+            const adoptingParent = await this.getAdoptingParent();
 
             if (adoptingParent === null) {
 
@@ -54,18 +51,16 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
             (adoptingParent as ParentChildMixin).adoptedChildren.delete(this); // It might be null for the topmost custom element
         }
 
-        didMountCallback(): void {
+        async didMountCallback(): Promise<void> {
 
-            super.didMountCallback?.();
+            await super.didMountCallback?.();
 
             // Add the slotted children
             const slot = (this.document as HTMLElement).querySelector('slot');
 
             if (slot === null) { // There is no slot to get the children from
 
-                const {
-                    adoptingParent
-                } = this;
+                const adoptingParent = await this.getAdoptingParent();
 
                 if (adoptingParent !== null) {
 
@@ -103,26 +98,37 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
             }
         }
 
-        protected get adoptingParent(): Node | null {
+        protected async getAdoptingParent(): Promise<Node | null> {
 
-            if (this._adoptingParent === null) {
+            if (this._adoptingParent === undefined) { // Memoize
 
                 let parent = this.parentNode;
 
                 while (parent !== null) {
 
+                    const tagName = (parent as HTMLElement).tagName?.toLowerCase();
+
+                    if (tagName === undefined ||
+                        tagName === 'body') { // Top parent or document
+
+                        return this._adoptingParent = null;
+                    }
+
+                    if (tagName.startsWith('wcl-')) {
+
+                        await window.customElements.whenDefined(tagName);
+                    }
+
                     if ((parent.constructor as CustomHTMLElementConstructor)._isCustomElement === true) {  // It is a custom element
 
-                        break;
+                        return this._adoptingParent = parent;
                     }
 
                     parent = parent.parentNode;
                 }
-
-                this._adoptingParent = parent;
             }
 
-            return this._adoptingParent;
+            return this._adoptingParent as Node;
         }
     }
 }

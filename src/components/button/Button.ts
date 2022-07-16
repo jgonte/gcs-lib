@@ -5,17 +5,20 @@ import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
+import Disableable from "../mixins/disableable/Disableable";
 import Sizable from "../mixins/sizable/Sizable";
-import Kind from "../mixins/kind/Kind";
 import Variant from "../mixins/variant/Variant";
+import Kind from "../mixins/kind/Kind";
 import { buttonStyles } from "./Button.styles";
 import { DataTypes } from "../../utils/data/DataTypes";
 
 export default class Button extends
-    Sizable(
-        Variant(
-            Kind(
-                CustomElement as CustomHTMLElementConstructor
+    Disableable(
+        Sizable(
+            Variant(
+                Kind(
+                    CustomElement as CustomHTMLElementConstructor
+                )
             )
         )
     ) {
@@ -41,7 +44,12 @@ export default class Button extends
 
     render(): NodePatchingData | NodePatchingData[] | null {
 
-        return html`<button onClick=${this.click}>
+        const {
+            disabled,
+            click
+        } = this;
+
+        return html`<button disabled=${disabled} onClick=${click}>
             <slot></slot>
         </button>`;
     }

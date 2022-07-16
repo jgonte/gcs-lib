@@ -12,18 +12,18 @@ beforeEach(() => {
 
 describe("Icon tests", () => {
 
-    it('should throw an error when the name is not provided', () => {
+    // it('should throw an error when the name is not provided', () => {
 
-        // Re-register the components since all the custom elements are cleared before any test
-        defineCustomElement('wcl-icon', Icon);
+    //     // Re-register the components since all the custom elements are cleared before any test
+    //     defineCustomElement('wcl-icon', Icon);
 
-        expect(() => {
+    //     expect(() => {
 
-            // Attach it to the DOM
-            document.body.innerHTML = `<wcl-icon></wcl-icon>`;
+    //         // Attach it to the DOM
+    //         document.body.innerHTML = `<wcl-icon></wcl-icon>`;
 
-        }).toThrow(new Error("The attributes: [name] must have a value"));
-    });
+    //     }).toThrow(new Error("The attributes: [name] must have a value"));
+    // });
 
     it('should render an icon', async () => {
 

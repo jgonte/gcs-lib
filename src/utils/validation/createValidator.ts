@@ -10,6 +10,6 @@ export default function createValidator(cfg: ValidatorConfig): Validator {
 
     switch (type) {
         case 'required': return new RequiredValidator();
-        default: throw Error(`Invalid validator type: ${type}`);
+        default: throw new Error(`Invalid validator type: ${type}`);
     }
 }

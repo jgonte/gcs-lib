@@ -7,6 +7,7 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import DataRecord from "../../utils/data/record/DataRecord";
 import { ValidationContext } from "../../utils/validation/validators/Validator";
 import Field, { fieldAddedEvent, changeEvent } from "../fields/Field";
+import Sizable from "../mixins/sizable/Sizable";
 import Submittable from "../mixins/data/Submittable";
 import Validatable from "../mixins/validatable/Validatable";
 import Loadable from "../mixins/data/Loadable";
@@ -17,11 +18,13 @@ import labelWidth from "./labelWidth";
 import labelAlign from "./labelAlign";
 
 export default class Form extends
-    Submittable(
-        Validatable(
-            Loadable(
-                Errorable(
-                    CustomElement as CustomHTMLElementConstructor
+    Sizable(
+        Submittable(
+            Validatable(
+                Loadable(
+                    Errorable(
+                        CustomElement as CustomHTMLElementConstructor
+                    )
                 )
             )
         )

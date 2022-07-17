@@ -33,13 +33,6 @@
             ];
         }
 
-        function getItemStyle() {
-
-            return {
-                listStyleType: 'circle'
-            };
-        }
-
         function getTemplate(record) {
 
             const {
@@ -81,15 +74,15 @@
         ]' id-field="name" display-field="name" selection-changed="showSelection()">
     </wcl-data-list>
 
-    <wcl-data-list id="dr2" item-style="getItemStyle()" data='getData()' id-field="name" display-field="name"
+    <wcl-data-list id="dr2" data='getData()' id-field="name" display-field="name"
         selection-changed="showSelection()">
     </wcl-data-list>
 
-    <wcl-data-list id="dr3" item-style="list-style-type: upper-roman;" data='getData()' id-field="name"
+    <wcl-data-list id="dr3" data='getData()' id-field="name"
         display-field="name" selection-changed="showSelection()">
     </wcl-data-list>
 
-    <wcl-data-list id="dr4" item-style="list-style-type: lower-alpha;" data='getData()' id-field="name"
+    <wcl-data-list id="dr4" data='getData()' id-field="name"
         multiple
         item-template="getTemplate()" selection-changed="showSelection()">
     </wcl-data-list>

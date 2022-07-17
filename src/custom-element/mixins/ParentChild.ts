@@ -98,6 +98,10 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
             }
         }
 
+        /**
+         * Retrieves the parent that is a custom element up in the hierarchy
+         * @returns 
+         */
         protected async getAdoptingParent(): Promise<Node | null> {
 
             if (this._adoptingParent === undefined) { // Memoize

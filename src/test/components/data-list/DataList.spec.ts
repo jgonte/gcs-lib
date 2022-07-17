@@ -1,8 +1,10 @@
 import DataList from "../../../components/data-list/DataList";
 import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
+import html from "../../../rendering/html";
 import { GenericRecord } from "../../../utils/types";
 import clearCustomElements from "../../custom-element/helpers/clearCustomElements";
+import getContentWithoutStyle from "../helpers/getContentWithoutStyle";
 
 beforeEach(() => {
 
@@ -30,29 +32,26 @@ describe("Data list tests", () => {
         defineCustomElement('wcl-data-list', DataList);
 
         // Set up the functions to be called
-        (window as unknown as GenericRecord).getData = function () {
+        (window as unknown as GenericRecord).getData = () => [
+            {
+                code: 1,
+                description: "Item 1"
+            }
+        ];
 
-            return [
-                {
-                    code: 1,
-                    description: "Item 1"
-                }
-            ];
-        };
-
-        const idField = "code";
-
-        const displayField = "description"
+        (window as unknown as GenericRecord).getTemplate = (record: { code: number; description: string }) => html`<div key=${record.code} value=${record.code}>${record.description}</div>`;
 
         // Attach it to the DOM
-        document.body.innerHTML = `<wcl-data-list data="getData()" id-field=${idField} display-field=${displayField} selectable="false"></wcl-data-list>`;
+        document.body.innerHTML = `<wcl-data-list data="getData()" item-template="getTemplate()"></wcl-data-list>`;
 
         // Test the element
         const component = document.querySelector('wcl-data-list') as CustomElement;
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"1\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><!--_$em_--></ul>");
+        let contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><!--_$em_-->");
 
         // Add another item
         component.data = [
@@ -68,111 +67,49 @@ describe("Data list tests", () => {
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"1\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><li key=\"2\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><!--_$em_--></ul>");
+        contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><!--_$em_-->");
+
+        // Add a third one
+        component.data = [
+            {
+                code: 1,
+                description: "Item 1"
+            },
+            {
+                code: 2,
+                description: "Item 2"
+            },
+            {
+                code: 3,
+                description: "Item 3"
+            }
+        ];
+
+        await component.updateComplete; // Wait for the component to render
+
+        contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><div key=\"3\" value=\"3\"><!--_$bm_-->Item 3<!--_$em_--></div><!--_$em_-->");
 
         // Remove the first item
         component.data = [
             {
                 code: 2,
                 description: "Item 2"
+            },
+            {
+                code: 3,
+                description: "Item 3"
             }
         ];
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot?.innerHTML).toBe("<ul><!--_$bm_--><li key=\"2\" style=\"\n    list-style-type: none;\n\">\n                <wcl-selector selectable=\"false\" select-value=\"{&quot;code&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n            </li><!--_$em_--></ul>");
+        contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><div key=\"3\" value=\"3\"><!--_$bm_-->Item 3<!--_$em_--></div><!--_$em_-->");
+
     });
-
-    // it('should render when the data of the attributes is provided via functions', async () => {
-
-    //     // Set up the functions to be called
-    //     (window as any).getData = function () {
-
-    //         return [
-    //             {
-    //                 name: "Sarah",
-    //                 age: 19,
-    //                 description: 'Smart and beautiful'
-    //             },
-    //             {
-    //                 name: "Mark",
-    //                 age: 31,
-    //                 description: 'Hard worker'
-    //             }
-    //         ];
-    //     };
-
-    //     (window as any).getFields = function () {
-
-    //         return ["name", "age", "description"];
-    //     };
-
-    //     // Re-register the data list since all the custom elements are cleared before any test
-    //     defineCustomElement('wcl-data-list', DataList);
-
-    //     // Attach it to the DOM
-    //     document.body.innerHTML = '<wcl-data-list id="dg2" id-field="name" data="getData()" fields="getFields()"></wcl-data-list>';
-
-    //     // Test the element
-    //     const component: any = document.querySelector('wcl-data-list');
-
-    //     await component.updateComplete; // Wait for the component to render
-
-    //     expect(component.shadowRoot.innerHTML).toBe("<style>[object Object]</style><!--_$bm_--><wcl-data-header fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\"></wcl-data-header><!--_$em_--><!--_$bm_--><wcl-data-row fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\" record=\"{&quot;name&quot;:&quot;Sarah&quot;,&quot;age&quot;:19,&quot;description&quot;:&quot;Smart and beautiful&quot;}\" key=\"Sarah\"></wcl-data-row><wcl-data-row fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\" record=\"{&quot;name&quot;:&quot;Mark&quot;,&quot;age&quot;:31,&quot;description&quot;:&quot;Hard worker&quot;}\" key=\"Mark\"></wcl-data-row><!--_$em_-->");
-    // });
-
-    // it('should swap the records', async () => {
-
-    //     // Set up the functions to be called
-    //     (window as any).getData = function () {
-
-    //         return [
-    //             {
-    //                 name: "Sarah",
-    //                 age: 19,
-    //                 description: 'Smart and beautiful'
-    //             },
-    //             {
-    //                 name: "Mark",
-    //                 age: 31,
-    //                 description: 'Hard worker'
-    //             }
-    //         ];
-    //     };
-
-    //     (window as any).getFields = function () {
-
-    //         return ["name", "age", "description"];
-    //     };
-
-    //     // Re-register the data list since all the custom elements are cleared before any test
-    //     defineCustomElement('wcl-data-list', DataList);
-
-    //     // Attach it to the DOM
-    //     document.body.innerHTML = '<wcl-data-list id="dg2"  id-field="name" data="getData()" fields="getFields()"></wcl-data-list>';
-
-    //     // Test the element
-    //     const component: any = document.querySelector('wcl-data-list');
-
-    //     await component.updateComplete; // Wait for the component to render
-
-    //     expect(component.shadowRoot.innerHTML).toBe("<style>[object Object]</style><!--_$bm_--><wcl-data-header fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\"></wcl-data-header><!--_$em_--><!--_$bm_--><wcl-data-row fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\" record=\"{&quot;name&quot;:&quot;Sarah&quot;,&quot;age&quot;:19,&quot;description&quot;:&quot;Smart and beautiful&quot;}\" key=\"Sarah\"></wcl-data-row><wcl-data-row fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\" record=\"{&quot;name&quot;:&quot;Mark&quot;,&quot;age&quot;:31,&quot;description&quot;:&quot;Hard worker&quot;}\" key=\"Mark\"></wcl-data-row><!--_$em_-->");
-
-    //     component.data = [
-    //         {
-    //             name: "Mark",
-    //             age: 31,
-    //             description: 'Hard worker'
-    //         },
-    //         {
-    //             name: "Sarah",
-    //             age: 19,
-    //             description: 'Smart and beautiful'
-    //         }
-    //     ];
-
-    //     await component.updateComplete; // Wait for the component to render
-
-    //     expect(component.shadowRoot.innerHTML).toBe("<style>[object Object]</style><!--_$bm_--><wcl-data-header fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\"></wcl-data-header><!--_$em_--><!--_$bm_--><wcl-data-row fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\" record=\"{&quot;name&quot;:&quot;Mark&quot;,&quot;age&quot;:31,&quot;description&quot;:&quot;Hard worker&quot;}\" key=\"Mark\"></wcl-data-row><wcl-data-row fields=\"[&quot;name&quot;,&quot;age&quot;,&quot;description&quot;]\" record=\"{&quot;name&quot;:&quot;Sarah&quot;,&quot;age&quot;:19,&quot;description&quot;:&quot;Smart and beautiful&quot;}\" key=\"Sarah\"></wcl-data-row><!--_$em_-->");
-    // });
 });

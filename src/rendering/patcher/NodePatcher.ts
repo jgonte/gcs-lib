@@ -246,7 +246,7 @@ export default class NodePatcher implements INodePatcher {
         }
     }
 
-    
+
 }
 
 function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], newChildren: NodePatchingData[] = []): void {
@@ -303,7 +303,7 @@ function patchChildren(markerNode: Node, oldChildren: NodePatchingData[] = [], n
 
                     const oldKeyedChild = keyedNodes.get(newChildKey);
 
-                    updateNodes((oldKeyedChild as NodePatchingData).node as  ExtensibleHTMLElement, oldKeyedChild as NodePatchingData, newChild); // Patch the old node if there are differences
+                    updateNodes((oldKeyedChild as NodePatchingData).node as ExtensibleHTMLElement, oldKeyedChild as NodePatchingData, newChild); // Patch the old node if there are differences
 
                     replaceChild(markerNode, oldKeyedChild as NodePatchingData, oldChild as NodePatchingData);
                 }

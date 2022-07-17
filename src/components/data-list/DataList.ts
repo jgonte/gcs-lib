@@ -1,49 +1,34 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
-import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import SelectionContainer from "../mixins/selection-container/SelectionContainer";
-import DataHolder from "../mixins/data/DataHolder";
+import DataCollectionHolder from "../mixins/data/DataCollectionHolder";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import { GenericRecord } from "../../utils/types";
-import getStyle from "../../custom-element/styles/getStyle";
 import { DataTypes } from "../../utils/data/DataTypes";
+import { dataListStyles } from "./DataList.styles";
+import mergeStyles from "../../custom-element/styles/mergeStyles";
+import html from "../../rendering/html";
 
-const defaultItemStyle = `
-    list-style-type: none;
-`;
-
+/**
+ * Render a collection of records
+ */
 export default class DataList extends
     SelectionContainer(
-        DataHolder(
+        DataCollectionHolder(
             CustomElement as CustomHTMLElementConstructor
         )
     ) {
 
+    static get styles(): string {
+
+        return mergeStyles(super.styles, dataListStyles);
+    }
+
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
         return {
-
-            /**
-             * The name of the field to extract the value to display on each item
-             */
-            displayField: {
-                attribute: 'display-field',
-                type: DataTypes.String
-            },
-
-            /**
-             * The style of each list item
-             */
-            itemStyle: {
-                attribute: 'item-style',
-                type: [
-                    DataTypes.String, 
-                    DataTypes.Object, 
-                    DataTypes.Function
-                ]
-            },
 
             /**
              * The template to render the item
@@ -51,6 +36,7 @@ export default class DataList extends
             itemTemplate: {
                 attribute: 'item-template',
                 type: DataTypes.Function,
+                required: true,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             }
         };
@@ -58,64 +44,15 @@ export default class DataList extends
 
     render(): NodePatchingData {
 
-        return html`<ul>
-            ${this.renderItems()}
-        </ul>`;
+        return html`${this.renderItems()}`;   
     }
 
-    renderItems(): NodePatchingData {
+    renderItems() : NodePatchingData[] {
 
-        const {
-            data,
-            idField
-        } = this;
+        return this.data.map((record: GenericRecord) => {
 
-        return data.map((record: GenericRecord) => {
-
-            const id = record[idField];
-
-            return html`<li key=${id} style=${this.getItemStyle()}>
-                <wcl-selector selectable=${this.selectable} select-value=${record}>${this.renderItem(record)}</wcl-selector>
-            </li>`;
+            return this.itemTemplate(record);
         });
-    }
-
-    getItemStyle(): string {
-
-        const {
-            itemStyle
-        } = this;
-
-        if (itemStyle === undefined) {
-
-            return defaultItemStyle;
-        }
-
-        if (typeof itemStyle === 'string') {
-
-            return `${defaultItemStyle} ${itemStyle}`;
-        }
-        else { // Assume it is an object
-
-            return `${defaultItemStyle} ${getStyle(itemStyle)}`;
-        }
-    }
-
-    renderItem(record: GenericRecord): NodePatchingData {
-
-        const {
-            displayField,
-            itemTemplate
-        } = this;
-
-        if (itemTemplate === undefined) {
-
-            return html`${record[displayField] as string}`;
-        }
-        else {
-
-            return itemTemplate(record);
-        }
     }
 }
 

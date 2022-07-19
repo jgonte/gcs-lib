@@ -39,6 +39,8 @@
             };
         }
 
+        const getItemTemplate = skill => html`<div style="background-color: cyan;" value=${skill.id}>${skill.description}</div>`;
+
         function getTemplate(data) {
 
             const {
@@ -56,7 +58,7 @@
                 </div>
                 <div style="background-color: yellow;">${age}</div>
                 <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
-                <wcl-data-list id-field="id" display-field="description" data=${skills}></wcl-data-list>
+                <wcl-data-list item-template=${getItemTemplate} data=${skills}></wcl-data-list>
             </div>`;
         }
 
@@ -71,7 +73,9 @@
 
 <body>
 
-    <wcl-data-template id="ti1" data='{
+    <h4>Data as object in the attributes</h4>
+
+    <wcl-data-template data='{
         "name": "Sarah",
         "age": 19,
         "description": "Smart and beautiful",
@@ -88,10 +92,14 @@
     }' template="getTemplate()">
     </wcl-data-template>
 
-    <wcl-data-template id="ti2" data='getData()' template="getTemplate()">
+    <h4>Data as a function in the attributes</h4>
+
+    <wcl-data-template data='getData()' template="getTemplate()">
     </wcl-data-template>
 
-    <wcl-data-template id="ti3" data='getData()' template="getSimpleTemplate()">
+    <h4>Simple template</h4>
+
+    <wcl-data-template data='getData()' template="getSimpleTemplate()">
     </wcl-data-template>
 
 </body>

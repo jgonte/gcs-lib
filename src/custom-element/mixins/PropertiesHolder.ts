@@ -163,12 +163,13 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             propertiesMetadata.forEach(p => {
                 const {
                     required,
-                    attribute
+                    attribute,
+                    name
                 } = p;
 
                 if (required === true &&
-                    ((this.attributes as unknown as Record<string, string>)[attribute as string] === undefined &&
-                        this[attribute as string] === undefined)) { // The attribute for that property has not been set
+                    (this._properties[name as string] === undefined &&
+                        this[name as string] === undefined)) { // The attribute for that property has not been set
 
                     missingValueAttributes.push(attribute as string);
                 }

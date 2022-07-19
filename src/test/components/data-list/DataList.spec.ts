@@ -51,7 +51,7 @@ describe("Data list tests", () => {
 
         let contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><!--_$em_-->");
+        expect(contentWithoutStyle).toBe("<div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div>");
 
         // Add another item
         component.data = [
@@ -69,7 +69,7 @@ describe("Data list tests", () => {
 
         contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><!--_$em_-->");
+        expect(contentWithoutStyle).toBe("<div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div>");
 
         // Add a third one
         component.data = [
@@ -91,7 +91,7 @@ describe("Data list tests", () => {
 
         contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><div key=\"3\" value=\"3\"><!--_$bm_-->Item 3<!--_$em_--></div><!--_$em_-->");
+        expect(contentWithoutStyle).toBe("<div key=\"1\" value=\"1\"><!--_$bm_-->Item 1<!--_$em_--></div><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><div key=\"3\" value=\"3\"><!--_$bm_-->Item 3<!--_$em_--></div>");
 
         // Remove the first item
         component.data = [
@@ -109,7 +109,7 @@ describe("Data list tests", () => {
 
         contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<!--_$bm_--><div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><div key=\"3\" value=\"3\"><!--_$bm_-->Item 3<!--_$em_--></div><!--_$em_-->");
+        expect(contentWithoutStyle).toBe("<div key=\"2\" value=\"2\"><!--_$bm_-->Item 2<!--_$em_--></div><div key=\"3\" value=\"3\"><!--_$bm_-->Item 3<!--_$em_--></div>");
 
     });
 });

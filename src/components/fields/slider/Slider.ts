@@ -1,13 +1,12 @@
-
-import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
+import DisplayableField from "../DisplayableField";
 import { sliderStyles } from "./Slider.styles"
 
-export default class Slider extends CustomElement {
+export default class Slider extends DisplayableField {
 
     static get styles(): string {
 

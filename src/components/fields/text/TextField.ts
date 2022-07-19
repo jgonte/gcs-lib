@@ -1,9 +1,9 @@
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
-import Field from "../Field";
+import DisplayableField from "../DisplayableField";
 
-export default class TextField extends Field {
+export default class TextField extends DisplayableField {
 
     render(): NodePatchingData {
 

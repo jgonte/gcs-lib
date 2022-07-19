@@ -29,11 +29,31 @@
                     name: "Mark",
                     age: 31,
                     description: 'Dedicated and perseverant'
+                },
+                {
+                    name: "Sasha",
+                    age: 1,
+                    description: 'A little giant'
                 }
             ];
         }
 
         function getTemplate(record) {
+
+const {
+    name,
+    age,
+    description
+} = record;
+
+return html`<wcl-selector select-value=${name} style="width: 200px;">
+    <div style="background-color: lightgreen;">${name}</div>
+    <div style="background-color: yellow;">${age}</div>
+    <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
+</wcl-selector>`;
+}
+
+        function getRowTemplate(record) {
 
             const {
                 name,
@@ -41,11 +61,13 @@
                 description
             } = record;
 
-            return html`<div style="width: 200px;">
-                <div style="background-color: lightgreen;">${name}</div>
-                <div style="background-color: yellow;">${age}</div>
-                <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
-            </div>`;
+            return html`<wcl-selector select-value=${name} style="width: 500px;">
+                <wcl-row justify-content="start">
+                <div style="background-color: lightgreen; width: 200px;">${name}</div>
+                <div style="background-color: yellow; width: 50px;">${age}</div>
+                <div style="background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</div>
+                </wcl-row>
+            </wcl-selector>`;
         }
 
         function showSelection(selection) {
@@ -60,7 +82,9 @@
 
 <body>
 
-    <wcl-data-list id="dr1" data='[
+    <h4>Single selection data set in attribute</h4>
+
+    <wcl-data-list data='[
             {
                 "name": "Sarah",
                 "age": 19,
@@ -70,23 +94,25 @@
                 "name": "Mark",
                 "age": 31,
                 "description": "Dedicated and perseverant"
+            },
+            {
+                "name": "Sasha",
+                "age": 1,
+                "description": "A little giant"
             }
-        ]' id-field="name" display-field="name" selection-changed="showSelection()">
+        ]' item-template="getRowTemplate()" selection-changed="showSelection()">
     </wcl-data-list>
 
-    <wcl-data-list id="dr2" data='getData()' id-field="name" display-field="name"
-        selection-changed="showSelection()">
+    <h4>Single selection</h4>
+
+    <wcl-data-list data='getData()' item-template="getTemplate()" selection-changed="showSelection()">
     </wcl-data-list>
 
-    <wcl-data-list id="dr3" data='getData()' id-field="name"
-        display-field="name" selection-changed="showSelection()">
+    <h4>Multiple selection</h4>
+
+    <wcl-data-list data='getData()' multiple item-template="getTemplate()" selection-changed="showSelection()">
     </wcl-data-list>
 
-    <wcl-data-list id="dr4" data='getData()' id-field="name"
-        multiple
-        item-template="getTemplate()" selection-changed="showSelection()">
-    </wcl-data-list>
-    
 </body>
 
 </html>

@@ -1,4 +1,3 @@
-
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import findChild from "../../../custom-element/mixins/helpers/findChild";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
@@ -9,7 +8,7 @@ import { DataTypes } from "../../../utils/data/DataTypes";
 import { DynamicObject } from "../../../utils/types";
 import SelectionContainer, { ISelectionContainer, SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
 import Selector from "../../selector/Selector";
-import Field from "../Field";
+import DisplayableField from "../DisplayableField";
 
 interface DataItem extends ISelectionContainer {
 
@@ -20,7 +19,7 @@ interface DataItem extends ISelectionContainer {
 
 export default class ComboBox extends
     SelectionContainer(
-        Field as unknown as CustomHTMLElementConstructor
+        DisplayableField as unknown as CustomHTMLElementConstructor
     ) {
 
     // The cached container of the selector items
@@ -141,11 +140,12 @@ export default class ComboBox extends
                 displayField
             } = _container as DataItem;
 
+            // Transform the data
             const data = selection.map((item: string): DynamicObject => {
 
                 return {
-                    [idField]: item[idField as any],
-                    [displayField]: item[displayField as any]
+                    [idField]: item[idField as unknown as number],
+                    [displayField]: item[displayField as unknown as number]
                 };
             });
 

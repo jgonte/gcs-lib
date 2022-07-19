@@ -2,17 +2,13 @@ import CustomElement from "../../custom-element/CustomElement";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElement from "../../custom-element/mixins/metadata/types/CustomHTMLElement";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
-import mergeStyles from "../../custom-element/styles/mergeStyles";
 import { DataTypes } from "../../utils/data/DataTypes";
 import DataField from "../../utils/data/record/DataField";
 import RequiredValidator from "../../utils/validation/validators/field/RequiredValidator";
 import SingleValueFieldValidator, { FieldValidationContext } from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
 import LocalizedText from "../localized-text/LocalizedText";
-import Disableable from "../mixins/disableable/Disableable";
-import Sizable from "../mixins/sizable/Sizable";
 import Validatable from "../mixins/validatable/Validatable";
-import { fieldStyles } from "./Field.styles";
 
 export const inputEvent = "inputEvent";
 
@@ -20,13 +16,14 @@ export const changeEvent = "changeEvent";
 
 export const fieldAddedEvent = "fieldAddedEvent";
 
+interface FieldTypeHolder {
+
+    getFieldType(): DataTypes | undefined;
+}
+
 export default abstract class Field extends
-    Disableable(
-        Sizable(
-            Validatable(
-                CustomElement as CustomHTMLElementConstructor
-            )
-        )
+    Validatable(
+        CustomElement as CustomHTMLElementConstructor
     ) {
 
     protected dataField: DataField = new DataField();
@@ -43,10 +40,6 @@ export default abstract class Field extends
     // Marker to mark the field as such so it can be filtered out from other components
     isField = true; // TODO: Make it static?
 
-    static get styles(): string {
-
-        return mergeStyles(super.styles, fieldStyles);
-    }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
@@ -88,7 +81,7 @@ export default abstract class Field extends
         } = this;
 
         // Initialize the data field
-        dataField.type = (this.constructor as any).getFieldType();
+        dataField.type = (this.constructor as unknown as FieldTypeHolder).getFieldType();
 
         // Set the initial value if any
         dataField.value = this.value;
@@ -97,7 +90,7 @@ export default abstract class Field extends
     attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
 
         super.attributeChangedCallback?.(attributeName, oldValue, newValue);
-        
+
         if (attributeName === 'required') {
 
             if (newValue !== "false") { // Add a required validator

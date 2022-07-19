@@ -44,6 +44,10 @@
 
     --wcl-disabled-background-color: lightgray;
     --wcl-disabled-color: darkgray;
+
+    /* Hoverable */
+    --wcl-hoverable-background-color:rgb(211, 227, 233);
+    --wcl-hoverable-color: black;
     
 /*
     

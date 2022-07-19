@@ -3,10 +3,9 @@ import CustomElementPropertyMetadata from "../../../custom-element/mixins/metada
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
-import Field from "../Field";
+import DisplayableField from "../DisplayableField";
 
-
-function formatSize(fileSize: number) : string {
+function formatSize(fileSize: number): string {
 
     if (fileSize < 1024) {
 
@@ -24,7 +23,7 @@ function formatSize(fileSize: number) : string {
     throw new Error(`Not implemented for file size: ${fileSize}`);
 }
 
-export default class FileField extends Field {
+export default class FileField extends DisplayableField {
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 

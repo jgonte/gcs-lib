@@ -1,6 +1,6 @@
 import css from "../../custom-element/styles/css";
 
-export const fieldStyles = css`
+export const displayableFieldStyles = css`
 
 input, 
 select,

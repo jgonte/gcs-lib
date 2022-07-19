@@ -9,7 +9,7 @@ import { GenericRecord } from "../../utils/types";
 import { DataTypes } from "../../utils/data/DataTypes";
 import { dataListStyles } from "./DataList.styles";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
-import html from "../../rendering/html";
+//import html from "../../rendering/html";
 
 /**
  * Render a collection of records
@@ -42,12 +42,7 @@ export default class DataList extends
         };
     }
 
-    render(): NodePatchingData {
-
-        return html`${this.renderItems()}`;   
-    }
-
-    renderItems() : NodePatchingData[] {
+    render(): NodePatchingData[] {
 
         return this.data.map((record: GenericRecord) => {
 

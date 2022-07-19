@@ -1,7 +1,7 @@
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
-import Field from "../Field";
+import DisplayableField from "../DisplayableField";
 
 function formatDate(value: string) {
 
@@ -10,7 +10,7 @@ function formatDate(value: string) {
     return value.substring(0, i); // Extract the date part only
 }
 
-export default class DateField extends Field {
+export default class DateField extends DisplayableField {
 
     render(): NodePatchingData {
 

@@ -13,12 +13,17 @@ import Panel from "./components/panel/Panel";
 import Icon from "./components/icon/Icon";
 import LocalizedText from "./components/localized-text/LocalizedText";
 import Alert from "./components/alert/Alert";
-import Badge from "./components/badge/Badge";
+import Pill from "./components/pill/Pill";
 import Button from "./components/button/Button";
 import ToolTip from "./components/tool-tip/ToolTip";
 import DataTemplate from "./components/data-template/DataTemplate";
 import Selector from "./components/selector/Selector";
 import DropDown from "./components/drop-down/DropDown";
+
+// Tips
+import HelpTip from "./components/tips/HelpTip";
+import ModifiedTip from "./components/tips/ModifiedTip";
+import RequiredTip from "./components/tips/RequiredTip";
 
 // Layout
 import Row from "./components/row/Row";
@@ -69,12 +74,17 @@ export {
     Icon,
     LocalizedText,
     Alert,
-    Badge,
+    Pill,
     Button,
     ToolTip,
     DataTemplate,
     Selector,
     DropDown,
+
+    // Tips
+    RequiredTip,
+    ModifiedTip,
+    HelpTip,
 
     // Layout
     Row,
@@ -88,7 +98,7 @@ export {
     CloseTool,
     ExpanderTool as DropTool,
     SorterTool,
-    
+
     // Fields 
     TextField,
     DateField,

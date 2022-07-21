@@ -3,7 +3,7 @@ import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadat
 import css from "../../../custom-element/styles/css";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import cssVariables from "../../../design-system/css-variables";
-import createVariantStyles from "../../../design-system/variants";
+import createVariantStyles from "../../../design-system/createVariantStyles";
 import { DataTypes } from "../../../utils/data/DataTypes";
 
 const kinds = ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger'];
@@ -28,8 +28,10 @@ function createKindStyles(ctor: CustomHTMLElementConstructor): string {
                 );
             }
             break;
-        // Include the variants
+        // Include the variants for the nuanced elements
         case "Button":
+        case "Badge":
+        case "Pill":
             {
                 kinds.forEach(kind =>
                     styles.push(createVariantStyles(ctor, kind))

@@ -1,6 +1,6 @@
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
-import { variants } from "../../../design-system/variants";
+import { variants } from "../../../design-system/createVariantStyles";
 import { DataTypes } from "../../../utils/data/DataTypes";
 
 export default function Variant<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {

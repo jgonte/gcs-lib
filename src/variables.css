@@ -74,42 +74,24 @@
 
     */
 
-    /* Border width */
-    --wcl-border-width: 2px;
-
-    /* Heights */
-    --wcl-min-height-large: 1.5rem;
-    --wcl-min-height-medium: 1.25rem;
-    --wcl-min-height-small: 1rem;
-
     /* Font sizes */
-    --wcl-font-size-large: 2rem;
-    --wcl-font-size-medium: 1.5rem;
+    --wcl-font-size-large: 2.56rem;
+    --wcl-font-size-medium: 1.6rem;
     --wcl-font-size-small: 1rem;
 
-    /* Padding sizes */
-    --wcl-padding-large: .375rem;
-    --wcl-padding-medium: .25rem;
-    --wcl-padding-small: .125rem;
-
-    /* Margin sizes */
-    --wcl-margin-large: .9rem;
-    --wcl-margin-medium: .5rem;
-    --wcl-margin-small: .325rem;
-
-    /* Radius sizes */
-    --wcl-radius-size-large: .4rem;
-    --wcl-radius-size-medium: .25rem;
-    --wcl-radius-size-small: .2rem;
-
-    /* Width (of borders) sizes */
-    --wcl-width-size-large: .15rem;
-    --wcl-width-size-medium: .1rem;
-    --wcl-width-size-small: .05rem;
-
+    /* Icon sizes */
     --wcl-icon-size-large: 2rem;
     --wcl-icon-size-medium: 1.5rem;
     --wcl-icon-size-small: 1rem;
+
+    /* Border */
+    --wcl-border-width: .2em;
+
+    /* Min height */
+    --wcl-min-height: 1.2em;
+
+    /* Margin */
+    --wcl-margin: .25em 1em;
 }
 
 body {

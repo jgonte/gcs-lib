@@ -98,22 +98,16 @@ export default class FormField extends
             <slot name="tools" id="tools-slot">        
             </slot>
             ${required === true ?
-            html`<wcl-tool-tip>
-                <wcl-badge kind="danger" slot="trigger">*</wcl-badge>
-                <wcl-localized-text resource-key="thisFieldIsRequired" slot="content"></wcl-localized-text>
-            </wcl-tool-tip>`
-            : null}
+                html`<wcl-required-tip></wcl-required-tip>`
+                : null}
             <span id="colon-span">:</span>
         </span>
     </span>
     <span id="field">
         <slot name="field"></slot>
-        ${modified === true ?
-        html`<wcl-tool-tip>
-            <wcl-badge kind="primary" slot="trigger">M</wcl-badge>
-            <wcl-localized-text resource-key="thisFieldHasBeenModified" slot="content"></wcl-localized-text>
-        </wcl-tool-tip>`
-        : null}
+            ${modified === true ?
+                html`<wcl-modified-tip></wcl-modified-tip>`
+                : null}
     </span>
 </div>      
 <wcl-validation-summary

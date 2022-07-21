@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../variables.css">
+    
+    <script type="module">
+        import appConfig from "../js/appConfig.js";
+
+        window.getAppConfig = () => appConfig;
+    </script>
+
+    <script type="module" src="../../../dist/js/bundle.js"></script>
+
+    <title>Modified Tip</title>
+
+</head>
+
+<body>
+
+    <wcl-help-tip size="large" resource-key="fullName"></wcl-help-tip>
+
+    <wcl-help-tip size="medium" resource-key="fullName"></wcl-help-tip>
+
+    <wcl-help-tip size="small" resource-key="fullName"></wcl-help-tip>
+
+</body>
+
+</html>

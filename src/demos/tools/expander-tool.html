@@ -22,7 +22,7 @@
         window.addEventListener('expanderChanged', event => alert(`
             Event type: 'expanderChanged'
             Showing: '${event.detail.showing}'
-            Sorter element id: '${event.detail.element.id}'
+            Element id: '${event.detail.element.id}'
         `));
 
     </script>
@@ -31,7 +31,11 @@
 
 <body>
 
-    <wcl-expander-tool id="expander-1" field="amount"></wcl-expander-tool>
+    <wcl-expander-tool kind="primary" size="large" id="element-1"></wcl-expander-tool>
+
+    <wcl-expander-tool size="medium" id="element-2"></wcl-expander-tool>
+
+    <wcl-expander-tool size="small" id="element-3"></wcl-expander-tool>
 
 </body>
 

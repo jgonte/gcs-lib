@@ -127,7 +127,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                 }
                 else { // Remove the value from the selection
 
-                    this.selection = selection.filter((item: { id: unknown; }) => item.id !== value.id);
+                    this.selection = selection.filter((item: unknown) => item !== value);
                 }
             }
             else { // Replace the old selection with the new one

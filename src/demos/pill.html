@@ -15,12 +15,26 @@
 
     <script type="module" src="../../dist/js/bundle.js"></script>
 
+    <script>
+        onClose = () => window.alert('Aha! ... trying to close me');
+    </script>
+
     <title>Badge demo</title>
 </head>
 
 <body>
 
     <wcl-pill kind="primary" variant="contained" size="small">Sarah</wcl-pill>
+
+    <wcl-pill kind="primary" variant="contained" size="small">
+        Sarah
+        <wcl-close-tool close="onClose()"></wcl-close-tool>
+    </wcl-pill>
+
+    <wcl-pill kind="primary" variant="contained" size="small">
+        <wcl-localized-text resource-key="goodMorning"></wcl-localized-text>
+        <wcl-close-tool close="onClose()"></wcl-close-tool>
+    </wcl-pill>
 
     <wcl-pill kind="primary" variant="contained">13</wcl-pill>
 

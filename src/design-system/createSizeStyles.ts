@@ -12,9 +12,21 @@ export default function createSizeStyles(ctor: CustomHTMLElementConstructor): st
     styles.push(css`
 :host {
     min-height: var(${cssVariables.get("min-height")});
-    margin: var(${cssVariables.get("margin")});
 }`
     );
+
+    if (![
+        "CloseTool",
+        "SorterTool",
+        "ExpanderTool"
+    ].includes(ctor.name)) {
+
+        styles.push(css`
+:host {
+    margin: var(${cssVariables.get("margin")});
+}`
+        );
+    }
 
     // Size specific
     sizes.forEach(size => {
@@ -22,20 +34,20 @@ export default function createSizeStyles(ctor: CustomHTMLElementConstructor): st
         // Size specific style
         switch (ctor.name) {
 
-            case "Button":
-                {
-                    styles.push(css`
-:host([size='${size}']) button {
-    font-size: var(${cssVariables.get("font-size")}${size});
-}`
-                    );
-                }
-                break;
             case "TextField":
                 {
                     styles.push(css`
 :host([size='${size}']) input[type='text'] {
     font-size: var(${cssVariables.get("font-size")}${size});
+}`
+                    );
+                }
+                break;
+            case "Icon":
+                {
+                    styles.push(css`
+:host([size='${size}']) {
+    font-size: var(${cssVariables.get("icon-size")}${size});
 }`
                     );
                 }

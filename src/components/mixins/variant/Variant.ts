@@ -12,12 +12,13 @@ export default function Variant<TBase extends CustomHTMLElementConstructor>(Base
             return {
 
                 /**
-                  * The variant of the button
+                  * The variant of the element
                   */
                 variant: {
                     type: DataTypes.String,
                     value: variants[0],
                     reflect: true,
+                    inherit: true,
                     options: variants
                 }
             };

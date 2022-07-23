@@ -110,10 +110,14 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
 
                 while (parent !== null) {
 
+                    if (parent instanceof DocumentFragment) { // Possibly a shadow DOM
+
+                        parent = (parent as ShadowRoot).host; // Get its host
+                    }
+
                     const tagName = (parent as HTMLElement).tagName?.toLowerCase();
 
-                    if (tagName === undefined ||
-                        tagName === 'body') { // Top parent or document
+                    if (tagName === 'body') { // Top parent
 
                         return this._adoptingParent = null;
                     }
@@ -133,6 +137,13 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
             }
 
             return this._adoptingParent as Node;
+        }
+
+        handleSlotchange(e: Event): void {
+
+            console.dir(e);
+
+            alert('kuku');
         }
     }
 }

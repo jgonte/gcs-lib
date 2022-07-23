@@ -11,6 +11,8 @@ cssVariables.set("disabled-background-color", "--wcl-disabled-background-color")
 
 cssVariables.set("font-size", "--wcl-font-size-");
 
+cssVariables.set("icon-size", "--wcl-icon-size-");
+
 cssVariables.set("min-height", "--wcl-min-height");
 
 cssVariables.set("margin", "--wcl-margin");

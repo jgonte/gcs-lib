@@ -7,5 +7,5 @@ export const pillStyles = css`
     align-items: center;
     border-radius: 1em;
     width: fit-content;
-    padding: .25em 1em;
+    padding: 0 .5em;
 }`;

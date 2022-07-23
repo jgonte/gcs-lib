@@ -86,8 +86,7 @@ export default function createVariantStyles(ctor: CustomHTMLElementConstructor, 
                 });
             }
             break;
-        case "Badge":
-        case "Pill":
+        default:
             {
                 variants.forEach(variant => {
 
@@ -112,7 +111,6 @@ export default function createVariantStyles(ctor: CustomHTMLElementConstructor, 
                 });
             }
             break;
-        default: throw new Error(`createVariantStyles not implemented for type: '${ctor.name}'`);
     }
 
     return css`${styles.join('\n')}`;

@@ -13,25 +13,15 @@ function createKindStyles(ctor: CustomHTMLElementConstructor): string {
     const styles: string[] = [];
 
     switch (ctor.name) {
-
-        // Do not use the background color for these
-        case "Icon":
-        case "LocalizedText":
-            {
-                kinds.forEach(
-                    kind => styles.push(
-                        css`
-:host([kind='${kind}']) { 
-    color: var(${cssVariables.get("color")}${kind});
-}`
-                    )
-                );
-            }
-            break;
         // Include the variants for the nuanced elements
+        case "LocalizedText":
+        case "Icon":
         case "Button":
         case "Badge":
         case "Pill":
+        case "CloseTool":
+        case "ExpanderTool":
+        case "SorterTool":
             {
                 kinds.forEach(kind =>
                     styles.push(createVariantStyles(ctor, kind))
@@ -40,6 +30,8 @@ function createKindStyles(ctor: CustomHTMLElementConstructor): string {
             break;
         default:
             {
+                console.warn(`Setting default kind styles for element: '${ctor.name}'`);
+
                 kinds.forEach(
                     kind => styles.push(
                         css`
@@ -68,7 +60,7 @@ export default function Kind<TBase extends CustomHTMLElementConstructor>(Base: T
                     type: DataTypes.String,
                     options: kinds,
                     inherit: true,
-                    // reflect: true,
+                    reflect: true,
                 }
             };
         }

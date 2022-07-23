@@ -80,9 +80,9 @@
     --wcl-font-size-small: 1rem;
 
     /* Icon sizes */
-    --wcl-icon-size-large: 2rem;
-    --wcl-icon-size-medium: 1.5rem;
-    --wcl-icon-size-small: 1rem;
+    --wcl-icon-size-large: 2.048rem;
+    --wcl-icon-size-medium: 1.28rem;
+    --wcl-icon-size-small: .8rem;
 
     /* Border */
     --wcl-border-width: .2em;
@@ -91,7 +91,7 @@
     --wcl-min-height: 1.2em;
 
     /* Margin */
-    --wcl-margin: .25em 1em;
+    --wcl-margin: .25em;
 }
 
 body {

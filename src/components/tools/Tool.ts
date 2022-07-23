@@ -1,18 +1,17 @@
-import CustomElement from "../../custom-element/CustomElement";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
-import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
+import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../utils/data/DataTypes";
-import Kind from "../mixins/kind/Kind";
-import Sizable from "../mixins/sizable/Sizable";
+import Nuanced from "../Nuanced";
+import { toolStyles } from "./Tool.styles";
 
-export default abstract class Tool extends
-    Sizable(
-        Kind(
-            CustomElement as CustomHTMLElementConstructor
-        )
-    ) {
+export default abstract class Tool extends Nuanced {
+
+    static get styles(): string {
+
+        return mergeStyles(super.styles, toolStyles);
+    }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
@@ -32,16 +31,26 @@ export default abstract class Tool extends
         };
     }
 
+    connectedCallback(): void {
+        
+        super.connectedCallback?.();
+
+        this.addEventListener('click', this.click);
+    }
+
+    disconnectedCallback(): void {
+        
+        super.disconnectedCallback?.();
+
+        this.removeEventListener('click', this.click);
+    }
+
     render(): NodePatchingData {
 
         const {
-            kind,
-            size,
             iconName,
         } = this;
 
-        return html`<wcl-button kind=${kind} size=${size} variant="text" click=${() => this.click()}>
-            <wcl-icon kind=${kind} name=${typeof iconName === 'function' ? iconName() : iconName}></wcl-icon>
-        </wcl-button>`;
+        return html`<wcl-icon name=${typeof iconName === 'function' ? iconName() : iconName}></wcl-icon>`;
     }
 }

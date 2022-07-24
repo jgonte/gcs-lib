@@ -64,9 +64,6 @@
 
     --wcl-background-color:#fff;
 
-    --wcl-hoverable-background-color:rgb(211, 227, 233);
-    --wcl-hoverable-color: black;
-
     --wcl-selected-background-color:#8ebeba;
     --wcl-selected-color: gold;
 
@@ -85,7 +82,8 @@
     --wcl-icon-size-small: .8rem;
 
     /* Border */
-    --wcl-border-width: .2em;
+    --wcl-border-width: .1em;
+    --wcl-border-radius: .4em;
 
     /* Min height */
     --wcl-min-height: 1.2em;

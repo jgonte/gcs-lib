@@ -7,6 +7,9 @@ button {
     justify-content: start;
     user-select: none;
     cursor: pointer;
+    border-width: var(--wcl-border-width);
+    border-radius: var(--wcl-border-radius);
+    
     /* outline: 0;
       margin-right: 8px;
       margin-bottom: 12px;

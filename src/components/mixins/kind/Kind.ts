@@ -13,9 +13,14 @@ function createKindStyles(ctor: CustomHTMLElementConstructor): string {
     const styles: string[] = [];
 
     switch (ctor.name) {
-        // Include the variants for the nuanced elements
+        // "Atomic" elements inherit from their parents, they do not have specific styles
         case "LocalizedText":
         case "Icon":
+            {
+                // Do nothing
+            }
+            break;
+        // Include the variants for the nuanced elements
         case "Button":
         case "Badge":
         case "Pill":

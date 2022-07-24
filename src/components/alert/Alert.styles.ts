@@ -8,8 +8,7 @@ export const alertStyles = css`
     border-style: solid;
     border-width: var(--wcl-border-width);
     column-gap: 1rem;
-    border-radius: 4px;
+    border-radius: var(--wcl-border-radius);
     max-width: 80%;
-    padding: 1rem;
     word-break: normal;
 }`;

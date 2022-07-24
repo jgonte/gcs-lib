@@ -1,15 +1,20 @@
+import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import IntlProvider from "../../services/IntlProvider";
 import { DataTypes } from "../../utils/data/DataTypes";
-import Nuanced from "../Nuanced";
+import Sizable from "../mixins/sizable/Sizable";
 import { localizedTextStyles } from "./LocalizedText.styles";
 
-export default class LocalizedText extends Nuanced{
+export default class LocalizedText extends
+    Sizable(
+        CustomElement as CustomHTMLElementConstructor
+    ) {
 
     static get styles(): string {
 

@@ -142,11 +142,9 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                     selectedChild.selected = false;
                 }
 
-                this.selection.length = 0; // Clear the selection
-
                 if (selected === true) {
 
-                    this.selection.push(value);
+                    this.selection = [value];
 
                     this.selectedChild = element;
                 }

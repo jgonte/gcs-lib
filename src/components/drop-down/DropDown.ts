@@ -9,7 +9,7 @@ import { expanderChanged } from "../tools/expander/ExpanderTool";
 import { dropDownStyles } from "./DropDown.styles";
 import ExpanderTool from "../tools/expander/ExpanderTool";
 
-export default class DropDown extends CustomElement  {
+export default class DropDown extends CustomElement {
 
     static get styles(): string {
 
@@ -44,15 +44,9 @@ export default class DropDown extends CustomElement  {
             'show': showing
         });
 
-        return html`<div tabindex="0" class="dropdown">
-            <wcl-row>
-                <slot id="header" name="header"></slot>
-                <wcl-expander-tool id="expander-tool"></wcl-expander-tool>
-            </wcl-row>
-            <div class=${contentClasses}>
-                <slot name="content"></slot>
-            </div>
-        </div>`;
+        return html`<slot id="header" name="header"></slot>
+            <wcl-expander-tool id="expander-tool"></wcl-expander-tool>
+            <slot id="content" class=${contentClasses} name="content"></slot>`;
     }
 
     connectedCallback() {

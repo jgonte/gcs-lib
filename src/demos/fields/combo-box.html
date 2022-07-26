@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="../../variables.css">
-    
+
     <script type="module">
         import appConfig from "../js/appConfig.js";
 
@@ -33,13 +33,20 @@
                     name: "Mark",
                     age: 31,
                     description: "Dedicated and perseverant"
+                },
+                {
+                    id: 3,
+                    name: "Sasha",
+                    age: 1,
+                    description: "Little giant"
                 }
             ];
         }
 
+        // Important: The template must have the slot="header" attribute set
         function getSelectTemplate() {
 
-            return html`<wcl-localized-text style="background-color:chartreuse;" intl-key="please-select">Please select</wcl-localized-text>`;
+            return html`<wcl-localized-text slot="header" style="background-color:chartreuse;" intl-key="select">Select</wcl-localized-text>`;
         }
 
         function getSingleSelectionTemplate(selection) {
@@ -87,61 +94,55 @@
 
     <h4>Single selection with selection changed handler</h4>
 
-    <wcl-combo-box id="cb1" name="person" select-template="getSelectTemplate()"
-        single-selection-template="getSingleSelectionTemplate()">
-        <div slot="content">
-            <wcl-data-list data='getData()' id-field="id" display-field="name" selection-changed="showSelection()">
-            </wcl-data-list>
-        </div>
-    </wcl-combo-box>
+    <wcl-combo-box id="cb1" name="person" data='getData()' id-field="id" display-field="name"
+        selection-changed="showSelection()"></wcl-combo-box>
+
+    <h4>Single selection with custom item template</h4>
+
+    <wcl-combo-box id="cb1" name="person" data='getData()' id-field="id" display-field="name"
+        item-template="getTemplate()"></wcl-combo-box>
 
     <h4>Single selection without selection changed handler</h4>
 
-    <wcl-combo-box id="cb2" name="person" select-template="getSelectTemplate()">
-        <div slot="content">
-            <wcl-data-list id="dr1" data='[
-            {
-                "id": 1,
-                "name": "Sarah",
-                "age": 19,
-                "description": "Smart and beautiful"
-            },
-            {
-                "id": 2,
-                "name": "Mark",
-                "age": 31,
-                "description": "Dedicated and perseverant"
-            }
-        ]' id-field="id" display-field="name">
-            </wcl-data-list>
-        </div>
+    <wcl-combo-box id="cb2" name="person" select-template="getSelectTemplate()" data='[
+    {
+        "id": 1,
+        "name": "Sarah",
+        "age": 19,
+        "description": "Smart and beautiful"
+    },
+    {
+        "id": 2,
+        "name": "Mark",
+        "age": 31,
+        "description": "Dedicated and perseverant"
+    }
+]' id-field="id" display-field="name">
     </wcl-combo-box>
 
     <h4>Single selection with remote data</h4>
 
-    <wcl-combo-box id="cb3" name="person" single-selection-template="getSingleSelectionTemplate()">
-        <div slot="content">
-            <wcl-loader load-url="http://localhost:60314/api/contacts/">
-                <wcl-data-list id-field="id" display-field="name" item-template="getTemplate()"></wcl-data-list>
-            </wcl-loader>
-            </wcl-data-list>
-        </div>
-    </wcl-combo-box>
+    <wcl-loader load-url="http://localhost:60314/api/contacts/">
+        <wcl-combo-box id="cb3" name="person" single-selection-template="getSingleSelectionTemplate()" id-field="id"
+            display-field="name" item-template="getTemplate()">
+        </wcl-combo-box>
+    </wcl-loader>
 
-    <h4>Multiple selection with remote data</h4>
+    <!-- 
+
+    <h4>Multiple selection with remote data</h4> -->
 
     <!-- multiple-selection-template="getMultipleSelectionTemplate()" -->
 
-    <wcl-combo-box id="cb4" name="person" select-template="getSelectTemplate()"
+    <!-- <wcl-combo-box id="cb4" name="person" select-template="getSelectTemplate()"
         single-selection-template="getSingleSelectionTemplate()">
         <div slot="content">
             <wcl-loader load-url="http://localhost:60314/api/contacts/">
                 <wcl-data-list id-field="id" display-field="name" item-template="getTemplate()" multiple>
                 </wcl-data-list>
             </wcl-loader>
-            </wcl-data-list>
         </div>
-    </wcl-combo-box>
+    </wcl-combo-box> -->
 
 </body>
 

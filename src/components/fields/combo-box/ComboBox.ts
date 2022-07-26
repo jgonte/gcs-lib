@@ -1,33 +1,55 @@
 import defineCustomElement from "../../../custom-element/defineCustomElement";
-import findChild from "../../../custom-element/mixins/helpers/findChild";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
-import { DynamicObject } from "../../../utils/types";
-import SelectionContainer, { ISelectionContainer, SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
+import { DynamicObject, GenericRecord } from "../../../utils/types";
+import SelectionContainer, { SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
+import DataCollectionHolder from "../../mixins/data/DataCollectionHolder";
 import Selector from "../../selector/Selector";
 import DisplayableField from "../DisplayableField";
-
-interface DataItem extends ISelectionContainer {
-
-    idField: string;
-
-    displayField: string;
-}
+import isPrimitive from "../../../utils/isPrimitive";
 
 export default class ComboBox extends
     SelectionContainer(
-        DisplayableField as unknown as CustomHTMLElementConstructor
+        DataCollectionHolder(
+            DisplayableField as unknown as CustomHTMLElementConstructor
+        )
     ) {
-
-    // The cached container of the selector items
-    private _container: DataItem | undefined = undefined;
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
         return {
+
+            /**
+             * The name of the field that contains the ID of the record
+             */
+            idField: {
+                attribute: 'id-field',
+                type: DataTypes.String,
+                required: true
+            },
+
+            /**
+             * The name of the field that contains the field of the record to display in the selection
+             */
+            displayField: {
+                attribute: 'display-field',
+                type: DataTypes.String,
+                required: true
+            },
+
+            /**
+             * The template to render the item (record) in the (data) list
+             */
+             itemTemplate: {
+                attribute: 'item-template',
+                type: DataTypes.Function,
+                required: true,
+                defer: true // Store the function itself instead of executing it to get its return value when initializing the property
+            },
+
             /**
              * The template to render the header of the combo box
              */
@@ -66,13 +88,20 @@ export default class ComboBox extends
         };
     }
 
+    constructor() {
+
+        super();
+
+        this.renderItem = this.renderItem.bind(this);
+
+        this.onSelectionChanged = this.onSelectionChanged.bind(this);
+    }
+
     render(): NodePatchingData {
 
         return html`<wcl-drop-down>
-            <span slot="header">${this.renderHeader()}</span>
-            <span slot="content">
-                <slot id="content" name="content"></slot>
-            </span>
+            ${this.renderHeader()}
+            ${this.renderContent()}
         </wcl-drop-down>`;
     }
 
@@ -89,6 +118,33 @@ export default class ComboBox extends
         }
     }
 
+    renderItem(record: GenericRecord): NodePatchingData {
+
+        const {
+            itemTemplate,
+            displayField
+        } = this;
+
+        if (itemTemplate !== undefined) {
+
+            return itemTemplate(record);
+        }
+
+        return html`<wcl-selector select-value=${record}>${record[displayField] as string}</wcl-selector>`;
+    }
+
+    onSelectionChanged(selection: GenericRecord) {
+
+        this.selection = selection;
+
+        this.selectionChanged?.(selection);
+    }
+
+    renderContent(): NodePatchingData {
+
+        return html`<wcl-data-list slot="content" data=${this.data} item-template=${this.renderItem} selection-changed=${this.onSelectionChanged}></wcl-data-list>`;
+    }
+
     renderSelectTemplate(): NodePatchingData {
 
         const {
@@ -101,7 +157,7 @@ export default class ComboBox extends
         }
         else {
 
-            return html`<wcl-localized-text intl-key="please-select">Please select</wcl-localized-text>`;
+            return html`<wcl-localized-text slot="header" intl-key="please-select">Please select</wcl-localized-text>`;
         }
     }
 
@@ -109,7 +165,7 @@ export default class ComboBox extends
 
         const {
             singleSelectionTemplate,
-            _container
+            displayField
         } = this;
 
         if (singleSelectionTemplate !== undefined) {
@@ -118,7 +174,11 @@ export default class ComboBox extends
         }
         else {
 
-            return html`<span>${selection[(_container as DataItem).displayField]}</span>`;
+            const value = isPrimitive(selection) ?
+                selection :
+                selection[displayField];
+
+            return html`<span slot="header">${value}</span>`;
         }
     }
 
@@ -126,7 +186,8 @@ export default class ComboBox extends
 
         const {
             multipleSelectionTemplate,
-            _container
+            idField,
+            displayField
         } = this;
 
         if (multipleSelectionTemplate !== undefined) {
@@ -135,53 +196,17 @@ export default class ComboBox extends
         }
         else {
 
-            const {
-                idField,
-                displayField
-            } = _container as DataItem;
-
             // Transform the data
             const data = selection.map((item: string): DynamicObject => {
 
                 return {
-                    [idField]: item[idField as unknown as number],
-                    [displayField]: item[displayField as unknown as number]
+                    [idField]: item[idField],
+                    [displayField]: item[displayField]
                 };
             });
 
-            return html`<wcl-data-list data=${data} id-field=${idField} display-field=${displayField} selectable="false"></wcl-data-list>`;
+            return html`<wcl-data-list slot="header" data=${data} id-field=${idField} display-field=${displayField} selectable="false"></wcl-data-list>`;
         }
-    }
-
-    didMountCallback() {
-
-        super.didMountCallback?.();
-
-        // If the slotted content is a selection container, then attach the update header to the selectionChanged property
-        const content = (this.document as ShadowRoot).getElementById('content');
-
-        const container = findChild(
-            (content as HTMLSlotElement).assignedElements({ flatten: false }) as unknown as HTMLCollection,
-            (child) => (child as ISelectionContainer).isSelectionContainer === true
-        ) as DataItem;
-
-        const selectionChangedHandler = container.selectionChanged;
-
-        if (selectionChangedHandler === undefined) {
-
-            container.selectionChanged = (selection: SelectionTypes) => this.selection = selection;
-        }
-        else {
-
-            container.selectionChanged = (selection: SelectionTypes) => {
-
-                this.selection = selection;
-
-                selectionChangedHandler(selection); // Include the original handler
-            }
-        }
-
-        this._container = container; // Needed to reference to get idField and displayField
     }
 
     onPropertyChanged(name: string, value: unknown) {
@@ -197,12 +222,12 @@ export default class ComboBox extends
     selectItemWithValue(value: unknown) {
 
         const {
-            _container
+            idField
         } = this;
 
-        const selectors = (_container?.shadowRoot as ShadowRoot).querySelectorAll('wcl-selector');
+        const selectors = (this?.shadowRoot as ShadowRoot).querySelectorAll('wcl-selector');
 
-        const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[(_container as DataItem).idField] === value)[0] as Selector;
+        const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[idField] === value)[0] as Selector;
 
         selector.select();
     }

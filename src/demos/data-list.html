@@ -40,18 +40,18 @@
 
         function getTemplate(record) {
 
-const {
-    name,
-    age,
-    description
-} = record;
+            const {
+                name,
+                age,
+                description
+            } = record;
 
-return html`<wcl-selector select-value=${name} style="width: 200px;">
+            return html`<wcl-selector select-value=${name} style="width: 200px;">
     <div style="background-color: lightgreen;">${name}</div>
     <div style="background-color: yellow;">${age}</div>
     <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
 </wcl-selector>`;
-}
+        }
 
         function getRowTemplate(record) {
 

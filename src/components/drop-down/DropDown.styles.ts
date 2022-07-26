@@ -1,15 +1,12 @@
 import css from "../../custom-element/styles/css";
 
 export const dropDownStyles = css`
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
+:host {
   position: relative;
-  display: inline-block;
   border: 1px solid black;
   padding: 0 0 0 1rem;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -19,15 +16,6 @@ export const dropDownStyles = css`
   z-index: 1;
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-  
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
     display:block;
 }`;

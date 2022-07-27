@@ -141,7 +141,7 @@ export default class ComboBox extends
 
     renderContent(): NodePatchingData {
 
-        return html`<wcl-data-list slot="content" data=${this.data} item-template=${this.renderItem} selection-changed=${this.onSelectionChanged}></wcl-data-list>`;
+        return html`<wcl-data-list slot="content" data=${this.data} item-template=${this.renderItem} multiple=${this.multiple} selection-changed=${this.onSelectionChanged}></wcl-data-list>`;
     }
 
     renderSelectTemplate(): NodePatchingData {

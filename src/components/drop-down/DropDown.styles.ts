@@ -3,7 +3,7 @@ import css from "../../custom-element/styles/css";
 export const dropDownStyles = css`
 :host {
   position: relative;
-  border: 1px solid black;
+  border-width: var(--wcl-border-width);
   padding: 0 0 0 1rem;
 }
 

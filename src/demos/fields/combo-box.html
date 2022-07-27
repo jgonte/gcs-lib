@@ -51,19 +51,17 @@
 
         function getSingleSelectionTemplate(selection) {
 
-            return html`<span style="background-color:pink;">${selection.name}</span>`;
+            return html`<span slot="header" style="background-color:pink;">${selection.name}</span>`;
         }
 
         function getMultipleSelectionTemplate(selection) {
 
-            const data = selection.map(item => {
+            const itemTemplate = record => html`<wcl-pill kind="primary" variant="contained">
+    ${record.name}
+    <wcl-close-tool close="onClose()"></wcl-close-tool>
+</wcl-pill>`;
 
-                return {
-                    code: item
-                };
-            });
-
-            return html`<wcl-data-list data=${data} id-field="code" display-field="code" selectable="false"></wcl-data-list>`;
+            return html`<wcl-data-list style="display: flex; flex-wrap: wrap; max-width: 500px; border: solid 1px black;" slot="header" data=${selection} item-template=${itemTemplate}></wcl-data-list>`;
         }
 
         function showSelection(selection) {
@@ -126,21 +124,23 @@
         <wcl-combo-box id="cb4" name="person" single-selection-template="getSingleSelectionTemplate()" id-field="id"
             display-field="name" item-template="getTemplate()">
         </wcl-combo-box>
-    </wcl-loader>  
+    </wcl-loader>
 
     <h4>Multiple selection with remote data</h4>
 
-    <!-- multiple-selection-template="getMultipleSelectionTemplate()" -->
+    <wcl-loader load-url="http://localhost:60314/api/contacts/">
+        <wcl-combo-box id="cb5" name="person" id-field="id" display-field="name" item-template="getTemplate()" multiple
+            select-template="getSelectTemplate()">
+        </wcl-combo-box>
+    </wcl-loader>
 
-    <!-- <wcl-combo-box id="cb4" name="person" select-template="getSelectTemplate()"
-        single-selection-template="getSingleSelectionTemplate()">
-        <div slot="content">
-            <wcl-loader load-url="http://localhost:60314/api/contacts/">
-                <wcl-data-list id-field="id" display-field="name" item-template="getTemplate()" multiple>
-                </wcl-data-list>
-            </wcl-loader>
-        </div>
-    </wcl-combo-box> -->
+    <h4>Multiple selection with remote data and multiple selection template</h4>
+
+    <wcl-loader load-url="http://localhost:60314/api/contacts/">
+        <wcl-combo-box id="cb6" name="person" id-field="id" display-field="name" item-template="getTemplate()" multiple
+            select-template="getSelectTemplate()" multiple-selection-template="getMultipleSelectionTemplate()">
+        </wcl-combo-box>
+    </wcl-loader>
 
 </body>
 

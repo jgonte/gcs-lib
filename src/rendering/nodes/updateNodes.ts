@@ -40,7 +40,26 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
             if (areEquivalentValues(oldPatchingData.values, newPatchingData.values)) {
 
-                return; // Same patcher and same vales mean no changes to apply
+                // Transfer the existing nodes from the oldPatchingData values to the newPatchingData ones
+                const oldValues = oldPatchingData.values as NodePatchingData[];
+
+                const newValues = newPatchingData.values as NodePatchingData[];
+
+                for (let i = 0; i < oldValues.length; ++i) {
+
+                    const oldValue = oldValues[i];
+
+                    const newValue = newValues[i];
+
+                    if (oldValue?.node !== undefined) { // It is a node patching data
+
+                        newValue.node = oldValue.node;
+
+                        newValue.rules = oldValue.rules; // Transfer the rules too
+                    }
+                }
+
+                return; // Same patcher and same values mean no changes to apply
             }
 
             oldPatcher.patchNode(rules || [], oldValues, values);
@@ -113,8 +132,8 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
                 keyIndex
             } = patcher;
 
-            const valueKey = keyIndex !== undefined ? 
-                values[keyIndex]?.toString() : 
+            const valueKey = keyIndex !== undefined ?
+                values[keyIndex]?.toString() :
                 null;
 
             // Compare against a keyed node

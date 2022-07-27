@@ -43,7 +43,7 @@ export default class ComboBox extends
             /**
              * The template to render the item (record) in the (data) list
              */
-             itemTemplate: {
+            itemTemplate: {
                 attribute: 'item-template',
                 type: DataTypes.Function,
                 required: true,
@@ -125,12 +125,11 @@ export default class ComboBox extends
             displayField
         } = this;
 
-        if (itemTemplate !== undefined) {
+        const display = itemTemplate !== undefined ?
+            itemTemplate(record) :
+            record[displayField];
 
-            return itemTemplate(record);
-        }
-
-        return html`<wcl-selector select-value=${record}>${record[displayField] as string}</wcl-selector>`;
+        return html`<wcl-selector select-value=${record}>${display}</wcl-selector>`;
     }
 
     onSelectionChanged(selection: GenericRecord) {

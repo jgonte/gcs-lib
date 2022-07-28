@@ -364,7 +364,7 @@ describe("custom element render tests", () => {
 
         const childNode = component.shadowRoot?.childNodes[0] as CustomElement;
 
-        expect(childNode.shadowRoot?.innerHTML).toBe("\n                    <span>Hello!!!</span>\n                ");
+        expect(childNode.shadowRoot?.innerHTML).toBe("<span>Hello!!!</span>");
 
         expect(childNode.itemTemplate).toBeDefined();
     });

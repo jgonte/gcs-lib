@@ -46,7 +46,6 @@ export default class ComboBox extends
             itemTemplate: {
                 attribute: 'item-template',
                 type: DataTypes.Function,
-                required: true,
                 defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             },
 
@@ -141,7 +140,30 @@ export default class ComboBox extends
 
     renderContent(): NodePatchingData {
 
-        return html`<wcl-data-list slot="content" data=${this.data} item-template=${this.renderItem} multiple=${this.multiple} selection-changed=${this.onSelectionChanged}></wcl-data-list>`;
+        const {
+            data
+        } = this;
+
+        if (data?.length > 0) { // There are records
+
+            return html`
+<wcl-data-list 
+    slot="content" 
+    data=${data} 
+    item-template=${this.renderItem} 
+    multiple=${this.multiple} 
+    selection-changed=${this.onSelectionChanged}>
+</wcl-data-list>`;
+        }
+        else {
+
+            return html`
+<wcl-alert 
+    slot="content"
+    kind="warning">
+    <wcl-localized-text resource-key="noDataAvailable">No Data Available</wcl-localized-text>
+</wcl-alert>`;
+        }
     }
 
     renderSelectTemplate(): NodePatchingData {

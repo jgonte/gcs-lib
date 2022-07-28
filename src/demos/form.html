@@ -84,20 +84,16 @@
 
             <wcl-form-field required help="This is the gender of the person">
                 <wcl-localized-text slot="label">Gender</wcl-localized-text>
-                <wcl-combo-box slot="field" name="gender">
-                    <div slot="content">
-                        <wcl-data-list data='[
-                            {
-                                "code": "M",
-                                "description": "Male"
-                            },
-                            {
-                                "code": "F",
-                                "description": "Female"
-                            }
-                        ]' id-field="code" display-field="description">
-                        </wcl-data-list>
-                    </div>
+                <wcl-combo-box slot="field" name="gender" data='[
+                    {
+                        "code": "M",
+                        "description": "Male"
+                    },
+                    {
+                        "code": "F",
+                        "description": "Female"
+                    }
+                ]' id-field="code" display-field="description">
                 </wcl-combo-box>
             </wcl-form-field>
 

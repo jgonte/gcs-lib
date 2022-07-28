@@ -41,4 +41,24 @@ describe("create nodes tests", () => {
         expect(comment.data).toEqual(endMarker);
     });
 
+    it('should trim the starting new line', () => {
+
+        const patchingData = html`
+<wcl-alert 
+    slot="content"
+    kind="warning">
+    <wcl-localized-text resource-key="noDataAvailable">No Data Available</wcl-localized-text>
+</wcl-alert>`;
+
+        const df = createNodes(patchingData);
+
+        const {
+            childNodes
+        } = df;
+
+        expect(childNodes.length).toEqual(1);
+
+        expect((childNodes[0] as HTMLElement).tagName).toEqual('WCL-ALERT');
+    });
+
 });

@@ -28,7 +28,7 @@ export default function createTemplateString(strings: TemplateStringsArray): Tem
     if (strings.length === 1) { // No values ... literal only
 
         return {
-            templateString: strings[0],
+            templateString: trimNode(strings[0]),
             keyIndex
         };
     }

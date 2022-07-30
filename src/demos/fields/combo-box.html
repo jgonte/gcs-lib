@@ -39,6 +39,12 @@
                     name: "Sasha",
                     age: 1,
                     description: "Little giant"
+                },
+                {
+                    id: 4,
+                    name: "Yana",
+                    age: 25,
+                    description: "Rosa mimosa"
                 }
             ];
         }
@@ -54,11 +60,12 @@
             return html`<span slot="header" style="background-color:pink;">${selection.name}</span>`;
         }
 
-        function getMultipleSelectionTemplate(selection) {
+        function getMultipleSelectionTemplate(selection, deselectById) {
 
-            const itemTemplate = record => html`<wcl-pill kind="primary" variant="contained">
+            const itemTemplate = record => html`
+<wcl-pill kind="primary" variant="contained">
     ${record.name}
-    <wcl-close-tool close="onClose()"></wcl-close-tool>
+    <wcl-close-tool close=${() => this.deselectById(record.id)}></wcl-close-tool>
 </wcl-pill>`;
 
             return html`<wcl-data-list style="display: flex; flex-wrap: wrap; max-width: 500px; border: solid 1px black;" slot="header" data=${selection} item-template=${itemTemplate}></wcl-data-list>`;

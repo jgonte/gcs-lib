@@ -29,9 +29,13 @@ const externalAttributes = [
 /**
  * Attributes that listen for property and state changes. They are basically properties that can be set as attributes
  * and need to be configured before the other properties so the can notify changes
- * The get configured during the connectedCallback
+ * The get configured during the constructor of the element
  */
 const instrinsicAttributes = [
+    {
+        attribute: 'initialized',
+        property: 'initialized'
+    },
     {
         attribute: 'property-changed',
         property: 'propertyChanged'
@@ -325,6 +329,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 reflect,
                 options,
                 transform,
+                canChange,
                 change
                 //afterUpdate - We call afterUpdate after the element was updated in the DOM
             } = propertyMetadata;
@@ -336,11 +341,18 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 value = transform.call(this, value); // Transform the data if necessary
             }
 
+            // Check if the property has not changed
             const oldValue = this._properties[name];
 
             if (oldValue === value) {
 
                 return false; // Property has not changed
+            }
+
+            // Check if the value of the property is allowed to be changed
+            if (canChange?.call(this, value, oldValue) === false) {
+
+                return false; // Property is not allowed to change
             }
 
             // Set the property

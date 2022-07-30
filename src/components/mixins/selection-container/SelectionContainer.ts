@@ -1,7 +1,10 @@
+import CustomElement from "../../../custom-element/CustomElement";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "../../../custom-element/mixins/metadata/types/CustomElementStateMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import { DataTypes } from "../../../utils/data/DataTypes";
+import { GenericRecord } from "../../../utils/types";
+import Selector from "../../selector/Selector";
 import { selectionChangedEvent } from "../selectable/Selectable";
 
 export type SelectionTypes = Array<string> & { [x: string]: string };
@@ -9,7 +12,7 @@ export type SelectionTypes = Array<string> & { [x: string]: string };
 export interface ISelectionContainer extends HTMLElement {
     isSelectionContainer: boolean;
 
-    selectionChanged?: (selection: SelectionTypes) => void;
+    selectionChanged?: (selection: SelectionTypes, selectedChildren: CustomElement[]) => void;
 }
 
 /**
@@ -44,6 +47,15 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                 },
 
                 /**
+                 * The name of the field that contains the ID of the record
+                 */
+                // Needed to remove a record from a multiple selection
+                idField: {
+                    attribute: 'id-field',
+                    type: DataTypes.String
+                },
+
+                /**
                  * The selected item or items. It is an attribute since it can be passed through a property initially
                  */
                 selection: {
@@ -68,10 +80,10 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
             return {
 
                 /**
-                 * To track the current selected child for a single selection model
+                 * To track the current selected children to send messages
                  */
-                selectedChild: {
-                    value: undefined
+                selectedChildren: {
+                    value: []
                 }
             };
         }
@@ -109,7 +121,8 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
             const {
                 multiple,
                 selection,
-                selectionChanged
+                selectionChanged,
+                idField
             } = this;
 
             const {
@@ -118,23 +131,31 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                 value
             } = event.detail;
 
-
-            if (multiple !== undefined) {
+            if (multiple === true) {
 
                 if (selected === true) { // Add the value to the selection
 
                     this.selection = [...selection, value];
+
+                    this.selectedChildren.push(element);
                 }
                 else { // Remove the value from the selection
 
-                    this.selection = selection.filter((item: unknown) => item !== value);
+                    if (idField !== undefined) {
+
+                        this.selection = selection.filter((record: GenericRecord) => record[idField] !== value[idField]);
+                    }
+                    else {
+
+                        this.selection = selection.filter((record: unknown) => record !== value);
+                    }
+
+                    this.selectedChildren = this.selectedChildren.filter((el: CustomElement) => el !== element);
                 }
             }
             else { // Replace the old selection with the new one
 
-                const {
-                    selectedChild
-                } = this;
+                const selectedChild = this.selectedChildren[0];
 
                 // Deselect previous selected child
                 if (selectedChild !== undefined) {
@@ -146,18 +167,39 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
 
                     this.selection = [value];
 
-                    this.selectedChild = element;
+                    this.selectedChildren = [element];
                 }
                 else {
 
-                    this.selectedChild = undefined;
+                    this.selectedChildren = [];
                 }
             }
 
             if (selectionChanged !== undefined) {
 
-                selectionChanged(this.selection);
+                selectionChanged(this.selection, this.selectedChildren);
             }
+        }
+
+        deselectById(id: unknown) {
+
+            const {
+                selectedChildren,
+                idField
+            } = this;
+
+            const selectedChild = selectedChildren.filter((el: { selectValue: { [x: string]: unknown; }; }) => el.selectValue[idField] === id)[0];
+
+            selectedChild.selected = false;
+        }
+
+        selectByValue(value: unknown) {
+    
+            const selectors = (this?.shadowRoot as ShadowRoot).querySelectorAll('wcl-selector');
+    
+            const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[this.idField] === value)[0] as Selector;
+    
+            selector.selected = true;
         }
     }
 }

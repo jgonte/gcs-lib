@@ -7,9 +7,9 @@ import { DataTypes } from "../../../utils/data/DataTypes";
 import { DynamicObject, GenericRecord } from "../../../utils/types";
 import SelectionContainer, { SelectionTypes } from "../../mixins/selection-container/SelectionContainer";
 import DataCollectionHolder from "../../mixins/data/DataCollectionHolder";
-import Selector from "../../selector/Selector";
 import DisplayableField from "../DisplayableField";
 import isPrimitive from "../../../utils/isPrimitive";
+import CustomElement from "../../../custom-element/CustomElement";
 
 export default class ComboBox extends
     SelectionContainer(
@@ -107,13 +107,24 @@ export default class ComboBox extends
     renderHeader(): NodePatchingData {
 
         const {
-            selection
+            selection,
+            multiple
         } = this;
 
-        switch (selection.length) {
-            case 0: return this.renderSelectTemplate();
-            case 1: return this.renderSingleSelectionTemplate(selection[0]);
-            default: return this.renderMultipleSelectionTemplate(selection);
+        if (selection.length === 0) {
+
+            return this.renderSelectTemplate(); // No selection
+        }
+        else {
+
+            if (multiple === true) {
+
+                return this.renderMultipleSelectionTemplate(selection);
+            }
+            else {
+
+                return this.renderSingleSelectionTemplate(selection[0]);
+            }
         }
     }
 
@@ -131,17 +142,23 @@ export default class ComboBox extends
         return html`<wcl-selector select-value=${record}>${display}</wcl-selector>`;
     }
 
-    onSelectionChanged(selection: GenericRecord) {
+    onSelectionChanged(selection: GenericRecord, selectedChildren: CustomElement[]) {
 
         this.selection = selection;
 
-        this.selectionChanged?.(selection);
+        this.selectedChildren = selectedChildren;
+
+        this.selectionChanged?.(selection, selectedChildren);
     }
 
     renderContent(): NodePatchingData {
 
         const {
-            data
+            data,
+            renderItem,
+            multiple,
+            idField,
+            onSelectionChanged
         } = this;
 
         if (data?.length > 0) { // There are records
@@ -150,12 +167,16 @@ export default class ComboBox extends
 <wcl-data-list 
     slot="content" 
     data=${data} 
-    item-template=${this.renderItem} 
-    multiple=${this.multiple} 
-    selection-changed=${this.onSelectionChanged}>
+    item-template=${renderItem} 
+    initialized=${dataList => this.content = dataList}
+    multiple=${multiple}
+    id-field=${idField} 
+    selection-changed=${onSelectionChanged}>
 </wcl-data-list>`;
         }
         else {
+
+            this.content = null;
 
             return html`
 <wcl-alert 
@@ -211,9 +232,10 @@ export default class ComboBox extends
             displayField
         } = this;
 
+
         if (multipleSelectionTemplate !== undefined) {
 
-            return multipleSelectionTemplate(selection);
+            return multipleSelectionTemplate(selection, this.deselectById);
         }
         else {
 
@@ -226,7 +248,19 @@ export default class ComboBox extends
                 };
             });
 
-            return html`<wcl-data-list slot="header" data=${data} id-field=${idField} display-field=${displayField} selectable="false"></wcl-data-list>`;
+            const itemTemplate = (record: DynamicObject) => html`
+<wcl-pill kind="primary" variant="contained">
+    ${record[displayField] as string}
+    <wcl-close-tool close=${() => this.deselectById(record[idField])}></wcl-close-tool>
+</wcl-pill>`;
+
+            return html`
+<wcl-data-list
+    slot="header" 
+    style="display: flex; flex-wrap: wrap; max-width: 500px; border: solid 1px black;" 
+    data=${data} 
+    item-template=${itemTemplate}>
+</wcl-data-list>`;
         }
     }
 
@@ -236,21 +270,8 @@ export default class ComboBox extends
 
         if (name === 'value') {
 
-            this.selectItemWithValue(value);
+            this.content.selectByValue(value);
         }
-    }
-
-    selectItemWithValue(value: unknown) {
-
-        const {
-            idField
-        } = this;
-
-        const selectors = (this?.shadowRoot as ShadowRoot).querySelectorAll('wcl-selector');
-
-        const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[idField] === value)[0] as Selector;
-
-        selector.select();
     }
 }
 

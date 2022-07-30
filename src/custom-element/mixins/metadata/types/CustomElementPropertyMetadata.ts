@@ -5,8 +5,8 @@ import CustomElementStateMetadata from "./CustomElementStateMetadata";
 /**
  * Describes the configurator of the properties
  */
- export default interface CustomElementPropertyMetadata  extends CustomElementStateMetadata{
-    
+export default interface CustomElementPropertyMetadata extends CustomElementStateMetadata {
+
     /**
      * The name of the HTML attribute mapped to the property
      */
@@ -42,6 +42,12 @@ import CustomElementStateMetadata from "./CustomElementStateMetadata";
      * Hook to allow for extra manipulation of the property value before being set
      */
     transform?: (value: unknown) => unknown;
+
+    /**
+     * Function to execute to determine whether the property can be changed.
+     * If the return is false then the process of changing the property will be cancelled
+     */
+    canChange?: (value: unknown, oldValue: unknown) => boolean;
 
     /**
      * Function to execute when the value of the property has changed

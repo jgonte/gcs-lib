@@ -31,6 +31,13 @@ export default abstract class CustomElement extends
      */
     static readonly _isCustomElement: boolean = true;
 
+    constructor() {
+
+        super();
+        
+        this.initialized?.(this); // Call the initialized property if any
+    }
+
     /**
      * The render method that needs to be implemented by the derived elements
      */

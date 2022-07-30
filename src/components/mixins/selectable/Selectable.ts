@@ -1,3 +1,4 @@
+import CustomElement from "../../../custom-element/CustomElement";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
@@ -40,7 +41,20 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                  */
                 selected: {
                     type: DataTypes.Boolean,
-                    reflect: true
+                    reflect: true,
+                    // Do not use arrow function below so the right "this" binding happens
+                    canChange: function() {
+
+                        return (this as unknown as SelectableMixin).selectable === true;
+                    },
+                    change: function(value: unknown) {
+
+                        (this as unknown as CustomElement).dispatchCustomEvent(selectionChangedEvent, {
+                            element: this,
+                            selected: value,
+                            value: (this as unknown as SelectableMixin).selectValue
+                        })
+                    }
                 },
 
                 /**
@@ -81,55 +95,7 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
 
         toggleSelect() {
 
-            let {
-                selected
-            } = this;
-
-            selected = !selected; // Toggle
-
-            this._setSelection(selected);
-        }
-
-        /**
-         * Select this component programmatically
-         */
-        select() {
-
-            const {
-                selected
-            } = this;
-
-            if (selected === true) {
-
-                return;
-            }
-
-            this._setSelection(true);
-        }
-
-        private _setSelection(selected: boolean) {
-
-            if (!this.selectable) {
-
-                return;
-            }
-
-            if (this.selected === selected) {
-
-                return; // Nothing to select
-            }
-
-            this.selected = selected;
-
-            this.dispatchEvent(new CustomEvent(selectionChangedEvent, {
-                detail: {
-                    element: this,
-                    selected,
-                    value: this.selectValue
-                },
-                bubbles: true,
-                composed: true
-            }));
+            this.selected = !this.selected; // Toggle
         }
     }
 }

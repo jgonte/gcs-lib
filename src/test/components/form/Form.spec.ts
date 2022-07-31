@@ -77,7 +77,7 @@ describe("form tests", () => {
         defineCustomElement('wcl-form', Form);
 
         // Attach it to the DOM
-        document.body.innerHTML = `wcl-row slot="middle">
+        document.body.innerHTML = `wcl-center>
 
         <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
             submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right" style="width: 1060px;">
@@ -91,7 +91,7 @@ describe("form tests", () => {
             </wcl-form-field>
 
         </wcl-form>
-        </wcl-row>`;
+        </wcl-center>`;
 
         // Test the element
         const form = document.querySelector('wcl-form') as CustomElement;

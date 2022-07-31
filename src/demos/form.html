@@ -67,7 +67,8 @@
     </wcl-form> -->
 
     <h4>Load and submit</h4>
-    <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
+    <wcl-center>
+        <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
             submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right"
             style="width: 1060px;">
 
@@ -83,15 +84,15 @@
             <wcl-form-field required help="This is the gender of the person">
                 <wcl-localized-text slot="label">Gender</wcl-localized-text>
                 <wcl-combo-box slot="field" name="gender" data='[
-                    {
-                        "code": "M",
-                        "description": "Male"
-                    },
-                    {
-                        "code": "F",
-                        "description": "Female"
-                    }
-                ]' id-field="code" display-field="description">
+                {
+                    "code": "M",
+                    "description": "Male"
+                },
+                {
+                    "code": "F",
+                    "description": "Female"
+                }
+            ]' id-field="code" display-field="description">
                 </wcl-combo-box>
             </wcl-form-field>
 
@@ -108,6 +109,8 @@
             </wcl-form-field>
 
         </wcl-form>
+    </wcl-center>
+
 
     <!-- <h4>Load and submit too</h4>
     <wcl-form id="loadAndSubmitToo" load-url="http://localhost:60314/api/contacts/1"

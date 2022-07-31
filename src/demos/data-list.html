@@ -61,12 +61,10 @@
                 description
             } = record;
 
-            return html`<wcl-selector select-value=${name} style="width: 500px;">
-                <wcl-row>
-                <div slot="middle" style="background-color: lightgreen; width: 200px;">${name}</div>
-                <div slot="middle" style="background-color: yellow; width: 50px;">${age}</div>
-                <div slot="middle" style="background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</div>
-                </wcl-row>
+            return html`<wcl-selector select-value=${name} style="width: 600px;">
+                <span style="display: inline-block; background-color: lightgreen; width: 200px;">${name}</span>
+                <span style="display: inline-block; background-color: yellow; width: 50px;">${age}</span>
+                <span style="display: inline-block; background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</span>
             </wcl-selector>`;
         }
 

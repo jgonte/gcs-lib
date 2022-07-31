@@ -9,7 +9,6 @@ import { NodePatchingData } from "./rendering/nodes/NodePatchingData";
 import html from "./rendering/html";
 
 // Components
-import Panel from "./components/panel/Panel";
 import Icon from "./components/icon/Icon";
 import LocalizedText from "./components/localized-text/LocalizedText";
 import Alert from "./components/alert/Alert";
@@ -26,8 +25,10 @@ import ModifiedTip from "./components/tips/ModifiedTip";
 import RequiredTip from "./components/tips/RequiredTip";
 
 // Layout
+import Center from "./components/center/Center";
 import Row from "./components/row/Row";
 import Overlay from "./components/overlay/Overlay";
+import Panel from "./components/panel/Panel";
 
 // Data
 import Loader from "./components/loader/Loader";
@@ -87,6 +88,7 @@ export {
     HelpTip,
 
     // Layout
+    Center,
     Row,
     Overlay,
 

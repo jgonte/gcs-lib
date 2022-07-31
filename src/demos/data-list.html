@@ -62,10 +62,10 @@
             } = record;
 
             return html`<wcl-selector select-value=${name} style="width: 500px;">
-                <wcl-row justify-content="start">
-                <div style="background-color: lightgreen; width: 200px;">${name}</div>
-                <div style="background-color: yellow; width: 50px;">${age}</div>
-                <div style="background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</div>
+                <wcl-row>
+                <div slot="middle" style="background-color: lightgreen; width: 200px;">${name}</div>
+                <div slot="middle" style="background-color: yellow; width: 50px;">${age}</div>
+                <div slot="middle" style="background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</div>
                 </wcl-row>
             </wcl-selector>`;
         }

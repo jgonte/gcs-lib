@@ -130,9 +130,9 @@ export default class FileField extends DisplayableField {
 
             return html`
                 <wcl-row value={name}>
-                    <img style="width: 48px; height: 48px;" src=${src} />
-                    <span>${name}</span>
-                    <span>${formatSize(size)}</span>     
+                    <img slot="start" style="width: 48px; height: 48px;" src=${src} />
+                    <span slot="middle">${name}</span>
+                    <span slot="end">${formatSize(size)}</span>     
                 </wcl-row>`;
         });
     }

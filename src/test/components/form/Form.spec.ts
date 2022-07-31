@@ -77,7 +77,7 @@ describe("form tests", () => {
         defineCustomElement('wcl-form', Form);
 
         // Attach it to the DOM
-        document.body.innerHTML = `wcl-row justify-content="center">
+        document.body.innerHTML = `wcl-row slot="middle">
 
         <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
             submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right" style="width: 1060px;">

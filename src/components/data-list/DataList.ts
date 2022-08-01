@@ -9,7 +9,6 @@ import { GenericRecord } from "../../utils/types";
 import { DataTypes } from "../../utils/data/DataTypes";
 import { dataListStyles } from "./DataList.styles";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
-//import html from "../../rendering/html";
 
 /**
  * Render a collection of records
@@ -44,9 +43,13 @@ export default class DataList extends
 
     render(): NodePatchingData[] {
 
+        const {
+            idField
+        } = this;
+
         return this.data.map((record: GenericRecord) => {
 
-            return this.itemTemplate(record);
+            return this.itemTemplate(record, record[idField]);
         });
     }
 }

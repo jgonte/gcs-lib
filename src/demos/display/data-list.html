@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../variables.css">
+    <link rel="stylesheet" href="../../variables.css">
 
     <script type="module">
-        import appConfig from "./js/appConfig.js";
+        import appConfig from "../js/appConfig.js";
 
         window.getAppConfig = () => appConfig;
     </script>
 
-    <script type="module" src="../../dist/js/bundle.js"></script>
+    <script type="module" src="../../../dist/js/bundle.js"></script>
 
     <script>
 
@@ -38,7 +38,7 @@
             ];
         }
 
-        function getTemplate(record) {
+        function getTemplate(record, id) {
 
             const {
                 name,
@@ -46,14 +46,15 @@
                 description
             } = record;
 
-            return html`<wcl-selector select-value=${name} style="width: 200px;">
+            return html`
+<wcl-selector key=${id} select-value=${record} style="width: 200px;">
     <div style="background-color: lightgreen;">${name}</div>
     <div style="background-color: yellow;">${age}</div>
     <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
 </wcl-selector>`;
         }
 
-        function getRowTemplate(record) {
+        function getRowTemplate(record, id) {
 
             const {
                 name,
@@ -61,11 +62,12 @@
                 description
             } = record;
 
-            return html`<wcl-selector select-value=${name} style="width: 600px;">
-                <span style="display: inline-block; background-color: lightgreen; width: 200px;">${name}</span>
-                <span style="display: inline-block; background-color: yellow; width: 50px;">${age}</span>
-                <span style="display: inline-block; background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</span>
-            </wcl-selector>`;
+            return html`
+<wcl-selector key=${id} select-value=${record} style="width: 600px;">
+    <span style="display: inline-block; background-color: lightgreen; width: 200px;">${name}</span>
+    <span style="display: inline-block; background-color: yellow; width: 50px;">${age}</span>
+    <span style="display: inline-block; background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</span>
+</wcl-selector>`;
         }
 
         function showSelection(selection) {
@@ -98,17 +100,17 @@
                 "age": 1,
                 "description": "A little giant"
             }
-        ]' item-template="getRowTemplate()" selection-changed="showSelection()">
+        ]' id-field="name" item-template="getRowTemplate()" selection-changed="showSelection()">
     </wcl-data-list>
 
     <h4>Single selection</h4>
 
-    <wcl-data-list data='getData()' item-template="getTemplate()" selection-changed="showSelection()">
+    <wcl-data-list id-field="name" data='getData()' item-template="getTemplate()" selection-changed="showSelection()">
     </wcl-data-list>
 
     <h4>Multiple selection</h4>
 
-    <wcl-data-list data='getData()' multiple item-template="getTemplate()" selection-changed="showSelection()">
+    <wcl-data-list id-field="name" data='getData()' multiple item-template="getTemplate()" selection-changed="showSelection()">
     </wcl-data-list>
 
 </body>

@@ -23,15 +23,6 @@ export default class ComboBox extends
         return {
 
             /**
-             * The name of the field that contains the ID of the record
-             */
-            idField: {
-                attribute: 'id-field',
-                type: DataTypes.String,
-                required: true
-            },
-
-            /**
              * The name of the field that contains the field of the record to display in the selection
              */
             displayField: {

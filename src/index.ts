@@ -54,6 +54,11 @@ import ValidationSummary from "./components/validation-summary/ValidationSummary
 
 // Display
 import DataList from "./components/data-list/DataList";
+import DataCell from "./components/data-grid/body/cell/DataCell";
+import DataRow from "./components/data-grid/body/row/DataRow";
+import DataHeaderCell from "./components/data-grid/header/cell/DataHeaderCell";
+import DataHeader from "./components/data-grid/header/DataHeader";
+import DataGrid from "./components/data-grid/DataGrid";
 
 import { GenericRecord } from "./utils/types";
 
@@ -115,5 +120,10 @@ export {
     ValidationSummary,
 
     // Display
-    DataList
+    DataList,
+    DataHeaderCell,
+    DataHeader,
+    DataCell,
+    DataRow,
+    DataGrid
 }

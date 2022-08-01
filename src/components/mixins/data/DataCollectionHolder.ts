@@ -15,7 +15,7 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
                  */
                 data: {
                     type: [
-                        DataTypes.Array, 
+                        DataTypes.Array,
                         DataTypes.Function
                     ],
                     value: []

@@ -1,21 +1,13 @@
-import CustomElement from "../../custom-element/CustomElement";
+import Nuanced from "../Nuanced";
 import defineCustomElement from "../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
-import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
-import Sizable from "../mixins/sizable/Sizable";
-import Kind from "../mixins/kind/Kind";
 import { alertStyles } from "./Alert.styles";
 import { DataTypes } from "../../utils/data/DataTypes";
 
-export default class Alert extends
-    Sizable(
-        Kind(
-            CustomElement as CustomHTMLElementConstructor
-        )
-    ) {
+export default class Alert extends Nuanced {
 
     static get styles(): string {
 
@@ -42,23 +34,23 @@ export default class Alert extends
                 type: DataTypes.Function,
                 defer: true
             }
-
         };
     }
 
     render(): NodePatchingData {
 
-        return html`${this._renderIcon()}
-            <slot></slot>
-            ${this._renderCloseTool()}`;
+        return html`
+<wcl-row>
+    ${this._renderIcon()}
+    <slot slot="middle"></slot>
+    ${this._renderCloseTool()}
+</wcl-row>`;
     }
 
     private _renderIcon(): NodePatchingData | null {
 
         const {
             showIcon,
-            kind,
-            size
         } = this;
 
         if (showIcon !== true) {
@@ -66,7 +58,11 @@ export default class Alert extends
             return null;
         }
 
-        return html`<wcl-icon name=${this._getIconName()} kind=${kind} size=${size}></wcl-icon>`;
+        return html`
+<wcl-icon 
+    slot="start"
+    name=${this._getIconName()}>
+</wcl-icon>`;
     }
 
     private _getIconName(): string {
@@ -80,19 +76,18 @@ export default class Alert extends
         }
     }
 
-    private _renderCloseTool(): NodePatchingData {
-
-        const {
-            kind,
-            size,
-        } = this;
+    private _renderCloseTool(): NodePatchingData | null {
 
         if (this.close === undefined) {
 
-            return html`<span></span>`; // Create an empty element so the slotted content stays centered
+            return null;
         }
 
-        return html`<wcl-close-tool kind=${kind} size=${size} close=${evt => this.close(evt)} />`;
+        return html`
+<wcl-close-tool 
+    slot="end" 
+    close=${evt => this.close(evt)}>
+</wcl-close-tool>`;
     }
 }
 

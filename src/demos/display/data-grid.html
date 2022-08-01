@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../../variables.css">
+
+    <script type="module">
+        import appConfig from "../js/appConfig.js";
+
+        window.getAppConfig = () => appConfig;
+    </script>
+
+    <script type="module" src="../../../dist/js/bundle.js"></script>
+
+    <script>
+
+        function getData() {
+
+            return [
+                {
+                    name: "Sarah",
+                    age: 19,
+                    description: 'Smart and beautiful'
+                },
+                {
+                    name: "Mark",
+                    age: 31,
+                    description: 'Dedicated and perseverant'
+                },
+                {
+                    name: "Sasha",
+                    age: 1,
+                    description: 'A little giant'
+                }
+            ];
+        }
+
+        function getFields() {
+
+            return ["name", "age", "description"];
+        }
+
+    </script>
+
+    <title>Data grid demo</title>
+</head>
+
+<body>
+
+    <h4>Data grid data set in attribute</h4>
+
+    <wcl-data-grid id="dg1" id-field="name" fields='["name", "age", "description"]' data='[
+        {
+            "name": "Sarah",
+            "age": 19,
+            "description": "Smart and beautiful"
+        },
+        {
+            "name": "Mark",
+            "age": 31,
+            "description": "Dedicated and perseverant"
+        }
+    ]'></wcl-data-grid>
+
+    <h4>Data grid data comes from function</h4>
+
+    <wcl-data-grid id="dg2" id-field="name" fields="getFields()" data="getData()"></wcl-data-grid>
+
+</body>
+
+</html>

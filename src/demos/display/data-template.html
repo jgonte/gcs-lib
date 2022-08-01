@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../variables.css">
+    <link rel="stylesheet" href="../../variables.css">
 
     <script type="module">
-        import appConfig from "./js/appConfig.js";
+        import appConfig from "../js/appConfig.js";
 
         window.getAppConfig = () => appConfig;
     </script>
 
-    <script type="module" src="../../dist/js/bundle.js"></script>
+    <script type="module" src="../../../dist/js/bundle.js"></script>
 
     <title>Data Template</title>
 
@@ -39,9 +39,9 @@
             };
         }
 
-        const getItemTemplate = skill => html`<div style="background-color: cyan;" value=${skill.id}>${skill.description}</div>`;
+        const getItemTemplate = (skill, id) => html`<div style="background-color: cyan;" key=${id} value=${id}>${skill.description}</div>`;
 
-        function getTemplate(data) {
+        function getTemplate(data, id) {
 
             const {
                 name,
@@ -51,15 +51,18 @@
                 icon
             } = data;
 
-            return html`<div style="width: 200px; margin: 10px;">
-                <div style="background-color: lightgreen; padding: 5px;">
-                    ${icon !== undefined ? html`<wcl-icon name=${icon}></wcl-icon>` : null}
-                    ${name}
-                </div>
-                <div style="background-color: yellow;">${age}</div>
-                <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
-                <wcl-data-list item-template=${getItemTemplate} data=${skills}></wcl-data-list>
-            </div>`;
+            return html`
+<div key=${id} style="width: 200px; margin: 10px;">
+    <div style="background-color: lightgreen; padding: 5px;">
+        ${icon !== undefined ? 
+            html`<wcl-icon name=${icon}></wcl-icon>` : 
+            null}
+        ${name}
+    </div>
+    <div style="background-color: yellow;">${age}</div>
+    <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
+    <wcl-data-list item-template=${getItemTemplate} data=${skills}></wcl-data-list>
+</div>`;
         }
 
         function getSimpleTemplate(data) {
@@ -89,17 +92,17 @@
                 "description": "Medicine"
             }
         ]
-    }' template="getTemplate()">
+    }' id-field="name" template="getTemplate()">
     </wcl-data-template>
 
     <h4>Data as a function in the attributes</h4>
 
-    <wcl-data-template data='getData()' template="getTemplate()">
+    <wcl-data-template id-field="name" data='getData()' template="getTemplate()">
     </wcl-data-template>
 
     <h4>Simple template</h4>
 
-    <wcl-data-template data='getData()' template="getSimpleTemplate()">
+    <wcl-data-template id-field="name" data='getData()' template="getSimpleTemplate()">
     </wcl-data-template>
 
 </body>

@@ -70,7 +70,7 @@
     <wcl-center>
         <wcl-form id="loadAndSubmit" load-url="http://localhost:60314/api/contacts/1"
             submit-url="http://localhost:60314/api/contacts/" label-width="65%" label-align="right"
-            style="width: 1060px;">
+            style="width: 80%;">
 
             <wcl-hidden-field name="id" is-id="true"></wcl-hidden-field>
 
@@ -98,8 +98,13 @@
 
             <wcl-form-field required help-resource-key="dateOfBirth">
                 <wcl-localized-text slot="label">Date of Birth</wcl-localized-text>
-                <!-- <span slot="tools">!</span> -->
                 <wcl-date-field slot="field" name="dateOfBirth"></wcl-date-field>
+            </wcl-form-field>
+
+            <wcl-form-field required help-resource-key="single">
+                <wcl-localized-text slot="label">Single</wcl-localized-text>
+                <!-- <span slot="tools">!</span> -->
+                <wcl-check-box slot="field" name="single"></wcl-check-box>
             </wcl-form-field>
 
             <wcl-form-field required>

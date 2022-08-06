@@ -3,22 +3,59 @@ import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/
 import CustomHTMLElement from "../../custom-element/mixins/metadata/types/CustomHTMLElement";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import { DataTypes } from "../../utils/data/DataTypes";
-import DataField from "../../utils/data/record/DataField";
 import RequiredValidator from "../../utils/validation/validators/field/RequiredValidator";
 import SingleValueFieldValidator, { FieldValidationContext } from "../../utils/validation/validators/field/SingleValueFieldValidator";
 import Validator from "../../utils/validation/validators/Validator";
 import LocalizedText from "../localized-text/LocalizedText";
 import Validatable from "../mixins/validatable/Validatable";
 
-export const inputEvent = "inputEvent";
-
 export const changeEvent = "changeEvent";
 
 export const fieldAddedEvent = "fieldAddedEvent";
 
-interface FieldTypeHolder {
+function getNewValue(input: HTMLInputElement): unknown {
 
-    getFieldType(): DataTypes | undefined;
+    switch (input.type) {
+        case 'checkbox': return input.checked;
+        case 'date': return new Date(input.value);
+        case 'file':
+            {
+                const {
+                    files
+                } = input;
+
+                if (files === null ||
+                    files.length === 0) { // No files selected
+
+                    return null;
+                }
+
+                if (input.multiple === true) {
+
+                    return Array.from(files).map(f => {
+
+                        return {
+                            name: f.name,
+                            type: f.type,
+                            size: f.size,
+                            content: URL.createObjectURL(f)
+                        };
+                    });
+                }
+                else {
+
+                    const f = files[0];
+
+                    return {
+                        name: f.name,
+                        type: f.type,
+                        size: f.size,
+                        content: URL.createObjectURL(f)
+                    };
+                }
+            }
+        default: return input.value;
+    }
 }
 
 export default abstract class Field extends
@@ -26,12 +63,10 @@ export default abstract class Field extends
         CustomElement as CustomHTMLElementConstructor
     ) {
 
-    protected dataField: DataField = new DataField();
-
-    static getFieldType(): DataTypes {
-
-        return DataTypes.String;
-    }
+    /**
+     * The type of the data of the field
+     */
+    static dataFieldType: DataTypes = DataTypes.String;
 
     // The temporary value being validated on input
     // Since it is not the final one, there is no need to refresh it
@@ -39,7 +74,6 @@ export default abstract class Field extends
 
     // Marker to mark the field as such so it can be filtered out from other components
     isField = true; // TODO: Make it static?
-
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
@@ -54,7 +88,7 @@ export default abstract class Field extends
             },
 
             /**
-             * The initial value of the field
+             * The current value of the field
              */
             value: {
                 type: [
@@ -64,27 +98,15 @@ export default abstract class Field extends
                 reflect: true
             },
 
+            /**
+             * Whether the field is required
+             */
             required: {
                 type: DataTypes.Boolean,
                 inherit: true,
                 reflect: true
             }
         };
-    }
-
-    connectedCallback() {
-
-        super.connectedCallback?.();
-
-        const {
-            dataField
-        } = this;
-
-        // Initialize the data field
-        dataField.type = (this.constructor as unknown as FieldTypeHolder).getFieldType();
-
-        // Set the initial value if any
-        dataField.value = this.value;
     }
 
     attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
@@ -156,18 +178,13 @@ export default abstract class Field extends
     /**
      * Called every time the input changes
      * Perform validation to give instantaneous feedback but do not update the current value since it might keep changing
-     * @param event 
-     * @returns 
+     * @param event The event of the element with the change
      */
-    handleInput(event: Event) {
+    handleInput(event: Event): void {
 
-        this._tempValue = this.getNewValue(event.target as HTMLInputElement);
+        this._tempValue = getNewValue(event.target as HTMLInputElement);
 
         this.validate(); // Validate the field on input
-
-        this.dispatchCustomEvent(inputEvent, {
-            modified: this.dataField?.isDifferentValue(this._tempValue)
-        });
     }
 
     async createValidationContext(): Promise<FieldValidationContext & { value: unknown; }> {
@@ -234,79 +251,21 @@ export default abstract class Field extends
             cachedLabel.innerHTML;
     }
 
-    handleChange(event: Event): void {
+    handleChange(): void {
+
+        // Get the old value
+        const oldValue = this.value;
+
+        // Set the new value with the temporary one
+        this.value = this._tempValue;
 
         // Reset the temporary value
         this._tempValue = undefined;
 
-        // Retrieve the new value
-        const target = event.target as HTMLInputElement;
-
-        const oldValue = this.value;
-
-        this.value = this.getNewValue(target);
-
-        const {
-            name,
-            value
-        } = this;
-
         this.dispatchCustomEvent(changeEvent, {
-            name,
+            name: this.name,
             oldValue,
-            newValue: value
+            newValue: this.value
         });
-    }
-
-    getNewValue(input: HTMLInputElement): unknown {
-
-        let value: unknown;
-
-        switch (input.type) {
-            case 'file':
-                {
-                    const {
-                        files
-                    } = input;
-
-                    if (files === null ||
-                        files.length === 0) { // No files selected
-
-                        return value;
-                    }
-
-                    if (input.multiple === true) {
-
-                        value = Array.from(files).map(f => {
-
-                            return {
-                                name: f.name,
-                                type: f.type,
-                                size: f.size,
-                                content: URL.createObjectURL(f)
-                            };
-                        });
-                    }
-                    else {
-
-                        const f = files[0];
-
-                        value = {
-                            name: f.name,
-                            type: f.type,
-                            size: f.size,
-                            content: URL.createObjectURL(f)
-                        };
-                    }
-                }
-                break;
-            default:
-                {
-                    value = input.value;
-                }
-                break;
-        }
-
-        return value;
     }
 }

@@ -1,4 +1,5 @@
 import { attributeMarkerPrefix } from "../../rendering/template/markers";
+import areEqual from "../../utils/areEqual";
 import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { GenericRecord } from "../../utils/types";
@@ -344,7 +345,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             // Check if the property has not changed
             const oldValue = this._properties[name];
 
-            if (oldValue === value) {
+            if (areEqual(oldValue, value)) {
 
                 return false; // Property has not changed
             }

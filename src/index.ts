@@ -45,6 +45,7 @@ import DateField from "./components/fields/date/DateField";
 import FileField from "./components/fields/file/FileField";
 import HiddenField from "./components/fields/hidden/HiddenField";
 import TextField from "./components/fields/text/TextField";
+import CheckBox from "./components/fields/check-box/CheckBox";
 import Slider from "./components/fields/slider/Slider";
 
 // Form
@@ -108,6 +109,7 @@ export {
 
     // Fields 
     TextField,
+    CheckBox,
     DateField,
     FileField,
     ComboBox,

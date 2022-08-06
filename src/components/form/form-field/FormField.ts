@@ -7,13 +7,13 @@ import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
-import { inputEvent } from "../../fields/Field";
 import Sizable from "../../mixins/sizable/Sizable";
 import { validationEvent } from "../../mixins/validatable/Validatable";
 import { formFieldStyles } from "./FormField.styles";
 import css from "../../../custom-element/styles/css";
 import labelAlign from "../labelAlign";
 import labelWidth from "../labelWidth";
+import { inputEvent } from "../../fields/DisplayableField";
 
 export default class FormField extends
     Sizable(

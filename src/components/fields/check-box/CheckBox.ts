@@ -4,22 +4,14 @@ import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
 import DisplayableField from "../DisplayableField";
 
-function formatDate(value: Date | string) {
+export default class CheckBox extends DisplayableField {
 
-    const d = typeof value === 'string' ?
-        value :
-        value.toISOString(); // Assume a Date
-
-    const i = d.indexOf('T');
-
-    return d.substring(0, i); // Extract the date part only
-}
-
-export default class DateField extends DisplayableField {
+    // Set the initial value of the checkbox
+    value = false;
 
     static getFieldType(): DataTypes {
 
-        return DataTypes.Date;
+        return DataTypes.Boolean;
     }
 
     render(): NodePatchingData {
@@ -32,9 +24,9 @@ export default class DateField extends DisplayableField {
         } = this;
 
         return html`<input
-            type="date"
+            type="checkbox"
             name=${name}
-            value=${value !== undefined ? formatDate(value) : undefined}
+            value=${value}
             onInput=${event => this.handleInput(event)}
             onChange=${event => this.handleChange(event)}
             onBlur=${() => this.handleBlur()}
@@ -43,4 +35,4 @@ export default class DateField extends DisplayableField {
     }
 }
 
-defineCustomElement('wcl-date-field', DateField);
+defineCustomElement('wcl-check-box', CheckBox);

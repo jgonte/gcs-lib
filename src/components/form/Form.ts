@@ -4,7 +4,6 @@ import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
-import DataRecord from "../../utils/data/record/DataRecord";
 import { ValidationContext } from "../../utils/validation/validators/Validator";
 import Field, { fieldAddedEvent, changeEvent } from "../fields/Field";
 import Sizable from "../mixins/sizable/Sizable";
@@ -16,6 +15,7 @@ import { formStyles } from "./Form.styles";
 import { DynamicObject, GenericRecord } from "../../utils/types";
 import labelWidth from "./labelWidth";
 import labelAlign from "./labelAlign";
+import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 
 export default class Form extends
     Sizable(
@@ -31,8 +31,6 @@ export default class Form extends
     ) {
 
     private _fields: Map<string, Field> = new Map<string, Field>();
-
-    private _record: DataRecord = new DataRecord();
 
     constructor() {
 
@@ -92,7 +90,7 @@ export default class Form extends
 
     getSubmitData() {
 
-        const data = this._record.getData();
+        const data = this.getData();
 
         console.log(JSON.stringify(data));
 
@@ -125,9 +123,7 @@ export default class Form extends
 
         const d = data.payload ?? data;
 
-        this._record.setData(d as DynamicObject, true); // Fill the record without seting any modified fields
-
-        this._populateFields(d as DynamicObject); // Update the form with the returned values
+        this.setData(d as DynamicObject, true); // Set the fields as not being changed
     }
 
     /**
@@ -140,12 +136,10 @@ export default class Form extends
 
         const d = data.payload ?? data;
 
-        this._record.setData(d as DynamicObject, true); // Fill the record without seting any modified fields
-
-        this._populateFields(d as DynamicObject); // Update the form with the returned values
+        this.setData(d as DynamicObject, true); // Set the fields as not being changed
     }
 
-    private _populateFields(data: GenericRecord) {
+    setData(data: DynamicObject, acceptChanges: boolean = false): void {
 
         for (const key in data) {
 
@@ -156,6 +150,11 @@ export default class Form extends
                 if (field !== undefined) {
 
                     field.value = data[key];
+
+                    if (acceptChanges === true) {
+
+                        field.acceptChanges?.(); // Only DisplayableField accepts changes
+                    }
                 }
                 else { // The field does not need to exist for the given data member but let the programmer know it is missing
 
@@ -164,6 +163,29 @@ export default class Form extends
             }
         }
     }
+
+    /**
+     * Retrieves the record from the form
+     * @returns 
+     */
+    getData(): DynamicObject {
+
+        const data: DynamicObject = {};
+
+        for (const [key, field] of this._fields) {
+
+            const value = field.value;
+
+            if (!isUndefinedOrNull(value)) {
+
+                data[key] = value;
+            }
+        }
+
+        return data;
+    }
+
+
 
     initializeValidator(validator: string) {
 
@@ -214,14 +236,7 @@ export default class Form extends
             field
         } = event.detail;
 
-        const {
-            name,
-            dataField
-        } = field;
-
-        this._fields.set(name, field); // Add the field to the form
-
-        this._record.setField(name, dataField);
+        this._fields.set(field.name, field); // Add the field to the form
 
         event.stopPropagation();
     }
@@ -235,7 +250,7 @@ export default class Form extends
 
         console.log('valueChanged: ' + JSON.stringify(event.detail));
 
-        this._record.setData({
+        this.setData({
             [name]: newValue
         });
 

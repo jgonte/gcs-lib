@@ -10,6 +10,7 @@ import DataCollectionHolder from "../../mixins/data/DataCollectionHolder";
 import DisplayableField from "../DisplayableField";
 import isPrimitive from "../../../utils/isPrimitive";
 import CustomElement from "../../../custom-element/CustomElement";
+import { changeEvent } from "../Field";
 
 export default class ComboBox extends
     SelectionContainer(
@@ -135,11 +136,25 @@ export default class ComboBox extends
 
     onSelectionChanged(selection: GenericRecord, selectedChildren: CustomElement[]) {
 
+        this.oldSelection = this.selection;
+
         this.selection = selection;
+
+        this.handleChange();
 
         this.selectedChildren = selectedChildren;
 
         this.selectionChanged?.(selection, selectedChildren);
+    }
+
+    // Override handle change
+    handleChange(): void {
+
+        this.dispatchCustomEvent(changeEvent, {
+            name: this.name,
+            oldValue: this.oldSelection,
+            newValue: this.selection
+        });
     }
 
     renderContent(): NodePatchingData {

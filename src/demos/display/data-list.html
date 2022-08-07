@@ -47,10 +47,10 @@
             } = record;
 
             return html`
-<wcl-selector key=${id} select-value=${record} style="width: 200px;">
-    <div style="background-color: lightgreen;">${name}</div>
-    <div style="background-color: yellow;">${age}</div>
-    <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
+<wcl-selector key=${id} select-value=${record} style="width: 200px; padding: 5px;">
+    <div style="background-color: lightgray;">${name}</div>
+    <div style="background-color: darkgray;">${age}</div>
+    <div style="background-color: lightgray; color: darkblue; font-weight: bold;">${description}</div>
 </wcl-selector>`;
         }
 
@@ -63,10 +63,10 @@
             } = record;
 
             return html`
-<wcl-selector key=${id} select-value=${record} style="width: 600px;">
-    <span style="display: inline-block; background-color: lightgreen; width: 200px;">${name}</span>
-    <span style="display: inline-block; background-color: yellow; width: 50px;">${age}</span>
-    <span style="display: inline-block; background-color: darkred; color: white; font-weight: bold; width: 250px;">${description}</span>
+<wcl-selector key=${id} select-value=${record} style="width: 600px; padding: 5px;">
+    <span style="display: inline-block; background-color: lightgray; width: 200px;">${name}</span>
+    <span style="display: inline-block; background-color: darkgrey; width: 50px;">${age}</span>
+    <span style="display: inline-block; background-color: lightgray; color: darkblue; font-weight: bold; width: 250px;">${description}</span>
 </wcl-selector>`;
         }
 

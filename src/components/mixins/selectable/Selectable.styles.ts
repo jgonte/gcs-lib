@@ -1,7 +1,10 @@
 import css from "../../../custom-element/styles/css";
 
 export const selectableStyles = css`
+:host() {
+    border: solid 5px white;
+}
+
 :host([selected]) {
-    box-sizing: content-box;
-    border: solid 3px orange;
+    border: solid 5px darkred;
 }`;

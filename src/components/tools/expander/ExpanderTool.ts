@@ -44,18 +44,14 @@ export default class ExpanderTool extends Tool {
         this.updateShowing(false);
     }
 
-    updateShowing(showing: boolean) : void {
+    updateShowing(showing: boolean): void {
 
         this.showing = showing;
 
-        this.dispatchEvent(new CustomEvent(expanderChanged, {
-            detail: {
-                showing,
-                element: this // To track the element in a container/manager if needed
-            },
-            bubbles: true,
-            composed: true
-        }));
+        this.dispatchCustomEvent(expanderChanged, {
+            showing,
+            element: this // To track the element in a container/manager if needed
+        });
     }
 
     click = () => {

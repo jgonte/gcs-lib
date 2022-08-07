@@ -1,4 +1,3 @@
-import CustomElement from "../../../custom-element/CustomElement";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
@@ -43,17 +42,9 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                     type: DataTypes.Boolean,
                     reflect: true,
                     // Do not use arrow function below so the right "this" binding happens
-                    canChange: function() {
+                    canChange: function () {
 
                         return (this as unknown as SelectableMixin).selectable === true;
-                    },
-                    change: function(value: unknown) {
-
-                        (this as unknown as CustomElement).dispatchCustomEvent(selectionChangedEvent, {
-                            element: this,
-                            selected: value,
-                            value: (this as unknown as SelectableMixin).selectValue
-                        })
                     }
                 },
 
@@ -95,7 +86,25 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
 
         toggleSelect() {
 
-            this.selected = !this.selected; // Toggle
+            this.setSelected(!this.selected); // Toggle
+        }
+
+        /**
+         * The difference between setSelected and setting the selected property is that
+         * this function dispatches the selectionChangedEvent
+         */
+        setSelected(selected: boolean): void {
+
+            if (this.selectable === true) {
+
+                this.selected = selected;
+
+                this.dispatchCustomEvent(selectionChangedEvent, {
+                    element: this,
+                    selected,
+                    value: this.selectValue
+                });
+            }            
         }
     }
 }

@@ -11,7 +11,6 @@ export default function LoadableHolder<TBase extends CustomHTMLElementConstructo
 
     return class LoadableHolderMixin extends Base {
 
-
         static get properties(): Record<string, CustomElementPropertyMetadata> {
 
             return {

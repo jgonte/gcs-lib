@@ -50,27 +50,13 @@ export default class SorterTool extends Tool {
 
     click = () => {
 
-        const {
-            field
-        } = this;
+        this.ascending = !this.ascending;
 
-        let {
-            ascending
-        } = this;
-
-        ascending = !ascending;
-
-        this.ascending = ascending;
-
-        this.dispatchEvent(new CustomEvent(sorterChanged, {
-            detail: {
-                field,
-                ascending,
-                element: this // Send this element to track the current sorter
-            },
-            bubbles: true,
-            composed: true
-        }));
+        this.dispatchCustomEvent(sorterChanged, {
+            field: this.field,
+            ascending: this.ascending,
+            element: this // Send this element to track the current sorter
+        });
 
     };
 }

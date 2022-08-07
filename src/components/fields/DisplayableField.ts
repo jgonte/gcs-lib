@@ -1,4 +1,3 @@
-import ChangeTracker from "../mixins/change-tracker/ChangeTracker";
 import Disableable from "../mixins/disableable/Disableable";
 import Sizable from "../mixins/sizable/Sizable";
 import Field from "./Field";
@@ -9,17 +8,28 @@ import { displayableFieldStyles } from "./DisplayableField.styles";
 export const inputEvent = "inputEvent";
 
 export default abstract class DisplayableField extends
-    ChangeTracker(
-        Disableable(
-            Sizable(
-                Field as unknown as CustomHTMLElementConstructor
-            )
+    Disableable(
+        Sizable(
+            Field as unknown as CustomHTMLElementConstructor
         )
     ) {
+
+    /** 
+     * The initial value of the tracked component 
+     * A component is considered "modified" if its current value is different from the initial one
+     */
+    _initialValue?: unknown = null;
 
     static get styles(): string {
 
         return mergeStyles(super.styles, displayableFieldStyles);
+    }
+
+    connectedCallback(): void {
+
+        super.connectedCallback?.();
+
+        this._initialValue = this.value;// Set the initial value
     }
 
     /**
@@ -30,14 +40,8 @@ export default abstract class DisplayableField extends
 
         super.handleInput(event);
 
-        const {
-            _tempValue: value
-        } = this;
-
-        this.updateCurrentValue(value);
-
         this.dispatchCustomEvent(inputEvent, {
-            modified: this.valueHasChanged(value) // Notify the parent whether the value has changed or not
+            modified: this._initialValue !== this._tempValue // Notify the parent whether the value has changed or not
         });
     }
 }

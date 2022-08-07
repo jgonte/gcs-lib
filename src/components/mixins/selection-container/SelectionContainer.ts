@@ -157,7 +157,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
 
                 const selectedChild = this.selectedChildren[0];
 
-                // Deselect previous selected child
+                // Deselect previous selected child without dispatching the selectionChanged event
                 if (selectedChild !== undefined) {
 
                     selectedChild.selected = false;
@@ -190,7 +190,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
 
             const selectedChild = selectedChildren.filter((el: { selectValue: { [x: string]: unknown; }; }) => el.selectValue[idField] === id)[0];
 
-            selectedChild.selected = false;
+            selectedChild.setSelected(false);
         }
 
         selectByValue(value: unknown) {
@@ -199,7 +199,7 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
     
             const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[this.idField] === value)[0] as Selector;
     
-            selector.selected = true;
+            selector.setSelected(true);
         }
     }
 }

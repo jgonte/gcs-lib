@@ -270,15 +270,13 @@ export default class ComboBox extends
         }
     }
 
-    onPropertyChanged(name: string, value: unknown) {
+    onValueChanged(value: unknown, oldValue: unknown): void {
 
-        super.onPropertyChanged?.(name, value);
+        super.onValueChanged?.(value, oldValue);
 
-        if (name === 'value') {
-
-            this.content.selectByValue(value);
-        }
+        this.content.selectByValue(value);
     }
+
 }
 
 defineCustomElement('wcl-combo-box', ComboBox);

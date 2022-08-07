@@ -38,10 +38,32 @@
             ];
         }
 
-        function getFields() {
+        function getFieldKeys() {
 
             return ["name", "age", "description"];
         }
+
+        function getFields() {
+
+            return [
+                {
+                    name: "name",
+                    display: "Name",
+                    sortable: true
+                },
+                {
+                    name: "age",
+                    display: "Age",
+                    sortable: true
+                },
+                {
+                    name: "description",
+                    display: "Description",
+                    sortable: true
+                }
+            ];
+        }
+
 
     </script>
 
@@ -67,7 +89,11 @@
 
     <h4>Data grid data comes from function</h4>
 
-    <wcl-data-grid id="dg2" id-field="name" fields="getFields()" data="getData()"></wcl-data-grid>
+    <wcl-data-grid id="dg2" id-field="name" fields="getFieldKeys()" data="getData()"></wcl-data-grid>
+
+    <h4>Data grid with field descriptors</h4>
+
+    <wcl-data-grid id="dg3" id-field="name" fields="getFields()" data="getData()"></wcl-data-grid>
 
 </body>
 

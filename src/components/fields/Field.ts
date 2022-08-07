@@ -95,6 +95,10 @@ export default abstract class Field extends
                     DataTypes.String,
                     DataTypes.Object // Ideally is a string but could be a more complex object
                 ],
+                change: function(value: unknown, oldValue: unknown) : void {
+                    
+                    (this as unknown as Field).onValueChanged?.(value, oldValue);
+                },
                 reflect: true
             },
 

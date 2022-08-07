@@ -119,11 +119,7 @@ export default class Form extends
      */
     handleLoadedData(data: GenericRecord) {
 
-        console.log(JSON.stringify(data));
-
-        const d = data.payload ?? data;
-
-        this.setData(d as DynamicObject, true); // Set the fields as not being changed
+        this.setData((data.payload ?? data) as DynamicObject, true); // Set the fields as not being changed
     }
 
     /**
@@ -141,6 +137,8 @@ export default class Form extends
 
     setData(data: DynamicObject, acceptChanges: boolean = false): void {
 
+        console.log(JSON.stringify(data));
+
         for (const key in data) {
 
             if (data.hasOwnProperty(key)) {
@@ -149,11 +147,13 @@ export default class Form extends
 
                 if (field !== undefined) {
 
-                    field.value = data[key];
+                    const value = data[key];
+
+                    field.value = value;
 
                     if (acceptChanges === true) {
 
-                        field.acceptChanges?.(); // Only DisplayableField accepts changes
+                        field._initialValue = value;
                     }
                 }
                 else { // The field does not need to exist for the given data member but let the programmer know it is missing
@@ -184,8 +184,6 @@ export default class Form extends
 
         return data;
     }
-
-
 
     initializeValidator(validator: string) {
 

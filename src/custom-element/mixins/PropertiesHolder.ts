@@ -331,12 +331,29 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 options,
                 transform,
                 canChange,
-                change
+                change,
+                defer
                 //afterUpdate - We call afterUpdate after the element was updated in the DOM
             } = propertyMetadata;
 
             ensureValueIsInOptions(value, options);
 
+            if (typeof value === 'function') {
+
+                if (defer === true) { // Store the function as a property
+
+                    value = (value as (...args: unknown[]) => unknown).bind(this);
+                }
+                else {
+
+                    value = value(); // Call the function
+                }
+            }
+            else if (defer === true) {
+
+                throw new Error('defer can only be used for function');
+            }
+            
             if (transform !== undefined) {
 
                 value = transform.call(this, value); // Transform the data if necessary
@@ -357,9 +374,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             }
 
             // Set the property
-            this._properties[name] = (typeof value === 'function') ?
-                (value as (...args: unknown[]) => unknown).bind(this) :
-                value;
+            this._properties[name] = value;
 
             // Call any change value on the property
             change?.call(this, value, oldValue);

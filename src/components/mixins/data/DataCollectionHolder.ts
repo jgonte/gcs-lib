@@ -22,7 +22,13 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
                         DataTypes.Array,
                         DataTypes.Function
                     ],
-                    value: []
+                    value: [],
+                    // transform: function(value: unknown) {
+
+                    //     return typeof value === 'function'? 
+                    //         value() : // Get the array the function holds
+                    //         value;
+                    // }
                     //required: true - We might need to load it after connecting the component
                 }
             }
@@ -81,9 +87,7 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
                     }
                 }
 
-                const data = this.data.sort(comparer);
-
-                this.data = data;
+                this.data = [...this.data].sort(comparer); // Clone the array so they are different
             }
         }
     }

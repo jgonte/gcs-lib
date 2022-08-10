@@ -1,5 +1,5 @@
 import { attributeMarkerPrefix } from "../../rendering/template/markers";
-import areEqual from "../../utils/areEqual";
+import areEquivalent from "../../utils/areEquivalent";
 import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { GenericRecord } from "../../utils/types";
@@ -308,9 +308,12 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 type
             } = propertyMetadata;
 
-            const v = valueConverter.toProperty(value as string, type); // Convert from the value returned by the parameter
+            if (typeof value === 'string') { // Convert for strings only
 
-            this.setProperty(name as string, v); // Call the setProperty of the Reactive mixin
+                value = valueConverter.toProperty(value as string, type); // Convert from the value returned by the parameter
+            }
+
+            this.setProperty(name as string, value); // Call the setProperty of the Reactive mixin
 
             return true;
         }
@@ -362,7 +365,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             // Check if the property has not changed
             const oldValue = this._properties[name];
 
-            if (areEqual(oldValue, value)) {
+            if (areEquivalent(oldValue, value)) {
 
                 return false; // Property has not changed
             }

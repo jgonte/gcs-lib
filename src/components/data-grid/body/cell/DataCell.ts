@@ -23,7 +23,7 @@ export default class DataCell extends CustomElement {
              */
             record: {
                 type: [
-                    DataTypes.Object, 
+                    DataTypes.Object,
                     DataTypes.Function
                 ],
                 required: true
@@ -34,8 +34,8 @@ export default class DataCell extends CustomElement {
              */
             field: {
                 type: [
-                    DataTypes.Object, 
-                    DataTypes.Function, 
+                    DataTypes.Object,
+                    DataTypes.Function,
                     DataTypes.String
                 ],
                 required: true
@@ -54,14 +54,16 @@ export default class DataCell extends CustomElement {
             field :
             field.name;
 
+        const value = record[name]
+
         if (field.render !== undefined) {
 
-            return field.render(record, field);
+            return field.render(value, record, field);
         }
         else {
 
-            return html`${record[name]}`;
-        }   
+            return html`${value}`;
+        }
     }
 }
 

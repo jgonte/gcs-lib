@@ -1,8 +1,11 @@
+import areEquivalent from "../../utils/areEquivalent";
 import isPrimitive from "../../utils/isPrimitive";
 import createNodes from "../nodes/createNodes";
 import { AnyPatchedNode, NodePatchingData } from "../nodes/NodePatchingData";
 import { endMarker } from "../template/markers";
-import areEquivalentValues from "../utils/areEquivalentValues";
+import addPatcherComparer from "../utils/addPatcherComparer";
+
+addPatcherComparer();
 
 export default function replaceChild(markerNode: Node, newChild: NodePatchingData, oldChild: NodePatchingData) {
 
@@ -45,7 +48,7 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
                 } = oldChild as NodePatchingData;
 
                 const r = patcher === otherPatcher &&
-                    areEquivalentValues(values, otherValues);
+                    areEquivalent(values, otherValues);
 
                 if (r === true) {
 

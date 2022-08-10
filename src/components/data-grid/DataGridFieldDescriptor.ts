@@ -31,5 +31,5 @@ export default interface DataGridFieldDescriptor {
     /**
      * The custom renderer of the field
      */
-    render: (record: Record<string, any>, field: DataGridFieldDescriptor) => NodePatchingData;
+    render: (value: unknown, record: Record<string, any>, field: DataGridFieldDescriptor) => NodePatchingData;
 }

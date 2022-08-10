@@ -225,7 +225,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
+        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
 
         const values = patchingData.values[0];
 
@@ -265,7 +265,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
+        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
 
         // Prepend item 1
         data = [
@@ -287,7 +287,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
+        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
 
         // Remove all the items
         data = [];
@@ -322,7 +322,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
+        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
 
         // Prepend an item
         data = [
@@ -348,7 +348,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"3\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:3,&quot;description&quot;:&quot;Item 3&quot;}\"><!--_$bm_--><!--_$bm_-->Item 3<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
+        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"3\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 3<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
 
         // Insert around the middle
         data = [
@@ -378,7 +378,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"3\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:3,&quot;description&quot;:&quot;Item 3&quot;}\"><!--_$bm_--><!--_$bm_-->Item 3<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"4\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:4,&quot;description&quot;:&quot;Item 4&quot;}\"><!--_$bm_--><!--_$bm_-->Item 4<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
+        expect(container.outerHTML).toEqual("<div><ul><!--_$bm_--><li key=\"3\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 3<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"4\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 4<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><li key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </li><!--_$em_--></ul></div>");
     });
 
     it('should render an array of elements', () => {
@@ -418,7 +418,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><span key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
+        expect(container.outerHTML).toEqual("<div><span key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
 
         let value1 = patchingData[0];
 
@@ -454,7 +454,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><span key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
+        expect(container.outerHTML).toEqual("<div><span key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
 
         value1 = patchingData[0];
 
@@ -484,7 +484,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><span key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
+        expect(container.outerHTML).toEqual("<div><span key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
 
         // Remove all the items
         data = [];
@@ -515,7 +515,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><span key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
+        expect(container.outerHTML).toEqual("<div><span key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
 
         // Swap the items
         data = [
@@ -535,7 +535,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><span key=\"2\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:2,&quot;description&quot;:&quot;Item 2&quot;}\"><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"1\">\n                    <wcl-selector select-value=\"{&quot;id&quot;:1,&quot;description&quot;:&quot;Item 1&quot;}\"><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
+        expect(container.outerHTML).toEqual("<div><span key=\"2\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 2<!--_$em_--><!--_$em_--></wcl-selector>\n                </span><span key=\"1\">\n                    <wcl-selector><!--_$bm_--><!--_$bm_-->Item 1<!--_$em_--><!--_$em_--></wcl-selector>\n                </span></div>");
     });
 
     it('should render a collection of non-keyed nodes', () => {
@@ -1024,7 +1024,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><x-container class=\"container\" record=\"{&quot;name&quot;:&quot;Sarah&quot;,&quot;age&quot;:19,&quot;description&quot;:&quot;Smart and beautiful&quot;}\"></x-container></div>");
+        expect(container.outerHTML).toEqual("<div><x-container class=\"container\"></x-container></div>");
 
         expect(container.children[0].attributes[1].value).toEqual("{\"name\":\"Sarah\",\"age\":19,\"description\":\"Smart and beautiful\"}");
 
@@ -1040,7 +1040,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, oldPatchingData, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><x-container class=\"container\" record=\"{&quot;name&quot;:&quot;Mark&quot;,&quot;age&quot;:31,&quot;description&quot;:&quot;Business man&quot;}\"></x-container></div>");
+        expect(container.outerHTML).toEqual("<div><x-container class=\"container\"></x-container></div>");
 
         expect(container.children[0].attributes[1].value).toEqual("{\"name\":\"Mark\",\"age\":31,\"description\":\"Business man\"}");
     });
@@ -1726,7 +1726,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:1,&quot;description&quot;:&quot;Artist&quot;},{&quot;id&quot;:2,&quot;description&quot;:&quot;Medicine&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         data = {
             name: "Mark",
@@ -1753,7 +1753,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, patchingData, newPatchingData);
 
-        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:1,&quot;description&quot;:&quot;Marketing&quot;},{&quot;id&quot;:2,&quot;description&quot;:&quot;Finance&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         patchingData = newPatchingData;
     });
@@ -1786,7 +1786,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_--><!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:1,&quot;description&quot;:&quot;Artist&quot;},{&quot;id&quot;:2}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_--><!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         data = {
             name: "Mark",
@@ -1812,7 +1812,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, patchingData, newPatchingData);
 
-        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_--><!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:1},{&quot;id&quot;:2,&quot;description&quot;:&quot;Finance&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_--><!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         patchingData = newPatchingData;
     });
@@ -1865,7 +1865,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:1,&quot;description&quot;:&quot;Artist&quot;},{&quot;id&quot;:2,&quot;description&quot;:&quot;Medicine&quot;}]\"></wcl-data-list>\n        </div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:3,&quot;description&quot;:&quot;Marketing&quot;},{&quot;id&quot;:4,&quot;description&quot;:&quot;Finance&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         data = [
             {
@@ -1904,7 +1904,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, patchingData, newPatchingData);
 
-        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and awesome<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:5,&quot;description&quot;:&quot;Makeup&quot;},{&quot;id&quot;:2,&quot;description&quot;:&quot;Medicine&quot;}]\"></wcl-data-list>\n        </div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker and dedicated<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:7,&quot;description&quot;:&quot;Entrepeneur&quot;},{&quot;id&quot;:8,&quot;description&quot;:&quot;Salesperson&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and awesome<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div><div style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker and dedicated<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         patchingData = newPatchingData;
     });
@@ -1959,7 +1959,7 @@ describe("render nodes tests", () => {
 
         mountNodes(container, patchingData);
 
-        expect(container.outerHTML).toEqual("<div><div key=\"a\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:1,&quot;description&quot;:&quot;Artist&quot;},{&quot;id&quot;:2,&quot;description&quot;:&quot;Medicine&quot;}]\"></wcl-data-list>\n        </div><div key=\"b\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:3,&quot;description&quot;:&quot;Marketing&quot;},{&quot;id&quot;:4,&quot;description&quot;:&quot;Finance&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div key=\"a\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and beautiful<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div><div key=\"b\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         data = [
             {
@@ -2000,7 +2000,7 @@ describe("render nodes tests", () => {
 
         updateNodes(container, patchingData, newPatchingData);
 
-        expect(container.outerHTML).toEqual("<div><div key=\"a\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and awesome<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:5,&quot;description&quot;:&quot;Makeup&quot;},{&quot;id&quot;:2,&quot;description&quot;:&quot;Medicine&quot;}]\"></wcl-data-list>\n        </div><div key=\"b\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker and dedicated<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\" data=\"[{&quot;id&quot;:7,&quot;description&quot;:&quot;Entrepeneur&quot;},{&quot;id&quot;:8,&quot;description&quot;:&quot;Salesperson&quot;}]\"></wcl-data-list>\n        </div></div>");
+        expect(container.outerHTML).toEqual("<div><div key=\"a\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Sarah<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->19<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Smart and awesome<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div><div key=\"b\" style=\"width: 200px; margin: 10px;\">\n            <div style=\"background-color: lightgreen; padding: 5px;\"><!--_$bm_-->Mark<!--_$em_--></div>\n            <div style=\"background-color: yellow;\"><!--_$bm_-->31<!--_$em_--></div>\n            <div style=\"background-color: darkred; color: white; font-weight: bold;\"><!--_$bm_-->Hard worker and dedicated<!--_$em_--></div>\n            <wcl-data-list id-field=\"id\"></wcl-data-list>\n        </div></div>");
 
         patchingData = newPatchingData;
     });

@@ -25,15 +25,12 @@ export default function setAttribute(
 
         const type = typeof value;
 
-        if (type === 'function') {
+        if (type === 'function' ||
+            type === 'object') { // This includes arrays too
 
             node.removeAttribute(attributeName); // It is similar to an event. Do not show as attribute
 
             node[propertyName] = value; // Bypass the stringification of the attribute
-        }
-        else if (type === 'object') {
-
-            node.setAttribute(attributeName, JSON.stringify(value));
         }
         else { // Any other type
 
@@ -43,10 +40,10 @@ export default function setAttribute(
             }
 
             const v = (value === true) ?
-                '':
+                '' :
                 value as string;
 
-                node.setAttribute(attributeName, v);
+            node.setAttribute(attributeName, v);
         }
     }
 }

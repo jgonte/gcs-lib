@@ -1,5 +1,6 @@
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata"
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor"
+import compareValues from "../../../rendering/utils/compareValues"
 import { DataTypes } from "../../../utils/data/DataTypes"
 import { GenericRecord } from "../../../utils/types"
 import SorterTool, { sorterChanged } from "../../tools/sorter/SorterTool"
@@ -23,12 +24,6 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
                         DataTypes.Function
                     ],
                     value: [],
-                    // transform: function(value: unknown) {
-
-                    //     return typeof value === 'function'? 
-                    //         value() : // Get the array the function holds
-                    //         value;
-                    // }
                     //required: true - We might need to load it after connecting the component
                 }
             }
@@ -37,14 +32,14 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
         connectedCallback() {
 
             super.connectedCallback?.();
-    
+
             this.addEventListener(sorterChanged, this.sort as EventListenerOrEventListenerObject);
         }
-    
+
         disconnectedCallback() {
-    
+
             super.disconnectedCallback?.();
-    
+
             this.removeEventListener(sorterChanged, this.sort as EventListenerOrEventListenerObject);
         }
 
@@ -66,7 +61,7 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
                     this._lastSorter.ascending = undefined;
                 }
 
-                this._lastSorter = element;                
+                this._lastSorter = element;
             }
 
             if (this.loader !== undefined) { // Sort in the server
@@ -79,11 +74,11 @@ export default function DataCollectionHolder<TBase extends CustomHTMLElementCons
 
                     if (ascending === true) {
 
-                        return (r1[field] as number) - (r2[field] as number);
+                        return compareValues(r1[field], r2[field]);
                     }
                     else {
 
-                        return (r2[field] as number) - (r1[field] as number);
+                        return compareValues(r2[field], r1[field]);
                     }
                 }
 

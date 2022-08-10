@@ -1,8 +1,11 @@
+import areEquivalent from "../../utils/areEquivalent";
 import { beginMarker } from "../template/markers";
-import areEquivalentValues from "../utils/areEquivalentValues";
+import addPatcherComparer from "../utils/addPatcherComparer";
 import createNodes from "./createNodes";
 import mountNodes from "./mountNodes";
 import { AnyPatchedNode, NodePatchingData } from "./NodePatchingData";
+
+addPatcherComparer();
 
 export default function updateNodes(container: Node, oldPatchingData: NodePatchingData | NodePatchingData[], newPatchingData: NodePatchingData | NodePatchingData[]) {
 
@@ -38,7 +41,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
             newPatchingData.node = node; // Set the node in the new patching data
 
-            if (areEquivalentValues(oldPatchingData.values, newPatchingData.values)) {
+            if (areEquivalent(oldPatchingData.values, newPatchingData.values)) {
 
                 // Transfer the existing nodes from the oldPatchingData values to the newPatchingData ones
                 const oldValues = oldPatchingData.values as NodePatchingData[];
@@ -155,7 +158,7 @@ function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], 
                     const keyedNode = keyedNodes.get(valueKey as string);
 
                     // If the values of the keyed node match the ones of the oldChild then just swap them
-                    if (areEquivalentValues(newChildPatchingData.values, ((keyedNode as AnyPatchedNode)._$patchingData as NodePatchingData).values)) {
+                    if (areEquivalent(newChildPatchingData.values, ((keyedNode as AnyPatchedNode)._$patchingData as NodePatchingData).values)) {
 
                         if (i >= container.childNodes.length) {
 

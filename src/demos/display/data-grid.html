@@ -23,17 +23,20 @@
                 {
                     name: "Sarah",
                     age: 19,
-                    description: 'Smart and beautiful'
+                    description: 'Smart and beautiful',
+                    dob: new Date(2002, 06, 26)
                 },
                 {
                     name: "Mark",
                     age: 31,
-                    description: 'Dedicated and perseverant'
+                    description: 'Dedicated and perseverant',
+                    dob: new Date(1990, 10, 4)
                 },
                 {
                     name: "Sasha",
                     age: 1,
-                    description: 'A little giant'
+                    description: 'A little giant',
+                    dob: new Date(2020, 06, 27)
                 }
             ];
         }
@@ -60,6 +63,12 @@
                     name: "description",
                     display: "Description",
                     sortable: true
+                },
+                {
+                    name: "dob",
+                    display: "Date of Birth",
+                    sortable: true,
+                    render: value => value.toLocaleDateString()
                 }
             ];
         }

@@ -11,12 +11,15 @@ import { NodePatcherRule, NodePatcherRuleTypes } from "../rules/NodePatcherRule"
 import createTemplate from "../template/createTemplate";
 import setAttribute from "../dom/setAttribute";
 import { CompiledNodePatcherEventRule } from "../rules/NodePatcherEventRule";
-import areEquivalentValues from "../utils/areEquivalentValues";
 import updateNodes from "../nodes/updateNodes";
 import replaceChild from "../dom/replaceChild";
 import removeLeftSiblings from "../dom/removeLeftSiblings";
 import removeLeftSibling from "../dom/removeLeftSibling";
 import { setEvent } from "../dom/setEvent";
+import areEquivalent from "../../utils/areEquivalent";
+import addPatcherComparer from "../utils/addPatcherComparer";
+
+addPatcherComparer();
 
 export default class NodePatcher implements INodePatcher {
 
@@ -161,7 +164,7 @@ export default class NodePatcher implements INodePatcher {
 
             const newValue = newValues[i];
 
-            if (areEquivalentValues(oldValue, newValue)) {
+            if (areEquivalent(oldValue, newValue)) {
 
                 continue;
             }

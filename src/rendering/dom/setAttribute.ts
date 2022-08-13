@@ -28,9 +28,9 @@ export default function setAttribute(
         if (type === 'function' ||
             type === 'object') { // This includes arrays too
 
-            node.removeAttribute(attributeName); // It is similar to an event. Do not show as attribute
-
             node[propertyName] = value; // Bypass the stringification of the attribute
+
+            node.removeAttribute(attributeName); // It is similar to an event. Do not show as attribute
         }
         else { // Any other type
 

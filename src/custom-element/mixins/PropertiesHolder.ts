@@ -83,6 +83,12 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             super(args);
 
             this._initializeIntrinsicProperties();
+
+            const {
+                properties
+            } = (this.constructor as CustomHTMLElementConstructor).metadata;
+
+            this._initializeProperties(properties);
         }
 
         connectedCallback() {
@@ -92,8 +98,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             const {
                 properties
             } = (this.constructor as CustomHTMLElementConstructor).metadata;
-
-            this._initializeProperties(properties);
 
             // Validate here since the required properties can be set before the component gets connected
             this._validateRequiredProperties(properties);

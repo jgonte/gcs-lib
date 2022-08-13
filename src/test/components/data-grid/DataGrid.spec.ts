@@ -144,7 +144,9 @@ describe("Data grid tests", () => {
 
         expect(contentWithoutStyle).toBe("<wcl-panel><!--_$bm_--><wcl-data-header slot=\"header\">\n</wcl-data-header><!--_$em_--><!--_$bm_--><wcl-data-row slot=\"body\">\n</wcl-data-row><wcl-data-row slot=\"body\">\n</wcl-data-row><!--_$em_--></wcl-panel>");
 
-        component.data = [
+        const spySetProperty = jest.spyOn(component, 'setProperty');
+
+        const data = [
             {
                 name: "Mark",
                 age: 31,
@@ -157,10 +159,18 @@ describe("Data grid tests", () => {
             }
         ];
 
+        component.data = data;
+
         await component.updateComplete; // Wait for the component to render
 
         contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
         expect(contentWithoutStyle).toBe("<wcl-panel><!--_$bm_--><wcl-data-header slot=\"header\">\n</wcl-data-header><!--_$em_--><!--_$bm_--><wcl-data-row slot=\"body\">\n</wcl-data-row><wcl-data-row slot=\"body\">\n</wcl-data-row><!--_$em_--></wcl-panel>");
+
+        expect(spySetProperty).toHaveBeenCalledTimes(1);
+
+        expect(spySetProperty).toHaveBeenCalledWith('data', data);
+
+        expect(component._properties.data).toEqual(data); // Test the data 
     });
 });

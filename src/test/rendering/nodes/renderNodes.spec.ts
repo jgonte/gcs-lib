@@ -1010,7 +1010,12 @@ describe("render nodes tests", () => {
         expect(container.outerHTML).toEqual('<div><span key=\"1\" age=\"19\"><!--_$bm_-->Sarah<!--_$em_--></span><span key=\"3\" age=\"1\"><!--_$bm_-->Sasha<!--_$em_--></span><span key=\"2\" age=\"31\"><!--_$bm_-->Mark<!--_$em_--></span></div>');
     });
 
-    it('should render a complex object as a value', () => {
+    it('should not render a complex object as a stringified value', () => {
+
+        interface RecordHolder {
+
+            record: object;
+        }
 
         let data = {
             name: "Sarah",
@@ -1026,7 +1031,7 @@ describe("render nodes tests", () => {
 
         expect(container.outerHTML).toEqual("<div><x-container class=\"container\"></x-container></div>");
 
-        expect(container.children[0].attributes[1].value).toEqual("{\"name\":\"Sarah\",\"age\":19,\"description\":\"Smart and beautiful\"}");
+        expect((container.children[0] as unknown as RecordHolder).record).toEqual(data);
 
         data = {
             name: "Mark",
@@ -1042,7 +1047,7 @@ describe("render nodes tests", () => {
 
         expect(container.outerHTML).toEqual("<div><x-container class=\"container\"></x-container></div>");
 
-        expect(container.children[0].attributes[1].value).toEqual("{\"name\":\"Mark\",\"age\":31,\"description\":\"Business man\"}");
+        expect((container.children[0] as unknown as RecordHolder).record).toEqual(data);
     });
 
     it('should render a collection of children before a slot', () => {

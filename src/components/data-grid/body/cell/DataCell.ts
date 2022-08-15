@@ -19,17 +19,6 @@ export default class DataCell extends CustomElement {
         return {
 
             /**
-             * The record to render the cell from
-             */
-            record: {
-                type: [
-                    DataTypes.Object,
-                    DataTypes.Function
-                ],
-                required: true
-            },
-
-            /**
              * The descriptor of the field to render the cell
              */
             field: {
@@ -37,6 +26,17 @@ export default class DataCell extends CustomElement {
                     DataTypes.Object,
                     DataTypes.Function,
                     DataTypes.String
+                ],
+                required: true
+            },
+            
+            /**
+             * The record to render the cell from
+             */
+            record: {
+                type: [
+                    DataTypes.Object,
+                    DataTypes.Function
                 ],
                 required: true
             }
@@ -54,7 +54,7 @@ export default class DataCell extends CustomElement {
             field :
             field.name;
 
-        const value = record[name]
+        const value = record[name];
 
         if (field.render !== undefined) {
 

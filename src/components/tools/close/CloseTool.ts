@@ -21,7 +21,8 @@ export default class CloseTool extends Tool {
              */
             close: {
                 type: DataTypes.Function,
-                required: true
+                required: true,
+                defer: true
             }
         };
     }

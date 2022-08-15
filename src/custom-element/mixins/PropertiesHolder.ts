@@ -1,5 +1,6 @@
 import { attributeMarkerPrefix } from "../../rendering/template/markers";
 import areEquivalent from "../../utils/areEquivalent";
+import { DataTypes } from "../../utils/data/DataTypes";
 import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { GenericRecord } from "../../utils/types";
@@ -84,20 +85,43 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             this._initializeIntrinsicProperties();
 
+            console.log(`PropertiesHolder - constructor - ${this.constructor.name}`);
+
             const {
                 properties
             } = (this.constructor as CustomHTMLElementConstructor).metadata;
+
+            for (const [name] of properties) {
+
+                const value = this._$tempProperties?.[name];
+
+                if (name === 'record') {
+
+                    console.warn(`Setting temporary property for record: ${console.dir(value)}`);
+                }
+
+                if (value !== undefined) {
+
+                    this._setProperty(name as string, value); // Set the temporary property
+                }
+            }
+
+            delete this._$tempProperties; // Not needed anymore
 
             this._initializeProperties(properties);
         }
 
         connectedCallback() {
 
+            console.log(`connectedCallback - ${this.constructor.name}`);
+
             super.connectedCallback?.();
 
             const {
                 properties
             } = (this.constructor as CustomHTMLElementConstructor).metadata;
+
+
 
             // Validate here since the required properties can be set before the component gets connected
             this._validateRequiredProperties(properties);
@@ -129,11 +153,14 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          */
         private _initializeProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>) {
 
+            console.log(`_initializeProperties. type: '${this.constructor.name}'`);
+
             for (const [name, property] of propertiesMetadata) {
 
                 const {
                     attribute,
-                    value: defaultValue
+                    value: defaultValue,
+                    type
                 } = property;
 
                 if (instrinsicAttributeNames.includes(attribute as string)) {
@@ -146,13 +173,27 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     continue; // Not a part of the properties
                 }
 
-                const value = this.getAttribute(attribute as string);
+                const oldValue = this._properties[name];
 
-                if (value !== null) {
+                if (oldValue !== undefined) {
+
+                    continue; // Already initialized
+                }
+
+                let newValue = this.getAttribute(attribute as string);
+
+                if (newValue !== null) {
+
+                    if (newValue.startsWith(attributeMarkerPrefix)) {
+
+                        continue;
+                    }
+
+                    newValue = valueConverter.toProperty(newValue, type)
 
                     this._explicitlyInitializedProperties.add(name);
 
-                    this._setAttribute(attribute as string, value);
+                    this._setProperty(name as string, newValue); // Coming from an attribute anyway
                 }
                 else if (defaultValue !== undefined) { // Set a default value if any
 
@@ -334,6 +375,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             const {
                 attribute,
+                type,
                 reflect,
                 options,
                 transform,
@@ -356,11 +398,12 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                     value = value(); // Call the function
                 }
             }
-            else if (defer === true) {
+            else if (!type.includes(DataTypes.Function) &&
+                defer === true) {
 
                 throw new Error('defer can only be used for function');
             }
-            
+
             if (transform !== undefined) {
 
                 value = transform.call(this, value); // Transform the data if necessary

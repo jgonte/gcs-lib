@@ -11,48 +11,47 @@ import { GenericRecord } from "../utils/types";
 /**
  * The base class for all the custom elements
  */
-export default abstract class CustomElement extends
-    ParentChild(
-        ReactiveElement(
-            StylesPatching(
-                NodePatching(
-                    ShadowRoot(
-                        MetadataInitializer(
-                            HTMLElement as CustomHTMLElementConstructor
-                        )
-                    )
-                )
-            )
-        )
-    ) {
+export default abstract class CustomElement extends ParentChild(
+	ReactiveElement(
+		StylesPatching(
+			NodePatching(
+				ShadowRoot(
+					MetadataInitializer(HTMLElement as CustomHTMLElementConstructor)
+				)
+			)
+		)
+	)
+) {
+	/**
+	 * Flag to allow testing for derived classes of CustomElement
+	 */
+	static readonly _isCustomElement: boolean = true;
 
-    /**
-     * Flag to allow testing for derived classes of CustomElement
-     */
-    static readonly _isCustomElement: boolean = true;
+	constructor() {
 
-    constructor() {
+		super();
+		
+		this.initialized?.(this); // Call the initialized property if any
 
-        super();
-        
-        this.initialized?.(this); // Call the initialized property if any
-    }
+		this.isInitialized = true;
+	}
 
-    /**
-     * The render method that needs to be implemented by the derived elements
-     */
-    abstract render(): RenderReturnTypes;
+	/**
+	 * The render method that needs to be implemented by the derived elements
+	 */
+	abstract render(): RenderReturnTypes;
 
-    dispatchCustomEvent(type: string, detail: GenericRecord) : void {
+	dispatchCustomEvent(type: string, detail: GenericRecord): void {
+		setTimeout(() => {
+			// Repaint before dispatching the event
 
-        setTimeout(() => { // Repaint before dispatching the event
-
-            this.dispatchEvent(new CustomEvent(type, {
-                detail: detail,
-                bubbles: true,
-                composed: true // To bubble through the shadow DOM
-            }));
-
-        }, 0);  
-    }
+			this.dispatchEvent(
+				new CustomEvent(type, {
+					detail: detail,
+					bubbles: true,
+					composed: true, // To bubble through the shadow DOM
+				})
+			);
+		}, 0);
+	}
 }

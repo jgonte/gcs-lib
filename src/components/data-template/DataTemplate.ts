@@ -30,8 +30,8 @@ import { DataTypes } from "../../utils/data/DataTypes";
              */
             template: {
                 type: DataTypes.Function,
-                defer: true, // Store the function itself instead of executing it to get its return value when initializing the property
-                required: true
+                required: true,
+                defer: true // Store the function itself instead of executing it to get its return value when initializing the property
             }
         }
     }

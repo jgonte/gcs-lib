@@ -2,49 +2,70 @@ import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { ExtensibleHTMLElement } from "../nodes/NodePatchingData";
 
 export default function setAttribute(
-    node: ExtensibleHTMLElement,
-    attributeName: string,
-    propertyName: string,
-    value: unknown): void {
+	node: ExtensibleHTMLElement,
+	attributeName: string,
+	propertyName: string,
+	value: unknown
+): void {
+	if (isUndefinedOrNull(value) || value === false) {
+		node.removeAttribute(attributeName);
 
-    if (isUndefinedOrNull(value) ||
-        value === false) {
+		if (attributeName === "value") {
+			(node as unknown as HTMLInputElement).value = "";
+		} else {
+			node[propertyName] = value;
+		}
+	} else {
+		const type = typeof value;
 
-        node.removeAttribute(attributeName);
+		if (type === "function" || type === "object") {
+			// This includes arrays too
 
-        if (attributeName === 'value') {
+			console.log(`renderer - setAttribute 
+	type: ${node.constructor.name} 
+	localName: ${node.localName} 
+	isConnected: ${node.isConnected}
+	isDefined: ${customElements.get(node.localName) !== undefined}
+	isInitialized: ${node.isInitialized === true}
+`);
 
-            (node as unknown as HTMLInputElement).value = '';
-        }
-        else {
+			if (node.isInitialized !== true) {
 
-            node[propertyName] = value;
-        }
-    }
-    else {
+				node._$tempProperties ??= {};
 
-        const type = typeof value;
+				if (propertyName === 'record') {
 
-        if (type === 'function' ||
-            type === 'object') { // This includes arrays too
+					console.warn('record with value:');
 
-            node[propertyName] = value; // Bypass the stringification of the attribute
+					console.dir(value);
+				}
 
-            node.removeAttribute(attributeName); // It is similar to an event. Do not show as attribute
-        }
-        else { // Any other type
+				(node as any)._$tempProperties[propertyName] = value;
 
-            if (attributeName === 'value') { // Set the value besides setting the attribute
+				return;
+			}
 
-                (node as unknown as HTMLInputElement).value = value as string;
-            }
+			console.dir({
+				attributeName,
+				propertyName,
+				value,
+			});
 
-            const v = (value === true) ?
-                '' :
-                value as string;
+			node[propertyName] = value; // Bypass the stringification of the attribute
 
-            node.setAttribute(attributeName, v);
-        }
-    }
+			node.removeAttribute(attributeName); // It is similar to an event. Do not show as attribute
+		} else {
+			// Any other type
+
+			if (attributeName === "value") {
+				// Set the value besides setting the attribute
+
+				(node as unknown as HTMLInputElement).value = value as string;
+			}
+
+			const v = value === true ? "" : (value as string);
+
+			node.setAttribute(attributeName, v);
+		}
+	}
 }
-

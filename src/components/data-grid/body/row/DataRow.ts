@@ -19,22 +19,22 @@ export default class DataRow extends CustomElement {
         return {
 
             /**
-             * The record to render the row from
+             * The descriptor of the fields to render the row
              */
-            record: {
+            fields: {
                 type: [
-                    DataTypes.Object, 
+                    DataTypes.Array,
                     DataTypes.Function
                 ],
                 required: true
             },
 
             /**
-             * The descriptor of the fields to render the row
+             * The record to render the row from
              */
-            fields: {
+            record: {
                 type: [
-                    DataTypes.Array, 
+                    DataTypes.Object,
                     DataTypes.Function
                 ],
                 required: true
@@ -49,7 +49,14 @@ export default class DataRow extends CustomElement {
             fields
         } = this;
 
-        return fields.map((field: string | number) => html`<wcl-data-cell field=${field} record=${record} key=${field}></wcl-data-cell>`);
+        return fields.map((field: string | number) =>
+            html`
+    <wcl-data-cell 
+        field=${field} 
+        record=${record} 
+        key=${field}>
+    </wcl-data-cell>`
+        );
     }
 }
 

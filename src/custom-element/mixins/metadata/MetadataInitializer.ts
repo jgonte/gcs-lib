@@ -59,7 +59,11 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
 
         static initializeProperties(metadata: CustomElementMetadata): void {
 
+            console.log(`static initializeProperty type: '${this.name}'`);
+
             const properties = this.getAllProperties();
+
+            console.dir(properties);
 
             Object.entries(properties).forEach(([key, value]) => this.initializeProperty(key, value, metadata));
 
@@ -158,14 +162,20 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
             metadata.properties.set(name, propertyMetadata);
 
             const {
-                attribute
+                attribute,
+                type
             } = propertyMetadata;
 
             // Index the property descriptor by the attribute name
             metadata.propertiesByAttribute.set(attribute, propertyMetadata); // Index by attribute name
 
-            // Add the observed attribute
-            metadata.observedAttributes.push(propertyMetadata.attribute.toLowerCase());
+            // Add the observed attribute if the type is not an object or an array
+            if (!type.includes(DataTypes.Object) &&
+                !type.includes(DataTypes.Array)) {
+
+                metadata.observedAttributes.push(attribute.toLowerCase());
+            }
+
         }
     }
 }

@@ -30,7 +30,8 @@ export default class DataGrid extends
             fields: {
                 type: [
                     DataTypes.Array,
-                    DataTypes.Function],
+                    DataTypes.Function
+                ],
                 required: true
             }
         };
@@ -69,7 +70,8 @@ export default class DataGrid extends
     fields=${fields}
     record=${record} 
     key=${record[idField]}>
-</wcl-data-row>`);
+</wcl-data-row>`
+        );
     }
 }
 

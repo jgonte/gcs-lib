@@ -1,3 +1,4 @@
+import isCustomElement from "../isCustomElement";
 import CustomHTMLElement from "./metadata/types/CustomHTMLElement";
 import CustomHTMLElementConstructor from "./metadata/types/CustomHTMLElementConstructor";
 
@@ -122,12 +123,12 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
                         return this._adoptingParent = null;
                     }
 
-                    if (tagName.startsWith('wcl-')) {
+                    if (isCustomElement(parent as HTMLElement)) {
 
                         await window.customElements.whenDefined(tagName);
                     }
 
-                    if ((parent.constructor as CustomHTMLElementConstructor)._isCustomElement === true) {  // It is a custom element
+                    if ((parent.constructor as CustomHTMLElementConstructor).isCustomElement === true) {  // It is a custom element
 
                         return this._adoptingParent = parent;
                     }

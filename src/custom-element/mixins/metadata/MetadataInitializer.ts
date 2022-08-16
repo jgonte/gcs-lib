@@ -59,11 +59,11 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
 
         static initializeProperties(metadata: CustomElementMetadata): void {
 
-            console.log(`static initializeProperty type: '${this.name}'`);
+            // console.log(`static initializeProperty type: '${this.name}'`);
 
             const properties = this.getAllProperties();
 
-            console.dir(properties);
+            // console.dir(properties);
 
             Object.entries(properties).forEach(([key, value]) => this.initializeProperty(key, value, metadata));
 
@@ -96,7 +96,7 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
 
             let baseClass = Object.getPrototypeOf(this.prototype).constructor;
 
-            while (baseClass._isCustomElement === true) {
+            while (baseClass.isCustomElement === true) {
 
                 if (baseClass.properties !== undefined) {
 

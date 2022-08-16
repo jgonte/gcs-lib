@@ -5,6 +5,7 @@ import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
+import DataGridFieldDescriptor from "../DataGridFieldDescriptor";
 import { dataHeaderStyles } from "./DataHeader.styles";
 
 export default class DataHeader extends CustomElement {
@@ -33,9 +34,9 @@ export default class DataHeader extends CustomElement {
 
     render(): NodePatchingData[] {
 
-        return this.fields.map((field: string | number) => {
+        return this.fields.map((field: DataGridFieldDescriptor |string | number) => {
 
-            return html`<wcl-data-header-cell field=${field} key=${field}></wcl-data-header-cell>`;
+            return html`<wcl-data-header-cell field=${field} key=${(field as DataGridFieldDescriptor).name || field}></wcl-data-header-cell>`;
         });
     }
 }

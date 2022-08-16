@@ -1,4 +1,3 @@
-import { attributeMarkerPrefix } from "../../rendering/template/markers";
 import areEquivalent from "../../utils/areEquivalent";
 import { DataTypes } from "../../utils/data/DataTypes";
 import getGlobalFunction, { AnyFunction } from "../../utils/getGlobalFunction";
@@ -85,7 +84,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             this._initializeIntrinsicProperties();
 
-            console.log(`PropertiesHolder - constructor - ${this.constructor.name}`);
+            // console.log(`PropertiesHolder - constructor - ${this.constructor.name}`);
 
             const {
                 properties
@@ -94,11 +93,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             for (const [name] of properties) {
 
                 const value = this._$tempProperties?.[name];
-
-                if (name === 'record') {
-
-                    console.warn(`Setting temporary property for record: ${console.dir(value)}`);
-                }
 
                 if (value !== undefined) {
 
@@ -113,15 +107,13 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
         connectedCallback() {
 
-            console.log(`connectedCallback - ${this.constructor.name}`);
+            // console.log(`connectedCallback - ${this.constructor.name}`);
 
             super.connectedCallback?.();
 
             const {
                 properties
             } = (this.constructor as CustomHTMLElementConstructor).metadata;
-
-
 
             // Validate here since the required properties can be set before the component gets connected
             this._validateRequiredProperties(properties);
@@ -134,7 +126,12 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             instrinsicAttributes.forEach(attr => {
 
-                const val = this.getAttribute(attr.attribute);
+                const {
+                    attribute,
+                    property
+                } = attr;
+
+                const val = this.getAttribute(attribute);
 
                 if (val !== null) {
 
@@ -142,7 +139,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                         getGlobalFunction(val) :
                         val;
 
-                    this[attr.property] = (fcn as AnyFunction).bind(this);
+                    this[property] = (fcn as AnyFunction).bind(this);
                 }
             });
         }
@@ -153,7 +150,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          */
         private _initializeProperties(propertiesMetadata: Map<string, CustomElementPropertyMetadata>) {
 
-            console.log(`_initializeProperties. type: '${this.constructor.name}'`);
+            // console.log(`Instance _initializeProperties. type: '${this.constructor.name}'`);
 
             for (const [name, property] of propertiesMetadata) {
 
@@ -183,11 +180,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 let newValue = this.getAttribute(attribute as string);
 
                 if (newValue !== null) {
-
-                    if (newValue.startsWith(attributeMarkerPrefix)) {
-
-                        continue;
-                    }
 
                     newValue = valueConverter.toProperty(newValue, type)
 
@@ -333,12 +325,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
         // }
 
         private _setAttribute(attribute: string, value: string | null): boolean {
-
-            if (value !== null &&
-                value.startsWith(attributeMarkerPrefix)) { // Coming from a template ... ignore
-
-                return false;
-            }
 
             // Verify that the property is one of the configured in the custom element
             const propertyMetadata: CustomElementPropertyMetadata | undefined = (this.constructor as CustomHTMLElementConstructor).metadata.propertiesByAttribute.get(attribute);

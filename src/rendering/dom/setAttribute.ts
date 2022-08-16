@@ -1,4 +1,7 @@
+import isCustomElement from "../../custom-element/isCustomElement";
+import CustomHTMLElement from "../../custom-element/mixins/metadata/types/CustomHTMLElement";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
+import { GenericRecord } from "../../utils/types";
 import { ExtensibleHTMLElement } from "../nodes/NodePatchingData";
 
 export default function setAttribute(
@@ -7,58 +10,47 @@ export default function setAttribute(
 	propertyName: string,
 	value: unknown
 ): void {
+
+	// If the node is a custom element but not initialized yet, then set the temporary properties to call them in the constructor to initialize the final properties
+	if (isCustomElement(node) &&
+		node.isInitialized !== true) {
+
+		node._$tempProperties ??= {};
+
+		((node as CustomHTMLElement)._$tempProperties as GenericRecord)[propertyName] = value;
+
+		return;
+	}
+
+	// Here the custom element is initialized, set the attribute/property according to the type of the value and configuration
 	if (isUndefinedOrNull(value) || value === false) {
+
 		node.removeAttribute(attributeName);
 
 		if (attributeName === "value") {
-			(node as unknown as HTMLInputElement).value = "";
-		} else {
+
+			node.value = "";
+		}
+		else {
+
 			node[propertyName] = value;
 		}
-	} else {
+	}
+	else {
+
+		// If we are here that means that the noide has been already initialized
 		const type = typeof value;
 
-		if (type === "function" || type === "object") {
-			// This includes arrays too
-
-			console.log(`renderer - setAttribute 
-	type: ${node.constructor.name} 
-	localName: ${node.localName} 
-	isConnected: ${node.isConnected}
-	isDefined: ${customElements.get(node.localName) !== undefined}
-	isInitialized: ${node.isInitialized === true}
-`);
-
-			if (node.isInitialized !== true) {
-
-				node._$tempProperties ??= {};
-
-				if (propertyName === 'record') {
-
-					console.warn('record with value:');
-
-					console.dir(value);
-				}
-
-				(node as any)._$tempProperties[propertyName] = value;
-
-				return;
-			}
-
-			console.dir({
-				attributeName,
-				propertyName,
-				value,
-			});
+		if (type === "function" ||
+			type === "object") { // This includes arrays too
 
 			node[propertyName] = value; // Bypass the stringification of the attribute
 
 			node.removeAttribute(attributeName); // It is similar to an event. Do not show as attribute
-		} else {
-			// Any other type
+		}
+		else { // Any other type
 
-			if (attributeName === "value") {
-				// Set the value besides setting the attribute
+			if (attributeName === "value") { // Set the value besides setting the attribute
 
 				(node as unknown as HTMLInputElement).value = value as string;
 			}

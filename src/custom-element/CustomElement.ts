@@ -25,7 +25,7 @@ export default abstract class CustomElement extends ParentChild(
 	/**
 	 * Flag to allow testing for derived classes of CustomElement
 	 */
-	static readonly _isCustomElement: boolean = true;
+	static readonly isCustomElement: boolean = true;
 
 	constructor() {
 
@@ -33,7 +33,7 @@ export default abstract class CustomElement extends ParentChild(
 		
 		this.initialized?.(this); // Call the initialized property if any
 
-		this.isInitialized = true;
+		this.isInitialized = true; // Flag the element as initialized
 	}
 
 	/**

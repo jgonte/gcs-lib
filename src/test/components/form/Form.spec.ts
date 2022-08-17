@@ -142,7 +142,7 @@ describe("form tests", () => {
     // it('should render when the data of the attributes is provided via functions', async () => {
 
     //     // Set up the functions to be called
-    //     (window as any).getData = function () {
+    //     (window as unknown as GenericRecord).getData = function () {
 
     //         return [
     //             {
@@ -158,7 +158,7 @@ describe("form tests", () => {
     //         ];
     //     };
 
-    //     (window as any).getFields = function () {
+    //     (window as unknown as GenericRecord).getFields = function () {
 
     //         return ["name", "age", "description"];
     //     };

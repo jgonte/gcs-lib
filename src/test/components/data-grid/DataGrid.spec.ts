@@ -1,7 +1,9 @@
 import DataCell from "../../../components/data-grid/body/cell/DataCell";
 import DataRow from "../../../components/data-grid/body/row/DataRow";
 import DataGrid from "../../../components/data-grid/DataGrid";
+import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
+import { GenericRecord } from "../../../utils/types";
 import clearCustomElements from "../../custom-element/helpers/clearCustomElements";
 import getContentWithoutStyle from "../helpers/getContentWithoutStyle";
 
@@ -48,7 +50,7 @@ describe("Data grid tests", () => {
         </wcl-data-grid>`;
 
         // Test the element
-        const component: any = document.querySelector('wcl-data-grid');
+        const component = document.querySelector('wcl-data-grid') as CustomElement;
 
         await component.updateComplete; // Wait for the component to render
 
@@ -60,7 +62,7 @@ describe("Data grid tests", () => {
     it('should render when the data of the attributes is provided via functions', async () => {
 
         // Set up the functions to be called
-        (window as any).getData = function () {
+        (window as unknown as GenericRecord).getData = function () {
 
             return [
                 {
@@ -76,7 +78,7 @@ describe("Data grid tests", () => {
             ];
         };
 
-        (window as any).getFields = function () {
+        (window as unknown as GenericRecord).getFields = function () {
 
             return ["name", "age", "description"];
         };
@@ -92,7 +94,7 @@ describe("Data grid tests", () => {
         document.body.innerHTML = '<wcl-data-grid id="dg2" id-field="name" data="getData()" fields="getFields()"></wcl-data-grid>';
 
         // Test the element
-        const component: any = document.querySelector('wcl-data-grid');
+        const component = document.querySelector('wcl-data-grid') as CustomElement;
 
         await component.updateComplete; // Wait for the component to render
 
@@ -104,7 +106,7 @@ describe("Data grid tests", () => {
     it('should swap the records', async () => {
 
         // Set up the functions to be called
-        (window as any).getData = function () {
+        (window as unknown as GenericRecord).getData = function () {
 
             return [
                 {
@@ -120,7 +122,7 @@ describe("Data grid tests", () => {
             ];
         };
 
-        (window as any).getFields = function () {
+        (window as unknown as GenericRecord).getFields = function () {
 
             return ["name", "age", "description"];
         };
@@ -136,7 +138,7 @@ describe("Data grid tests", () => {
         document.body.innerHTML = '<wcl-data-grid id="dg2" id-field="name" data="getData()" fields="getFields()"></wcl-data-grid>';
 
         // Test the element
-        const component: any = document.querySelector('wcl-data-grid');
+        const component = document.querySelector('wcl-data-grid') as CustomElement;
 
         await component.updateComplete; // Wait for the component to render
 

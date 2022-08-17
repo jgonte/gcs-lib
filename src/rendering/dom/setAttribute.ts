@@ -11,6 +11,8 @@ export default function setAttribute(
 	value: unknown
 ): void {
 
+	console.warn(`Setting attribute name: ${attributeName}, value: ${console.dir(value)}`);
+
 	// If the node is a custom element but not initialized yet, then set the temporary properties to call them in the constructor to initialize the final properties
 	if (isCustomElement(node) &&
 		node.isInitialized !== true) {

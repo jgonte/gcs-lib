@@ -297,6 +297,13 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          */
         attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null): void {
 
+            // if (newValue?.startsWith(attributeMarkerPrefix)) {
+
+            //     this.removeAttribute(attributeName);
+
+            //     return; // Nothing to change
+            // }
+
             if (oldValue === newValue) {
 
                 return; // Nothing to change

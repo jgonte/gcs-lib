@@ -1,6 +1,8 @@
 import DataCell from "../../../../../components/data-grid/body/cell/DataCell";
 import DataRow from "../../../../../components/data-grid/body/row/DataRow";
+import CustomElement from "../../../../../custom-element/CustomElement";
 import defineCustomElement from "../../../../../custom-element/defineCustomElement";
+import { GenericRecord } from "../../../../../utils/types";
 import clearCustomElements from "../../../../custom-element/helpers/clearCustomElements";
 import getContentWithoutStyle from "../../../helpers/getContentWithoutStyle";
 
@@ -52,7 +54,7 @@ describe("Data row tests", () => {
         </wcl-data-row>`;
 
         // Test the element
-        const component: any = document.querySelector('wcl-data-row');
+        const component = document.querySelector('wcl-data-row') as CustomElement;
 
         expect(component.fields).toEqual(fields);
 
@@ -68,7 +70,7 @@ describe("Data row tests", () => {
     it('should render when the data of the attributes is provided via functions', async () => {
 
         // Set up the functions to be called
-        (window as any).getRecord = function () {
+        (window as unknown as GenericRecord).getRecord = function () {
 
             return {
                 name: "Sarah",
@@ -77,7 +79,7 @@ describe("Data row tests", () => {
             };
         };
 
-        (window as any).getFields = function () {
+        (window as unknown as GenericRecord).getFields = function () {
 
             return ["name", "age", "description"];
         };
@@ -91,7 +93,7 @@ describe("Data row tests", () => {
         document.body.innerHTML = '<wcl-data-row id="dr2" record="getRecord()" fields="getFields()"></wcl-data-row>';
 
         // Test the element
-        const component: any = document.querySelector('wcl-data-row');
+        const component = document.querySelector('wcl-data-row') as CustomElement;
 
         await component.updateComplete; // Wait for the component to render
 

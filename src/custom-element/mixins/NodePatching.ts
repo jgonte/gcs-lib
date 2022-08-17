@@ -3,6 +3,8 @@ import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import mountNodes from "../../rendering/nodes/mountNodes";
 import updateNodes from "../../rendering/nodes/updateNodes";
 import CustomHTMLElement from "./metadata/types/CustomHTMLElement";
+import { DataTypes } from "../../utils/data/DataTypes";
+import CustomElementPropertyMetadata from "./metadata/types/CustomElementPropertyMetadata";
 
 /**
  * Updates the element by patching the nodes
@@ -17,6 +19,19 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
          * The old patching node data to patch against
          */
         private _oldPatchingData: NodePatchingData | NodePatchingData[] | null = null;
+
+        static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+            return {
+    
+                /**
+                 * The key to help with patching a collection
+                 */
+                key: {
+                    type: DataTypes.String
+                }
+            };
+        }
 
         async updateDom(): Promise<void> {
 

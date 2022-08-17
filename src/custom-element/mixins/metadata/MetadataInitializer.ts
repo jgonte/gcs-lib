@@ -171,7 +171,8 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
 
             // Add the observed attribute if the type is not an object or an array
             if (!type.includes(DataTypes.Object) &&
-                !type.includes(DataTypes.Array)) {
+                !type.includes(DataTypes.Array) &&
+                type !== DataTypes.Function) { // Pure function type
 
                 metadata.observedAttributes.push(attribute.toLowerCase());
             }

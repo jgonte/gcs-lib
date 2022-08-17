@@ -76,11 +76,6 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
 
         if (patcher === oldPatcher) {
 
-            // if ((newChild as any).rules === null) {
-
-            //     (newChild as any).rules = rules; // Transfer the compiled rules
-            // }
-
             oldPatcher.patchNode(rules || [], oldValues, values);
 
             newChild.node = (oldChild as NodePatchingData).node;

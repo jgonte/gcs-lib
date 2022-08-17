@@ -18,6 +18,7 @@ import removeLeftSibling from "../dom/removeLeftSibling";
 import { setEvent } from "../dom/setEvent";
 import areEquivalent from "../../utils/areEquivalent";
 import addPatcherComparer from "../utils/addPatcherComparer";
+import { attributeMarkerPrefix } from "../template/markers";
 
 addPatcherComparer();
 
@@ -90,6 +91,13 @@ export default class NodePatcher implements INodePatcher {
                 node
             } = rule;
 
+            // Track the attributes that are not initialized to remove them
+            const attributeNames = (node as HTMLElement).getAttributeNames !== undefined ?
+                (node as HTMLElement).getAttributeNames() :
+                undefined;
+
+            const attributesNotSet = new Set(attributeNames);
+
             switch (type) {
 
                 case NodePatcherRuleTypes.PATCH_CHILDREN:
@@ -132,6 +140,8 @@ export default class NodePatcher implements INodePatcher {
                         } = rule as CompiledNodePatcherAttributeRule;
 
                         setAttribute(node as ExtensibleHTMLElement, name, property, value);
+
+                        attributesNotSet.delete(name);
                     }
                     break;
                 case NodePatcherRuleTypes.PATCH_EVENT:
@@ -141,10 +151,23 @@ export default class NodePatcher implements INodePatcher {
                         } = rule as CompiledNodePatcherEventRule;
 
                         setEvent(name, value, null, node);
+
+                        attributesNotSet.delete(name);
                     }
                     break;
                 default: throw new Error(`firstPatch is not implemented for rule type: ${type}`);
             }
+
+            // Remove the uninitialized attributes with markers
+            attributesNotSet.forEach(a => {
+
+                const value = (node as HTMLElement).getAttribute(a);
+
+                if (value?.startsWith(attributeMarkerPrefix)) {
+
+                    (node as HTMLElement).removeAttribute(a);
+                }
+            });
         }
     }
 

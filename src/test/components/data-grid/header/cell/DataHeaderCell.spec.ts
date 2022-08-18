@@ -40,7 +40,7 @@ describe("Data cell tests", () => {
 
         const contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<style>[object Object]</style><!--_$bm_-->name<!--_$em_-->");
+        expect(contentWithoutStyle).toBe("<!--_$bm_-->name<!--_$em_-->");
     });
 
     it('should render when the data of the attributes is provided via functions', async () => {
@@ -58,10 +58,12 @@ describe("Data cell tests", () => {
         document.body.innerHTML = '<wcl-data-header-cell id="dc2" field="getField()"></wcl-data-header-cell>';
 
         // Test the element
-        const component: any = document.querySelector('wcl-data-header-cell');
+        const component = document.querySelector('wcl-data-header-cell') as CustomElement;
 
         await component.updateComplete; // Wait for the component to render
 
-        expect(component.shadowRoot.innerHTML).toBe("<style>[object Object]</style><!--_$bm_-->name<!--_$em_-->");
+        const contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
+
+        expect(contentWithoutStyle).toBe("<!--_$bm_-->name<!--_$em_-->");
     });
 });

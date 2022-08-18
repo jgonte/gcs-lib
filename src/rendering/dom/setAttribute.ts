@@ -11,15 +11,32 @@ export default function setAttribute(
 	value: unknown
 ): void {
 
-	console.warn(`Setting attribute name: ${attributeName}, value: ${console.dir(value)}`);
+	// console.warn(`Setting attribute name: '${attributeName}', node type: '${node.localName}', is initialized: '${node.isInitialized === true}'  ${(() => {
+	// 	console.dir(value);
+	// 	return '';
+	// })()}`);
+
+	const type = typeof value;
+
+	const isComplexType = (type === "function" || type === "object"); // This includes arrays too
 
 	// If the node is a custom element but not initialized yet, then set the temporary properties to call them in the constructor to initialize the final properties
 	if (isCustomElement(node) &&
 		node.isInitialized !== true) {
 
-		node._$tempProperties ??= {};
+		if (isComplexType) {
 
-		((node as CustomHTMLElement)._$tempProperties as GenericRecord)[propertyName] = value;
+			node._$tempProperties ??= {};
+
+			((node as CustomHTMLElement)._$tempProperties as GenericRecord)[propertyName] = value;
+
+			// Remove the attribute if any, most likely will have a placeholder
+			node.removeAttribute(attributeName);
+		}
+		else { // Simple type, set its attribute
+		
+			setPrimitiveAttribute(attributeName, node, value);
+		}
 
 		return;
 	}
@@ -40,11 +57,8 @@ export default function setAttribute(
 	}
 	else {
 
-		// If we are here that means that the noide has been already initialized
-		const type = typeof value;
-
-		if (type === "function" ||
-			type === "object") { // This includes arrays too
+		// If we are here that means that the node has been already initialized or it is not a custom element
+		if (isComplexType) {
 
 			node[propertyName] = value; // Bypass the stringification of the attribute
 
@@ -52,14 +66,19 @@ export default function setAttribute(
 		}
 		else { // Any other type
 
-			if (attributeName === "value") { // Set the value besides setting the attribute
-
-				(node as unknown as HTMLInputElement).value = value as string;
-			}
-
-			const v = value === true ? "" : (value as string);
-
-			node.setAttribute(attributeName, v);
+			setPrimitiveAttribute(attributeName, node, value);
 		}
 	}
+}
+
+function setPrimitiveAttribute(attributeName: string, node: ExtensibleHTMLElement, value: unknown) {
+
+	if (attributeName === "value") { // Set the value besides setting the attribute
+
+		(node as unknown as HTMLInputElement).value = value as string;
+	}
+
+	const v = value === true ? "" : (value as string);
+
+	node.setAttribute(attributeName, v);
 }

@@ -56,7 +56,7 @@ describe("form tests", () => {
 
         const contentWithoutStyle = getContentWithoutStyle(form.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"65%\" label-align=\"right\" key=\"form-fields\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
+        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"65%\" key=\"form-fields\" label-align=\"right\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
 
         const formField = document.querySelector('wcl-form-field') as CustomElement;
 
@@ -100,7 +100,7 @@ describe("form tests", () => {
 
         const contentWithoutStyle = getContentWithoutStyle(form.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"65%\" label-align=\"right\" key=\"form-fields\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
+        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"65%\" key=\"form-fields\" label-align=\"right\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
 
         const formField = document.querySelector('wcl-form-field') as CustomElement;
 
@@ -136,7 +136,7 @@ describe("form tests", () => {
 
         const contentWithoutStyle = getContentWithoutStyle(component.shadowRoot?.innerHTML);
 
-        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"70%\" label-align=\"right\" key=\"form-fields\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
+        expect(contentWithoutStyle).toBe("<form><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><!--_$bm_--><!--_$em_--><slot label-width=\"70%\" key=\"form-fields\" label-align=\"right\"></slot><!--_$bm_--><wcl-button key=\"submit-button\" kind=\"primary\" variant=\"contained\">\n           <wcl-localized-text resource-key=\"submit\">Submit</wcl-localized-text>\n           <wcl-icon name=\"box-arrow-right\"></wcl-icon>\n        </wcl-button><!--_$em_--></form>");
     });
 
     // it('should render when the data of the attributes is provided via functions', async () => {

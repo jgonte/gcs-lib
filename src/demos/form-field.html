@@ -39,7 +39,7 @@
 <body>
 
     <h4>Localized text required</h4>
-    <wcl-form-field required label-width="50%" label-align="center">
+    <wcl-form-field required label-width="50%">
         <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
         <wcl-help-tip slot="tools" resource-key="fullNameHelp"></wcl-help-tip>
         <wcl-text-field slot="field" name="name" value="Sarah" property-changed="showPropertyChanged()"></wcl-text-field>
@@ -50,12 +50,12 @@
     <wcl-form-field label-width="50%" label-align="center">
         <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
         <wcl-help-tip slot="tools" resource-key="fullNameHelp"></wcl-help-tip>
-        <wcl-text-field slot="field" name="name" value="Sarah" property-changed="showPropertyChanged()"></wcl-text-field>
+        <wcl-text-field slot="field" name="name" value="Sarah" style="width: 100ch;" property-changed="showPropertyChanged()"></wcl-text-field>
     </wcl-form-field>
     <br />
 
     <h4>Localized text disabled</h4>
-    <wcl-form-field disabled label-width="50%" label-align="center">
+    <wcl-form-field disabled label-width="50%" label-align="right">
         <wcl-localized-text slot="label" resource-key="fullName"></wcl-localized-text>
         <wcl-help-tip slot="tools" resource-key="fullNameHelp"></wcl-help-tip>
         <wcl-text-field slot="field" name="name" value="Sarah" property-changed="showPropertyChanged()"></wcl-text-field>

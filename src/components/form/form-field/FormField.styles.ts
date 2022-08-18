@@ -34,4 +34,5 @@ export const formFieldStyles = css`
 #field {
     margin: 3px;
     border: 3px solid orange;
+    flex-grow: 1;
 }`;

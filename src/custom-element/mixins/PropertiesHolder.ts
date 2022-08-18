@@ -82,9 +82,12 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             super(args);
 
-            this._initializeIntrinsicProperties();
+            this._initializeIntrinsicProperties();           
+        }
 
-            // console.log(`PropertiesHolder - constructor - ${this.constructor.name}`);
+        connectedCallback() {
+
+            super.connectedCallback?.();
 
             const {
                 properties
@@ -103,17 +106,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             delete this._$tempProperties; // Not needed anymore
 
             this._initializeProperties(properties);
-        }
-
-        connectedCallback() {
-
-            // console.log(`connectedCallback - ${this.constructor.name}`);
-
-            super.connectedCallback?.();
-
-            const {
-                properties
-            } = (this.constructor as CustomHTMLElementConstructor).metadata;
 
             // Validate here since the required properties can be set before the component gets connected
             this._validateRequiredProperties(properties);
@@ -297,17 +289,19 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          */
         attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null): void {
 
-            // if (newValue?.startsWith(attributeMarkerPrefix)) {
+            // console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: '${oldValue}', new value: '${newValue}'`);
 
-            //     this.removeAttribute(attributeName);
+            if (newValue === "undefined") {
 
-            //     return; // Nothing to change
-            // }
+                newValue = null;
+            }
 
-            if (oldValue === newValue) {
+            if (areEquivalent(oldValue, newValue)) {
 
                 return; // Nothing to change
             }
+
+            console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: '${oldValue}', new value: '${newValue}'`);
 
             super.attributeChangedCallback?.(attributeName, oldValue, newValue);
 

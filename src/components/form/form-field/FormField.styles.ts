@@ -3,36 +3,35 @@ import css from "../../../custom-element/styles/css";
 export const formFieldStyles = css`
 :host {
     display: block;
-    margin: 3px;
-    border: 3px solid red;
+    background-color: pink;
 }
 
 #labeled-field {
     display: flex;
     flex-wrap: wrap;
-    margin: 3px;
-    border: 3px solid green;
+    background-color: lightgreen;
 }
 
 #label-container {
     display: grid;
     grid-template-columns: 1fr auto;
-    margin: 3px;
-    border: 3px solid darksalmon;
+    background-color: lightblue;
+    flex-grow: 1;
 }
 
 #label {
-    margin: 3px;
-    border: 3px solid blue;
+    display: flex;
+    align-items: center;
+    background-color: yellow;
 }
 
 #tools {
-    margin: 3px;
-    border: 3px solid violet;
+    background-color: lightsalmon;
 }
 
 #field {
-    margin: 3px;
-    border: 3px solid orange;
+    display: flex;
+    align-items: center;
+    background-color: lightseagreen;
     flex-grow: 1;
 }`;

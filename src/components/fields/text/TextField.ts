@@ -10,6 +10,7 @@ export default class TextField extends DisplayableField {
         const {
             name,
             value,
+            inputStyle,
             //required,
             disabled
         } = this;
@@ -18,6 +19,7 @@ export default class TextField extends DisplayableField {
             type="text"
             name=${name}
             value=${value}
+            style=${inputStyle}
             onInput=${event => this.handleInput(event)}
             onChange=${event => this.handleChange(event)}
             onBlur=${() => this.handleBlur()}

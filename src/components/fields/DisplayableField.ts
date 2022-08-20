@@ -4,6 +4,8 @@ import Field from "./Field";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../custom-element/styles/mergeStyles";
 import { displayableFieldStyles } from "./DisplayableField.styles";
+import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import { DataTypes } from "../../utils/data/DataTypes";
 
 export const inputEvent = "inputEvent";
 
@@ -23,6 +25,20 @@ export default abstract class DisplayableField extends
     static get styles(): string {
 
         return mergeStyles(super.styles, displayableFieldStyles);
+    }
+
+    static get properties(): Record<string, CustomElementPropertyMetadata> {
+
+        return {
+
+            /** 
+             * The style to pass to the input field
+             */
+            inputStyle: {
+                attribute: 'input-style',
+                type: DataTypes.String
+            }
+        };
     }
 
     connectedCallback(): void {

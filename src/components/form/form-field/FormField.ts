@@ -84,9 +84,9 @@ export default class FormField extends
             errors
         } = this;
 
-        const labelContainerStyle = css`width: ${labelWidth};`;
+        const labelContainerStyle = css`min-width: 25ch; width: ${labelWidth};`;
 
-        const labelStyle = css`text-align: ${labelAlign};`;
+        const labelStyle = css`justify-content: ${labelAlign};`;
 
         return html`
 <div id="labeled-field">

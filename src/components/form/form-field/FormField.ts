@@ -100,14 +100,14 @@ export default class FormField extends
             ${required === true ?
                 html`<wcl-required-tip></wcl-required-tip>`
                 : null}
-            <span id="colon-span">:</span>
+            ${modified === true ?
+                html`<wcl-modified-tip></wcl-modified-tip>`
+                : null}
         </span>
     </span>
     <span id="field">
         <slot name="field"></slot>
-            ${modified === true ?
-                html`<wcl-modified-tip></wcl-modified-tip>`
-                : null}
+            
     </span>
 </div>      
 <wcl-validation-summary

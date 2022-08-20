@@ -3,35 +3,35 @@ import css from "../../../custom-element/styles/css";
 export const formFieldStyles = css`
 :host {
     display: block;
-    background-color: pink;
+    /* background-color: pink; */
 }
 
 #labeled-field {
     display: flex;
     flex-wrap: wrap;
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
 }
 
 #label-container {
     display: grid;
-    grid-template-columns: 1fr auto;
-    background-color: lightblue;
-    flex-grow: 1;
+    grid-template-columns: 1fr auto;   
+    /* flex-grow: 1; We want to keep the labels with fixed width. not to expand them */
+    background-color: lightgray;
 }
 
 #label {
     display: flex;
     align-items: center;
-    background-color: yellow;
+    /* background-color: yellow; */
 }
 
-#tools {
+/* #tools {
     background-color: lightsalmon;
-}
+} */
 
 #field {
     display: flex;
     align-items: center;
-    background-color: lightseagreen;
     flex-grow: 1;
+    /* background-color: lightseagreen; */ 
 }`;

@@ -7,7 +7,6 @@ export const formStyles = css`
 
 form {
     box-sizing: border-box;
-    background-color: violet; 
     position: relative;
     width: 100%;
 }`;

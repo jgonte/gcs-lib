@@ -30,7 +30,7 @@ export default abstract class CustomElement extends ParentChild(
 	constructor() {
 
 		super();
-		
+
 		this.initialized?.(this); // Call the initialized property if any
 
 		this.isInitialized = true; // Flag the element as initialized
@@ -42,6 +42,7 @@ export default abstract class CustomElement extends ParentChild(
 	abstract render(): RenderReturnTypes;
 
 	dispatchCustomEvent(type: string, detail: GenericRecord): void {
+
 		setTimeout(() => { // Repaint before dispatching the event
 
 			this.dispatchEvent(
@@ -52,10 +53,9 @@ export default abstract class CustomElement extends ParentChild(
 				})
 			);
 
-			console.log(
-`Event of type: '${type}' was dispatched with detail: 
-${console.dir(detail)}
-`);
+			console.log(`Event of type: '${type}' was dispatched with detail:`);
+
+			console.dir(detail);
 		}, 0);
 	}
 }

@@ -3,14 +3,11 @@ import classMetadataRegistry from "./classMetadataRegistry";
 import CustomElementMetadata from "./types/CustomElementMetadata";
 import CustomElementPropertyMetadata from "./types/CustomElementPropertyMetadata";
 import CustomElementStateMetadata from "./types/CustomElementStateMetadata";
-import initializeComponent from "./initializers/initializeComponent";
-import initializeState from "./initializers/initializeState";
-import initializeStyles from "./initializers/initializeStyles";
 import { DataTypes } from "../../../utils/data/DataTypes";
 import CustomHTMLElement from "./types/CustomHTMLElement";
 
 /**
- * Initializes a web component type (not instance) from the metadata provided
+ * Initializes a web component type (not an instance) from the metadata provided
  * @param Base The base class to extend
  * @returns The mixin class
  */
@@ -37,13 +34,13 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
                 metadata
             } = this;
 
-            initializeComponent(this, metadata);
+            this.initializeComponent(metadata);
 
             this.initializeProperties(metadata);
 
-            initializeState(this, metadata);
+            this.initializeState(metadata);
 
-            initializeStyles(this, metadata);
+            this.initializeStyles(metadata);
 
             return metadata.observedAttributes;
         }
@@ -55,6 +52,22 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
         static get metadata(): CustomElementMetadata | undefined {
 
             return classMetadataRegistry.get(this);
+        }
+
+        static initializeComponent(metadata: CustomElementMetadata): void {
+
+            const {
+                component
+            } = this;
+        
+            if (component === undefined) {
+        
+                metadata.shadow = true; // It is true by default
+        
+                return;
+            }
+        
+            metadata.shadow = component.shadow;
         }
 
         static initializeProperties(metadata: CustomElementMetadata): void {
@@ -177,6 +190,92 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
                 metadata.observedAttributes.push(attribute.toLowerCase());
             }
 
+        }
+
+        static initializeState(metadata: CustomElementMetadata): void {
+
+            const state = this.getAllState();
+        
+            Object.entries(state).forEach(([name, stateMetadata]) => {
+        
+                (stateMetadata as CustomElementStateMetadata).name = name; // Set the name of the state property
+        
+                Object.defineProperty(
+                    this.prototype,
+                    name,
+                    {
+                        get(): unknown {
+        
+                            return this._state[name];
+                        },
+                        set(this: CustomHTMLElement, value: unknown) {
+        
+                            this.setState(name, value);
+                        },
+                        configurable: true,
+                        enumerable: true,
+                    }
+                );
+        
+                // Add it to the metadata properties so the properties of the instances can be validated and initialized
+                metadata.state.set(name, stateMetadata as CustomElementStateMetadata);
+            });
+        
+            // Add the properties of the state base class if any so we can validate and initialize
+            // the values of the properties of the state of the base class in the instance
+            const baseClass = Object.getPrototypeOf(this.prototype).constructor;
+        
+            if (baseClass !== undefined) {
+        
+                const baseClassMetadata = baseClass.metadata;
+        
+                if (baseClassMetadata !== undefined) {
+        
+                    metadata.state = new Map([...metadata.state, ...baseClassMetadata.state]);
+                }
+            }
+        }
+        
+        /**
+         * Retrieve the state of this and the base mixins
+         * @returns The merged state
+         */
+        static getAllState(): Record<string, CustomElementStateMetadata> {
+        
+            let state = this.state || {};
+        
+            let baseClass = Object.getPrototypeOf(this.prototype).constructor;
+        
+            while (baseClass.isCustomElement === true) {
+        
+                if (baseClass.state !== undefined) {
+        
+                    state = { ...state, ...baseClass.state };
+                }
+        
+                baseClass = Object.getPrototypeOf(baseClass.prototype)?.constructor;
+            }
+        
+            return state;
+        }
+
+        static initializeStyles(metadata: CustomElementMetadata): void {
+
+            const {
+                styles
+            } = this;
+        
+            if (styles === undefined) {
+        
+                return;
+            }
+        
+            // Do not inherit the styles of the base custom element by default
+            // metadata.styles = Array.isArray(styles) ?
+            //     [...metadata.styles, ...styles] :
+            //     [...metadata.styles, styles];
+        
+            metadata.styles = styles;
         }
     }
 }

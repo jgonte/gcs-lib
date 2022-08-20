@@ -39,11 +39,12 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
                 },
 
                 /**
-                 * Whether we can process multiple selection (false by default)
+                 * Whether we can process multiple selection
                  */
                 multiple: {
                     type: DataTypes.Boolean,
-                    reflect: true
+                    reflect: true,
+                    value: false
                 },
 
                 /**

@@ -74,7 +74,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
         private _explicitlyInitializedProperties: Set<string> = new Set<string>();
 
         /**
-         *
+         * Initialize the intinsic properties first so they can react to life cycle events
          */
         // The mixin constructor requires the parameters signature to be of type any
         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -83,6 +83,43 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             super(args);
 
             this._initializeIntrinsicProperties();
+
+            const {
+                properties
+            } = (this.constructor as CustomHTMLElementConstructor).metadata;
+
+            // If there are temporary properties
+            if (this._$tempProperties !== undefined &&
+                Object.entries(this._$tempProperties).length > 0) {
+
+                // Set the intrinsic properties
+                const instrinsicProperties = instrinsicAttributes.map(a => a.property);
+
+                instrinsicProperties.forEach(p => {
+
+                    const value = this._$tempProperties?.[p];
+
+                    if (value !== undefined) {
+
+                        this[p] = (value as AnyFunction).bind(this); // Intrinsic properties are functions only
+                    }
+                });
+
+                // Set the configured properties from the temporary ones if any
+                for (const [name] of properties) {
+
+                    const value = this._$tempProperties?.[name];
+
+                    if (value !== undefined) {
+
+                        this._setProperty(name as string, value); // Set the temporary property
+                    }
+                }
+
+                delete this._$tempProperties; // Not needed anymore
+            }
+
+            this._initializeProperties(properties);
         }
 
         connectedCallback() {
@@ -92,20 +129,6 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
             const {
                 properties
             } = (this.constructor as CustomHTMLElementConstructor).metadata;
-
-            for (const [name] of properties) {
-
-                const value = this._$tempProperties?.[name];
-
-                if (value !== undefined) {
-
-                    this._setProperty(name as string, value); // Set the temporary property
-                }
-            }
-
-            delete this._$tempProperties; // Not needed anymore
-
-            this._initializeProperties(properties);
 
             // Validate here since the required properties can be set before the component gets connected
             this._validateRequiredProperties(properties);
@@ -294,7 +317,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 return; // Nothing to change
             }
 
-            // console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: [${oldValue}], new value: [${newValue}]`);
+            console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: [${oldValue}], new value: [${newValue}]`);
 
             super.attributeChangedCallback?.(attributeName, oldValue, newValue);
 
@@ -403,8 +426,15 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 return false; // Property is not allowed to change
             }
 
-            // Set the property
-            this._properties[name] = value;
+            if (value === undefined ||
+                value === false) {
+
+                delete this._properties[name];
+            }
+            else { // Set the property
+
+                this._properties[name] = value;
+            }
 
             // Call any change value on the property
             change?.call(this, value, oldValue);

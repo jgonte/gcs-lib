@@ -5,6 +5,7 @@ import mergeStyles from "../../../../custom-element/styles/mergeStyles";
 import html from "../../../../rendering/html";
 import { NodePatchingData } from "../../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../../utils/data/DataTypes";
+import DataGridFieldDescriptor from "../../DataGridFieldDescriptor";
 import { dataRowStyles } from "./DataRow.styles";
 
 export default class DataRow extends CustomElement {
@@ -54,7 +55,7 @@ export default class DataRow extends CustomElement {
     <wcl-data-cell 
         field=${field} 
         record=${record} 
-        key=${field}>
+        key=${(field as unknown as DataGridFieldDescriptor).name || field}>
     </wcl-data-cell>`
         );
     }

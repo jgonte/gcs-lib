@@ -82,7 +82,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             super(args);
 
-            this._initializeIntrinsicProperties();           
+            this._initializeIntrinsicProperties();
         }
 
         connectedCallback() {
@@ -289,19 +289,12 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
          */
         attributeChangedCallback(attributeName: string, oldValue: string | null, newValue: string | null): void {
 
-            // console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: '${oldValue}', new value: '${newValue}'`);
-
-            if (newValue === "undefined") {
-
-                newValue = null;
-            }
-
             if (areEquivalent(oldValue, newValue)) {
 
                 return; // Nothing to change
             }
 
-            console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: '${oldValue}', new value: '${newValue}'`);
+            // console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: [${oldValue}], new value: [${newValue}]`);
 
             super.attributeChangedCallback?.(attributeName, oldValue, newValue);
 
@@ -422,13 +415,14 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
 
             if (reflectOnAttribute !== undefined) { // Synchronize with the attribute of the element
 
-                value = valueConverter.toAttribute(value);
-
-                if (isUndefinedOrNull(value)) {
+                if (isUndefinedOrNull(value) ||
+                    value === false) {
 
                     this.removeAttribute(reflectOnAttribute);
                 }
                 else {
+
+                    value = valueConverter.toAttribute(value);
 
                     this.setAttribute(reflectOnAttribute, value as string); // This will trigger the attributeChangedCallback
                 }

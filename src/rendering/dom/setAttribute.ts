@@ -1,4 +1,5 @@
 import isCustomElement from "../../custom-element/isCustomElement";
+import valueConverter from "../../custom-element/mixins/helpers/valueConverter";
 import CustomHTMLElement from "../../custom-element/mixins/metadata/types/CustomHTMLElement";
 import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import { GenericRecord } from "../../utils/types";
@@ -34,15 +35,16 @@ export default function setAttribute(
 			node.removeAttribute(attributeName);
 		}
 		else { // Simple type, set its attribute
-		
-			setPrimitiveAttribute(attributeName, node, value);
+
+			setPrimitiveAttribute(node, attributeName, value);
 		}
 
 		return;
 	}
 
 	// Here the custom element is initialized, set the attribute/property according to the type of the value and configuration
-	if (isUndefinedOrNull(value) || value === false) {
+	if (isUndefinedOrNull(value) ||
+		value === false) {
 
 		node.removeAttribute(attributeName);
 
@@ -66,19 +68,27 @@ export default function setAttribute(
 		}
 		else { // Any other type
 
-			setPrimitiveAttribute(attributeName, node, value);
+			setPrimitiveAttribute(node, attributeName, value);
 		}
 	}
 }
 
-function setPrimitiveAttribute(attributeName: string, node: ExtensibleHTMLElement, value: unknown) {
+function setPrimitiveAttribute(node: ExtensibleHTMLElement, attributeName: string, value: unknown) {
+
+	if (isUndefinedOrNull(value) ||
+		value === false) { // false means the abscense of the attribute
+
+		node.removeAttribute(attributeName);
+
+		return;
+	}
 
 	if (attributeName === "value") { // Set the value besides setting the attribute
 
 		(node as unknown as HTMLInputElement).value = value as string;
 	}
 
-	const v = value === true ? "" : (value as string);
+	const v = valueConverter.toAttribute(value);
 
 	node.setAttribute(attributeName, v);
 }

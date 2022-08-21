@@ -78,20 +78,13 @@ const valueConverter = {
         return value;
     },
 
-    toAttribute: (value: unknown): unknown => {
+    toAttribute: (value: unknown): string => {
 
-        if (value === null) {
-
-            return null;
-        }
-        
         const type = typeof value;
 
         if (type === 'boolean') {
 
-            return value === true ?
-                '' :
-                null; // This will clear the attribute
+            return ''; // Only true is supposed to be here since false is filtered out before
         }
 
         if (type === 'object' || Array.isArray(value)) {
@@ -99,7 +92,7 @@ const valueConverter = {
             return JSON.stringify(value);
         }
 
-        return value;
+        return (value as object).toString();
     }
 
 };

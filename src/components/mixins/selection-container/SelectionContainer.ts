@@ -98,21 +98,18 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
             this.updateSelection = this.updateSelection.bind(this);
         }
 
-        attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
+        connectedCallback(): void {
+            
+            super.connectedCallback?.();
 
-            super.attributeChangedCallback?.(attributeName, oldValue, newValue);
+            this.addEventListener(selectionChangedEvent, this.updateSelection as EventListenerOrEventListenerObject);
+        }
 
-            if (attributeName === "selectable") {
+        disconnectedCallback(): void {
+            
+            super.disconnectedCallback?.();
 
-                if (newValue === "true" || newValue === "") {
-
-                    this.addEventListener(selectionChangedEvent, this.updateSelection as EventListenerOrEventListenerObject);
-                }
-                else { // newValue === "false"
-
-                    this.removeEventListener(selectionChangedEvent, this.updateSelection as EventListenerOrEventListenerObject);
-                }
-            }
+            this.removeEventListener(selectionChangedEvent, this.updateSelection as EventListenerOrEventListenerObject);
         }
 
         updateSelection(event: CustomEvent) {
@@ -120,11 +117,17 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
             event.stopPropagation();
 
             const {
+                selectable,
                 multiple,
                 selection,
                 selectionChanged,
                 idField
             } = this;
+
+            if (selectable !== true) {
+
+                return;
+            }
 
             const {
                 element,

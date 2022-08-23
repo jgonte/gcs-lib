@@ -147,6 +147,19 @@ export default class ComboBox extends
         this.selectionChanged?.(selection, selectedChildren);
     }
 
+    beforeGet(name: string, value: unknown): unknown {
+
+        if (name === 'value') {
+
+            if (Array.isArray(value)) {
+
+                value = value[0];
+            }
+        }
+
+        return value;
+    }
+
     // Override handle change
     handleChange(): void {
 

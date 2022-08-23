@@ -41,21 +41,20 @@ export default abstract class CustomElement extends ParentChild(
 	 */
 	abstract render(): RenderReturnTypes;
 
-	dispatchCustomEvent(type: string, detail: GenericRecord): void {
+	async dispatchCustomEvent(type: string, detail: GenericRecord): Promise<void> {
 
-		setTimeout(() => { // Repaint before dispatching the event
+		await this.updateComplete;
 
-			this.dispatchEvent(
-				new CustomEvent(type, {
-					detail: detail,
-					bubbles: true,
-					composed: true, // To bubble through the shadow DOM
-				})
-			);
+		this.dispatchEvent(
+			new CustomEvent(type, {
+				detail: detail,
+				bubbles: true,
+				composed: true, // To bubble through the shadow DOM
+			})
+		);
 
-			console.log(`Event of type: '${type}' was dispatched with detail:`);
+		console.log(`Event of type: '${type}' was dispatched with detail:`);
 
-			console.dir(detail);
-		}, 0);
+		console.dir(detail);
 	}
 }

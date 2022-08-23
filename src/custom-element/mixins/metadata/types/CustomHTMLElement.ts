@@ -80,7 +80,7 @@ export default interface CustomHTMLElement extends HTMLElement {
 
     updateDom(): void;
 
-    dispatchCustomEvent(type: string, detail: GenericRecord) : void;
+    dispatchCustomEvent(type: string, detail: GenericRecord) : Promise<void>;
 
     _$tempProperties?: GenericRecord;
 }

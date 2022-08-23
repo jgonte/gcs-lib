@@ -103,14 +103,18 @@ export default function Submittable<TBase extends CustomHTMLElementConstructor>(
             return data.id !== undefined ? 'put' : 'post';
         }
 
-        handleSubmitData(data: GenericRecord) {
+        async handleSubmitData(data: GenericRecord) {
+
+            await this.updateComplete;
 
             this.submitting = false;
 
             this.handleSubmitResponse(data);
         }
 
-        handleSubmitError(error: ErrorResponse) {
+        async handleSubmitError(error: ErrorResponse) {
+
+            await this.updateComplete;
 
             this.submitting = false;
 

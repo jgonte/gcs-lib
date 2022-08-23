@@ -88,14 +88,18 @@ export default function LoadableHolder<TBase extends CustomHTMLElementConstructo
             });
         }
 
-        handleLoadData(data: GenericRecord) {
+        async handleLoadData(data: GenericRecord) {
+
+            await this.updateComplete;
 
             this.loading = false;
 
             this.handleLoadedData(data);
         }
 
-        handleLoadError(error: ErrorResponse) {
+        async handleLoadError(error: ErrorResponse) {
+
+            await this.updateComplete;
 
             this.loading = false;
 

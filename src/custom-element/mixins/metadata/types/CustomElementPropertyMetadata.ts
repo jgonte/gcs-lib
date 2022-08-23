@@ -59,4 +59,9 @@ export default interface CustomElementPropertyMetadata extends CustomElementStat
      * Used to perform modifications to the DOM after updating it
      */
     afterUpdate?: ParameterlessVoidFunction;
+
+    /**
+     * Called to modify a property before being retrieved
+     */
+    beforeGet?: (name: string, value: unknown) => unknown;
 }

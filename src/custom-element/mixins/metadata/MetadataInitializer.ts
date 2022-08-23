@@ -143,7 +143,8 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
                         } = propertyMetadata;
 
                         const {
-                            defer
+                            defer,
+                            beforeGet
                         } = propertyMetadata;
 
                         const value = this._properties[name];
@@ -160,6 +161,12 @@ export default function MetadataInitializer<TBase extends CustomHTMLElementConst
                             return value();
                         }
 
+                        // Modify the value of the property before getting it if needed
+                        if (beforeGet !== undefined) {
+
+                            return beforeGet.call(this, name, value);
+                        }
+            
                         return value;
                     },
                     set(this: CustomHTMLElement, value: unknown) {

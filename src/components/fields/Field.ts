@@ -95,7 +95,16 @@ export default abstract class Field extends
                     DataTypes.String,
                     DataTypes.Object // Ideally is a string but could be a more complex object
                 ],
-                change: function(value: unknown, oldValue: unknown) : void {
+                beforeSet: function (value): unknown {
+
+                    if ((this as unknown as Field).beforeValueSet !== undefined) {
+
+                        return (this as unknown as Field).beforeValueSet(value);
+                    }
+
+                    return value;
+                },
+                afterChange: function(value: unknown, oldValue: unknown) : void {
                     
                     (this as unknown as Field).onValueChanged?.(value, oldValue);
                 },

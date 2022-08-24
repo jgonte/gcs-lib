@@ -201,17 +201,6 @@ export default function SelectionContainer<TBase extends CustomHTMLElementConstr
     
             const selectors = (this?.shadowRoot as ShadowRoot).querySelectorAll('wcl-selector');
 
-            // Unwrap the value if needed
-            if (Array.isArray(value)) {
-
-                value = value[0];
-            }
-
-            if (typeof value === 'object') {
-
-                value = (value as GenericRecord)[this.idField];
-            }
-    
             const selector = Array.from(selectors).filter(c => (c as Selector).selectValue[this.idField] === value)[0] as Selector;
 
             selector.setSelected(true);

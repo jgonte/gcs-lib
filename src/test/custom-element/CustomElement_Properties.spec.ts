@@ -362,7 +362,7 @@ describe("CustomElement properties tests", () => {
                     type: {
                         type: DataTypes.Number,
                         // Transform before setting the property
-                        transform: v => 2 * (v as number)
+                        beforeSet: v => 2 * (v as number)
                     }
                 };
             }

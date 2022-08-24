@@ -26,7 +26,7 @@ export default function Disableable<TBase extends CustomHTMLElementConstructor>(
                     value: false,
                     reflect: true,
                     inherit: true, // When set in a form field or a form, propagate to its children
-                    change: (value: unknown): void => {
+                    afterChange: (value: unknown): void => {
 
                         if (value === true) {
 

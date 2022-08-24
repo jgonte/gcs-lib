@@ -41,7 +41,7 @@ export default interface CustomElementPropertyMetadata extends CustomElementStat
     /**
      * Hook to allow for extra manipulation of the property value before being set
      */
-    transform?: (value: unknown) => unknown;
+    beforeSet?: (value: unknown) => unknown;
 
     /**
      * Function to execute to determine whether the property can be changed.
@@ -52,16 +52,11 @@ export default interface CustomElementPropertyMetadata extends CustomElementStat
     /**
      * Function to execute when the value of the property has changed
      */
-    change?: (value: unknown, oldValue: unknown) => void;
+    afterChange?: (value: unknown, oldValue: unknown) => void;
 
     /**
      * Called when the property has changed but after the DOM has been updated
      * Used to perform modifications to the DOM after updating it
      */
     afterUpdate?: ParameterlessVoidFunction;
-
-    /**
-     * Called to modify a property before being retrieved
-     */
-    beforeGet?: (name: string, value: unknown) => unknown;
 }

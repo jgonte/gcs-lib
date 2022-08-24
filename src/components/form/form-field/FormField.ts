@@ -120,32 +120,38 @@ export default class FormField extends
 
         super.connectedCallback?.();
 
-        this.addEventListener(inputEvent, this.handleInput as EventListenerOrEventListenerObject);
+        this.addEventListener(inputEvent, this.handleInput as unknown as EventListenerOrEventListenerObject);
 
-        this.addEventListener(validationEvent, this.handleValidation as EventListenerOrEventListenerObject);
+        this.addEventListener(validationEvent, this.handleValidation as unknown as EventListenerOrEventListenerObject);
     }
 
     disconnectedCallback() {
 
         super.disconnectedCallback?.();
 
-        this.removeEventListener(inputEvent, this.handleInput as EventListenerOrEventListenerObject);
+        this.removeEventListener(inputEvent, this.handleInput as unknown as EventListenerOrEventListenerObject);
 
-        this.removeEventListener(validationEvent, this.handleValidation as EventListenerOrEventListenerObject);
+        this.removeEventListener(validationEvent, this.handleValidation as unknown as EventListenerOrEventListenerObject);
     }
 
-    handleInput(event: CustomEvent): void {
+    async handleInput(event: CustomEvent): Promise<void> {
+
+        event.stopPropagation();
+
+        await this.updateComplete;
 
         const {
             modified
         } = event.detail;
 
         this.modified = modified;
-
-        event.stopPropagation();
     }
 
-    handleValidation(event: CustomEvent): void {
+    async handleValidation(event: CustomEvent): Promise<void> {
+
+        event.stopPropagation();
+
+        await this.updateComplete;
 
         const {
             warnings,
@@ -155,8 +161,6 @@ export default class FormField extends
         this.warnings = warnings;
 
         this.errors = errors;
-
-        event.stopPropagation();
     }
 }
 

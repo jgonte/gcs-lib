@@ -138,26 +138,13 @@ export default class ComboBox extends
 
         this.oldSelection = this.selection;
 
-        this.selection = selection;
+        this.selection = selection; // Do not unwrap the value of the selection since it will render only the value
 
         this.handleChange();
 
         this.selectedChildren = selectedChildren;
 
         this.selectionChanged?.(selection, selectedChildren);
-    }
-
-    beforeGet(name: string, value: unknown): unknown {
-
-        if (name === 'value') {
-
-            if (Array.isArray(value)) {
-
-                value = value[0];
-            }
-        }
-
-        return value;
     }
 
     // Override handle change
@@ -283,13 +270,44 @@ export default class ComboBox extends
         }
     }
 
+    /**
+     * Unwraps the value from array/object before being set
+     * @param value 
+     * @returns 
+     */
+    beforeValueSet(value: unknown): unknown {
+
+        return this.unwrapValue(value);
+    }
+
     onValueChanged(value: unknown, oldValue: unknown): void {
 
         super.onValueChanged?.(value, oldValue);
 
+        value = this.unwrapValue(value);
+
         this.content.selectByValue(value);
     }
 
+    /**
+     * Unwraps a value from array/object to a primitive
+     * @param value The value to unwrap
+     * @returns The unwrapped value if any
+     */
+    private unwrapValue(value: unknown) {
+
+        if (Array.isArray(value)) {
+
+            value = value[0];
+        }
+
+        if (typeof value === 'object') {
+
+            value = (value as GenericRecord)[this.idField];
+        }
+
+        return value;
+    }
 }
 
 defineCustomElement('wcl-combo-box', ComboBox);

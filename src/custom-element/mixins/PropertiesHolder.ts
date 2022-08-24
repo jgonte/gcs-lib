@@ -381,9 +381,9 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 type,
                 reflect,
                 options,
-                transform,
+                beforeSet,
                 canChange,
-                change,
+                afterChange,
                 defer
                 //afterUpdate - We call afterUpdate after the element was updated in the DOM
             } = propertyMetadata;
@@ -407,9 +407,9 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 throw new Error('defer can only be used for function');
             }
 
-            if (transform !== undefined) {
+            if (beforeSet !== undefined) {
 
-                value = transform.call(this, value); // Transform the data if necessary
+                value = beforeSet.call(this, value); // Transform the data if necessary
             }
 
             // Check if the property has not changed
@@ -436,8 +436,8 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 this._properties[name] = value;
             }
 
-            // Call any change value on the property
-            change?.call(this, value, oldValue);
+            // Call any afterChange value on the property
+            afterChange?.call(this, value, oldValue);
 
             this.onPropertyChanged(name, value, oldValue);
 

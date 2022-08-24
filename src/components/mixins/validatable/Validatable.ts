@@ -16,7 +16,7 @@ export default function Validatable<TBase extends CustomHTMLElementConstructor>(
                 validators: {
                     type: DataTypes.Array,
                     value: [],
-                    transform: function (value) {
+                    beforeSet: function (value): unknown {
 
                         return (this as unknown as ValidatableMixin).initializeValidators(value as (Validator | string)[]);
                     }

@@ -88,7 +88,7 @@ export default class Form extends
         </wcl-button>`;
     }
 
-    getSubmitData() {
+    getSubmitData(): DynamicObject {
 
         const data = this.getData();
 
@@ -97,7 +97,7 @@ export default class Form extends
         return data;
     }
 
-    submit() {
+    submit(): void {
 
         if (this.validate()) {
 

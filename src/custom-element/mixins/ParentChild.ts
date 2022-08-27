@@ -13,7 +13,7 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
     return class ParentChildMixin extends Base {
 
         // undefined means not initialized yet, null means it does not have any custom element as a parent
-        private _adoptingParent: ParentNode | null | undefined = undefined;
+        protected adoptingParent: ParentNode | null | undefined = undefined;
 
         /**
          * The children elements of this one
@@ -24,7 +24,11 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
 
             super.connectedCallback?.();
 
-            const adoptingParent = await this.getAdoptingParent();
+            this.adoptingParent = await this.findAdoptingParent() as ParentNode;
+
+            const {
+                adoptingParent
+            } = this;
 
             if (adoptingParent === null) { // In slotted elements the parent is null when connected
 
@@ -36,11 +40,13 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
             this.didAdoptChildCallback?.(adoptingParent as CustomHTMLElement, this);
         }
 
-        async disconnectedCallback(): Promise<void> {
+        disconnectedCallback(): void {
 
             super.disconnectedCallback?.();
 
-            const adoptingParent = await this.getAdoptingParent();
+            const {
+                adoptingParent
+            } = this;
 
             if (adoptingParent === null) {
 
@@ -61,7 +67,9 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
 
             if (slot === null) { // There is no slot to get the children from
 
-                const adoptingParent = await this.getAdoptingParent();
+                const {
+                    adoptingParent
+                } = this;
 
                 if (adoptingParent !== null) {
 
@@ -103,41 +111,38 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
          * Retrieves the parent that is a custom element up in the hierarchy
          * @returns 
          */
-        protected async getAdoptingParent(): Promise<Node | null> {
+        protected async findAdoptingParent(): Promise<Node | null> {
 
-            if (this._adoptingParent === undefined) { // Memoize
+            let parent = this.parentNode;
 
-                let parent = this.parentNode;
+            while (parent !== null) {
 
-                while (parent !== null) {
+                if (parent instanceof DocumentFragment) { // Possibly a shadow DOM
 
-                    if (parent instanceof DocumentFragment) { // Possibly a shadow DOM
-
-                        parent = (parent as ShadowRoot).host; // Get its host
-                    }
-
-                    const tagName = (parent as HTMLElement).tagName?.toLowerCase();
-
-                    if (tagName === 'body') { // Top parent
-
-                        return this._adoptingParent = null;
-                    }
-
-                    if (isCustomElement(parent as HTMLElement)) {
-
-                        await window.customElements.whenDefined(tagName);
-                    }
-
-                    if ((parent.constructor as CustomHTMLElementConstructor).isCustomElement === true) {  // It is a custom element
-
-                        return this._adoptingParent = parent;
-                    }
-
-                    parent = parent.parentNode;
+                    parent = (parent as ShadowRoot).host; // Get its host
                 }
+
+                const tagName = (parent as HTMLElement).tagName?.toLowerCase();
+
+                if (tagName === 'body') { // Top parent
+
+                    return null;
+                }
+
+                if (isCustomElement(parent as HTMLElement)) {
+
+                    await window.customElements.whenDefined(tagName); // The parent element might not be defined yet when the child element is because the order of declaration in the bundle file
+                }
+
+                if ((parent.constructor as CustomHTMLElementConstructor).isCustomElement === true) {  // It is a custom element
+
+                    return parent;
+                }
+
+                parent = parent.parentNode;
             }
 
-            return this._adoptingParent as Node;
+            return null; // Got to the top without finding any parent
         }
 
         handleSlotchange(e: Event): void {

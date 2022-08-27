@@ -104,8 +104,8 @@ export default abstract class Field extends
 
                     return value;
                 },
-                afterChange: function(value: unknown, oldValue: unknown) : void {
-                    
+                afterChange: function (value: unknown, oldValue: unknown): void {
+
                     (this as unknown as Field).onValueChanged?.(value, oldValue);
                 },
                 reflect: true
@@ -200,9 +200,9 @@ export default abstract class Field extends
         this.validate(); // Validate the field on input
     }
 
-    async createValidationContext(): Promise<FieldValidationContext & { value: unknown; }> {
+    createValidationContext(): FieldValidationContext & { value: unknown; } {
 
-        const label = await this.getLabel();
+        const label = this.getLabel();
 
         const value = this._tempValue ?? this.value;
 
@@ -228,11 +228,13 @@ export default abstract class Field extends
      */
     private _label?: HTMLElement;
 
-    async getLabel(): Promise<string> {
+    getLabel(): string {
 
         if (this._label === undefined) {
 
-            const adoptingParent = await this.getAdoptingParent();
+            const {
+                adoptingParent
+            } = this;
 
             const lt = Array.from(adoptingParent.children)
                 .filter(c => (c as HTMLElement).getAttribute('slot') === 'label');

@@ -63,7 +63,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
 
                 if (newPatchingData !== null) { // Update
 
-                    await this.willUpdateCallback?.();
+                    this.willUpdateCallback?.();
 
                     updateNodes(document, _oldPatchingData, newPatchingData);
 
@@ -73,7 +73,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                 }
                 else { // newPatchingData === null - Unmount
 
-                    await this.willUnmountCallback?.();
+                    this.willUnmountCallback?.();
 
                     (this.document as HTMLElement).replaceChildren(); // Remove all the existing children
 
@@ -96,7 +96,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                 await Promise.all(updatePromises);
             }
 
-            await this.didMountCallback?.();
+            this.didMountCallback?.();
         }
 
         /**
@@ -111,7 +111,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                 await Promise.all(updatePromises);
             }
 
-            await this.didUpdateCallback?.();
+            this.didUpdateCallback?.();
         }
     }
 }

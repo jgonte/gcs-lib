@@ -60,7 +60,7 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
 
         async didMountCallback(): Promise<void> {
 
-            await super.didMountCallback?.();
+            await super.didMountCallback?.(); // Needs to wait for parent method to finish
 
             // Add the slotted children
             const slot = (this.document as HTMLElement).querySelector('slot');

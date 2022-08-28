@@ -1,6 +1,8 @@
 import areEquivalent from "../../utils/areEquivalent";
+import isPrimitive from "../../utils/isPrimitive";
 import { beginMarker } from "../template/markers";
 import addPatcherComparer from "../utils/addPatcherComparer";
+import isNodePatchingData from "../utils/isNodePatchingData";
 import createNodes from "./createNodes";
 import mountNodes from "./mountNodes";
 import { AnyPatchedNode, NodePatchingData } from "./NodePatchingData";
@@ -9,9 +11,37 @@ addPatcherComparer();
 
 export default function updateNodes(container: Node, oldPatchingData: NodePatchingData | NodePatchingData[], newPatchingData: NodePatchingData | NodePatchingData[]) {
 
+    if (areEquivalent(oldPatchingData, newPatchingData)) {
+
+        if (Array.isArray(newPatchingData)) {
+
+            transferNodesAndRules(oldPatchingData as NodePatchingData[], newPatchingData as NodePatchingData[]);
+        }
+        else if (isNodePatchingData(newPatchingData)) {
+
+            (newPatchingData as NodePatchingData).node = (oldPatchingData as NodePatchingData).node;
+
+            (newPatchingData as NodePatchingData).rules = (oldPatchingData as NodePatchingData).rules;
+        }
+
+        return;
+    }
+
     if (Array.isArray(newPatchingData)) {
 
         updateArrayNodes(container, oldPatchingData as NodePatchingData[], newPatchingData);
+    }
+    else if (isPrimitive(newPatchingData)) {
+
+        if (isPrimitive(newPatchingData)) {
+
+            //TODO: Find the text element as the list of children or come with some kind of primitive wrapper
+            (container.childNodes[container.childNodes.length - 1] as Text).textContent = newPatchingData.toString(); 
+        }
+        else {
+
+            throw new Error('updateNodes - both new and old patching data must be primitives');
+        }
     }
     else {
 
@@ -43,24 +73,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
             if (areEquivalent(oldPatchingData.values, newPatchingData.values)) {
 
-                // Transfer the existing nodes from the oldPatchingData values to the newPatchingData ones
-                const oldValues = oldPatchingData.values as NodePatchingData[];
-
-                const newValues = newPatchingData.values as NodePatchingData[];
-
-                for (let i = 0; i < oldValues.length; ++i) {
-
-                    const oldValue = oldValues[i];
-
-                    const newValue = newValues[i];
-
-                    if (oldValue?.node !== undefined) { // It is a node patching data
-
-                        newValue.node = oldValue.node;
-
-                        newValue.rules = oldValue.rules; // Transfer the rules too
-                    }
-                }
+                transferNodesAndRules(oldPatchingData.values as NodePatchingData[], newPatchingData.values as NodePatchingData[]);
 
                 return; // Same patcher and same values mean no changes to apply
             }
@@ -79,6 +92,28 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
             }
 
             container.replaceChild(newNode, node as Node); // Replace the end marker with the node      
+        }
+    }
+}
+
+/**
+ * Transfers the existing nodes from the oldPatchingData values to the newPatchingData ones
+ * @param oldPatchingArray 
+ * @param newPatchingArray 
+ */
+function transferNodesAndRules(oldPatchingArray: NodePatchingData[], newPatchingArray: NodePatchingData[]) {
+
+    for (let i = 0; i < oldPatchingArray.length; ++i) {
+
+        const oldPatchingData = oldPatchingArray[i];
+
+        const newPatchingData = newPatchingArray[i];
+
+        if (oldPatchingData?.node !== undefined) { // It is a node patching data
+
+            newPatchingData.node = oldPatchingData.node;
+
+            newPatchingData.rules = oldPatchingData.rules;
         }
     }
 }

@@ -1,11 +1,12 @@
 import areEquivalent, { EquivalentTypeComparer, typeComparers } from "../../utils/areEquivalent";
 import { NodePatchingData } from "../nodes/NodePatchingData";
+import isNodePatchingData from "./isNodePatchingData";
 
 let patcherComparerAdded = false;
 
 const patcherComparer: EquivalentTypeComparer = {
 
-    test: (o: unknown) => (o as NodePatchingData).patcher !== undefined,
+    test: (o: unknown) => isNodePatchingData(o),
 
     compare: (o1: unknown, o2: unknown): boolean => {
 

@@ -317,7 +317,7 @@ export default function PropertiesHolder<TBase extends CustomHTMLElementConstruc
                 return; // Nothing to change
             }
 
-            console.warn(`attributeChangedCallback -> attributeName: '${attributeName}', old value: [${oldValue}], new value: [${newValue}]`);
+            console.log(`attributeChangedCallback -> attributeName: '${attributeName}', old value: [${oldValue}], new value: [${newValue}]`);
 
             super.attributeChangedCallback?.(attributeName, oldValue, newValue);
 

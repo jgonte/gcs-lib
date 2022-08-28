@@ -5,13 +5,14 @@ import updateNodes from "../../rendering/nodes/updateNodes";
 import CustomHTMLElement from "./metadata/types/CustomHTMLElement";
 import { DataTypes } from "../../utils/data/DataTypes";
 import CustomElementPropertyMetadata from "./metadata/types/CustomElementPropertyMetadata";
+import isPrimitive from "../../utils/isPrimitive";
 
 /**
  * Updates the element by patching the nodes
  * @param Base 
  * @returns 
  */
-export default function NodePatching<TBase extends CustomHTMLElementConstructor>(Base: TBase) : TBase {
+export default function NodePatching<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
     return class NodePatchingMixin extends Base {
 
@@ -23,7 +24,7 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
         static get properties(): Record<string, CustomElementPropertyMetadata> {
 
             return {
-    
+
                 /**
                  * The key to help with patching a collection
                  */
@@ -58,6 +59,8 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                     this.callAfterUpdate();
                 }
                 // else newPatchingData === null - Nothing to do
+
+                verifyNodeIsAttachedToPatchingData(newPatchingData as NodePatchingData, 'mountNodes');
             }
             else { // this._oldPatchingData !== null
 
@@ -70,6 +73,8 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
                     await this._waitForChildrenToUpdate();
 
                     this.callAfterUpdate();
+
+                    verifyNodeIsAttachedToPatchingData(newPatchingData, 'updateNodes');
                 }
                 else { // newPatchingData === null - Unmount
 
@@ -113,5 +118,15 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
 
             this.didUpdateCallback?.();
         }
+    }
+}
+
+function verifyNodeIsAttachedToPatchingData(newPatchingData: NodePatchingData | NodePatchingData[], functionName: string) {
+
+    if (!isPrimitive(newPatchingData) &&
+        !Array.isArray(newPatchingData) &&
+        (newPatchingData as NodePatchingData).node === undefined) { // Verify the new newPatchingData has a node attached
+
+            throw new Error(`${functionName} -The new patching data must have a node attached to it`);
     }
 }

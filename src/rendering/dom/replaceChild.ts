@@ -4,6 +4,7 @@ import createNodes from "../nodes/createNodes";
 import { AnyPatchedNode, NodePatchingData } from "../nodes/NodePatchingData";
 import { endMarker } from "../template/markers";
 import addPatcherComparer from "../utils/addPatcherComparer";
+import isNodePatchingData from "../utils/isNodePatchingData";
 
 addPatcherComparer();
 
@@ -23,7 +24,7 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
         }
 
     }
-    else if ((oldChild as NodePatchingData).patcher !== undefined) { // Patching data
+    else if (isNodePatchingData(oldChild)) { // Patching data
 
         // Find the node whose patching data matches this one
         let oldChildNode: AnyPatchedNode | null = null;

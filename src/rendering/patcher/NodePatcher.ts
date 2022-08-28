@@ -19,6 +19,7 @@ import { setEvent } from "../dom/setEvent";
 import areEquivalent from "../../utils/areEquivalent";
 import addPatcherComparer from "../utils/addPatcherComparer";
 import { attributeMarkerPrefix } from "../template/markers";
+import isNodePatchingData from "../utils/isNodePatchingData";
 
 addPatcherComparer();
 
@@ -217,7 +218,7 @@ export default class NodePatcher implements INodePatcher {
                                 }
                                 else {
 
-                                    if ((oldValue as NodePatchingData).patcher !== undefined &&
+                                    if (isNodePatchingData(oldValue) &&
                                         (oldValue as NodePatchingData).patcher === (newValue as NodePatchingData).patcher) {
 
                                         updateNodes(node, oldValue as NodePatchingData, newValue as NodePatchingData);
@@ -234,7 +235,7 @@ export default class NodePatcher implements INodePatcher {
                                     oldValue !== null) {
 
                                     if (Array.isArray(oldValue) || // Several nodes to remove
-                                        (oldValue as NodePatchingData).patcher !== undefined) {
+                                        isNodePatchingData(oldValue)) {
 
                                         removeLeftSiblings(node);
                                     }

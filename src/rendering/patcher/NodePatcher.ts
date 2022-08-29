@@ -20,6 +20,7 @@ import areEquivalent from "../../utils/areEquivalent";
 import addPatcherComparer from "../utils/addPatcherComparer";
 import { attributeMarkerPrefix } from "../template/markers";
 import isNodePatchingData from "../utils/isNodePatchingData";
+import transferNodesAndRules from "../utils/transferNodesAndRules";
 
 addPatcherComparer();
 
@@ -189,6 +190,8 @@ export default class NodePatcher implements INodePatcher {
             const newValue = newValues[i];
 
             if (areEquivalent(oldValue, newValue)) {
+
+                transferNodesAndRules(oldValue as NodePatchingData, newValue as NodePatchingData);
 
                 continue;
             }

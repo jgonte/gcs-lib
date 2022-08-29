@@ -153,7 +153,7 @@ export default class Form extends
 
                     if (acceptChanges === true) {
 
-                        field._initialValue = value;
+                        field._initialValue = field.value; // Get the transformed value from the field
                     }
                 }
                 else { // The field does not need to exist for the given data member but let the programmer know it is missing

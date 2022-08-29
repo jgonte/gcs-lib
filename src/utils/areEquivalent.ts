@@ -15,44 +15,61 @@ export interface EquivalentTypeComparer {
 }
 
 /**
- * The array of type comparer
+ * The array type comparer
  * The reason for this complexity is to allow the addition of extensible comparers
  */
-export const typeComparers: EquivalentTypeComparer[] = [];
+ export const typeComparers: EquivalentTypeComparer[] = [];
 
-const arrayComparer = {
+ const arrayComparer = {
+ 
+     test: (o: unknown) => Array.isArray(o),
+ 
+     compare: (o1: unknown, o2: unknown): boolean => {
+ 
+         if (!Array.isArray(o2)) {
+ 
+             return false;
+         }
+     
+         if ((o1 as Array<unknown>).length !== o2.length) {
+     
+             return false;
+         }
+         else {
+     
+             const length = (o1 as Array<unknown>).length;
+ 
+             for (let i = 0; i < length; ++i) {
+     
+                 if (!areEquivalent((o1 as Array<unknown>)[i], o2[i])) {
+     
+                     return false;
+                 }
+             }
+     
+             return true;
+         }
+     }
+ };
+ 
+ typeComparers.push(arrayComparer);
 
-    test: (o: unknown) => Array.isArray(o),
+/**
+ * The date type comparer
+ * The reason for this complexity is to allow the addition of extensible comparers
+ */
+const dateComparer = {
+
+    test: (o: unknown) => o instanceof Date,
 
     compare: (o1: unknown, o2: unknown): boolean => {
 
-        if (!Array.isArray(o2)) {
-
-            return false;
-        }
-    
-        if ((o1 as Array<unknown>).length !== o2.length) {
-    
-            return false;
-        }
-        else {
-    
-            const length = (o1 as Array<unknown>).length;
-
-            for (let i = 0; i < length; ++i) {
-    
-                if (!areEquivalent((o1 as Array<unknown>)[i], o2[i])) {
-    
-                    return false;
-                }
-            }
-    
-            return true;
-        }
+        return (o1 as Date).getTime() === (o2 as Date).getTime()
     }
 };
 
-typeComparers.push(arrayComparer);
+// Push it before the more general object comparer
+typeComparers.push(dateComparer);
 
 const objectComparer = {
 

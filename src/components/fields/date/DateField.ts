@@ -4,15 +4,9 @@ import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
 import DisplayableField from "../DisplayableField";
 
-function formatDate(value: Date | string) {
+function formatDate(value: Date) {
 
-    const d = typeof value === 'string' ?
-        value :
-        value.toISOString(); // Assume a Date
-
-    const i = d.indexOf('T');
-
-    return d.substring(0, i); // Extract the date part only
+    return value.toLocaleDateString();
 }
 
 export default class DateField extends DisplayableField {
@@ -32,7 +26,7 @@ export default class DateField extends DisplayableField {
         } = this;
 
         return html`<input
-            type="date"
+            type="text"
             name=${name}
             value=${value !== undefined ? formatDate(value) : undefined}
             onInput=${event => this.handleInput(event)}
@@ -40,6 +34,21 @@ export default class DateField extends DisplayableField {
             onBlur=${() => this.handleBlur()}
             disabled=${disabled}
         />`;
+    }
+
+    /**
+     * Remove the time part if there is any
+     * @param value 
+     * @returns 
+     */
+    beforeValueSet(value: string): Date {
+
+        const date = new Date(value);
+
+        // Reset the time part
+        date.setHours(0, 0, 0, 0);
+
+        return date;
     }
 }
 

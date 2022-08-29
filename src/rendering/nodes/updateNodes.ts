@@ -2,7 +2,7 @@ import areEquivalent from "../../utils/areEquivalent";
 import isPrimitive from "../../utils/isPrimitive";
 import { beginMarker } from "../template/markers";
 import addPatcherComparer from "../utils/addPatcherComparer";
-import isNodePatchingData from "../utils/isNodePatchingData";
+import transferNodesAndRules from "../utils/transferNodesAndRules";
 import createNodes from "./createNodes";
 import mountNodes from "./mountNodes";
 import { AnyPatchedNode, NodePatchingData } from "./NodePatchingData";
@@ -13,16 +13,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
     if (areEquivalent(oldPatchingData, newPatchingData)) {
 
-        if (Array.isArray(newPatchingData)) {
-
-            transferNodesAndRules(oldPatchingData as NodePatchingData[], newPatchingData as NodePatchingData[]);
-        }
-        else if (isNodePatchingData(newPatchingData)) {
-
-            (newPatchingData as NodePatchingData).node = (oldPatchingData as NodePatchingData).node;
-
-            (newPatchingData as NodePatchingData).rules = (oldPatchingData as NodePatchingData).rules;
-        }
+        transferNodesAndRules(oldPatchingData, newPatchingData);
 
         return;
     }
@@ -96,27 +87,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
     }
 }
 
-/**
- * Transfers the existing nodes from the oldPatchingData values to the newPatchingData ones
- * @param oldPatchingArray 
- * @param newPatchingArray 
- */
-function transferNodesAndRules(oldPatchingArray: NodePatchingData[], newPatchingArray: NodePatchingData[]) {
 
-    for (let i = 0; i < oldPatchingArray.length; ++i) {
-
-        const oldPatchingData = oldPatchingArray[i];
-
-        const newPatchingData = newPatchingArray[i];
-
-        if (oldPatchingData?.node !== undefined) { // It is a node patching data
-
-            newPatchingData.node = oldPatchingData.node;
-
-            newPatchingData.rules = oldPatchingData.rules;
-        }
-    }
-}
 
 function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], newPatchingData: NodePatchingData[]) {
 

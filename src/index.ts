@@ -18,6 +18,7 @@ import ToolTip from "./components/tool-tip/ToolTip";
 import DataTemplate from "./components/data-template/DataTemplate";
 import Selector from "./components/selector/Selector";
 import DropDown from "./components/drop-down/DropDown";
+import Dialog from "./components/dialog.ts/Dialog";
 
 // Tips
 import HelpTip from "./components/tips/HelpTip";
@@ -87,6 +88,7 @@ export {
     DataTemplate,
     Selector,
     DropDown,
+    Dialog,
 
     // Tips
     RequiredTip,

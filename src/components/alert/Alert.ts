@@ -6,6 +6,7 @@ import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import { alertStyles } from "./Alert.styles";
 import { DataTypes } from "../../utils/data/DataTypes";
+import { closingEvent } from "../tools/close/CloseTool";
 
 export default class Alert extends Nuanced {
 
@@ -31,7 +32,10 @@ export default class Alert extends Nuanced {
              * If it is not defined, then the close tool will not be shown
              */
             close: {
-                type: DataTypes.Function,
+                type: [
+                    DataTypes.Function, // If the function is provided, then call it
+                    DataTypes.Boolean // If true, then dispatch a closing event
+                ],
                 defer: true
             }
         };
@@ -78,15 +82,25 @@ export default class Alert extends Nuanced {
 
     private _renderCloseTool(): NodePatchingData | null {
 
-        if (this.close === undefined) {
+        const {
+            close
+        } = this;
+
+        if (close === undefined) {
 
             return null;
         }
 
+        const handleClose: (evt: Event) => void = close === true ?
+            evt => this.dispatchCustomEvent(closingEvent, {
+                originalEvent: evt
+            }) :
+            evt => this.close(evt);
+
         return html`
 <wcl-close-tool 
     slot="end" 
-    close=${evt => this.close(evt)}>
+    close=${handleClose}>
 </wcl-close-tool>`;
     }
 }

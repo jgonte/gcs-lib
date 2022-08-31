@@ -195,7 +195,14 @@ export default abstract class Field extends
      */
     handleInput(event: Event): void {
 
-        this._tempValue = getNewValue(event.target as HTMLInputElement);
+        let v = getNewValue(event.target as HTMLInputElement);
+
+        if (this.beforeValueSet !== undefined) {
+
+            v = this.beforeValueSet(v);
+        }
+
+        this._tempValue = v;
 
         this.validate(); // Validate the field on input
     }
@@ -282,5 +289,10 @@ export default abstract class Field extends
             oldValue,
             newValue: this.value
         });
+    }
+
+    acceptChanges(): void {
+
+        this._initialValue = this.value;
     }
 }

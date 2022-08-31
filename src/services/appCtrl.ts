@@ -1,3 +1,5 @@
+import Dialog from "../components/dialog.ts/Dialog";
+import { NodePatchingData } from "../rendering/nodes/NodePatchingData";
 import { GenericRecord } from "../utils/types";
 import AppErrorHandler from "./errors/AppErrorHandler";
 import ErrorHandler from "./errors/ErrorHandler";
@@ -31,6 +33,11 @@ class AppCtrl {
 	 * The path to the icons library
 	 */
 	iconsPath?: string;
+
+	/**
+	 * The dialog to show the messages for the application
+	 */
+	dialog: Dialog = new Dialog();
 
 	/**
 	 * Initializes the application controller
@@ -76,6 +83,20 @@ class AppCtrl {
 
 			appCtrl.errorHandler = new AppErrorHandler();
 		}
+
+		// Append the app dialog to post any messages
+		document.body.appendChild(appCtrl.dialog);
+	}
+
+	showDialog(content: () => NodePatchingData) {
+
+		const {
+			dialog
+		} = this;
+
+		dialog.content = content;
+
+		dialog.showing = true;
 	}
 }
 

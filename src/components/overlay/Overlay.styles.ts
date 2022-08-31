@@ -7,7 +7,7 @@ export const overlayStyles = css`
     right: 0;
     left: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--wcl-overlay-background-color);
     transition: 0.3s;
     /* center */
     display: flex;

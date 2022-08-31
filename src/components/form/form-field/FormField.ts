@@ -141,10 +141,22 @@ export default class FormField extends
         await this.updateComplete;
 
         const {
+            field,
             modified
         } = event.detail;
 
         this.modified = modified;
+
+        const form = this.adoptingParent;
+
+        if (modified === true) {
+
+            form.modifiedFields.add(field);
+        }
+        else {
+
+            form.modifiedFields.delete(field);
+        }
     }
 
     async handleValidation(event: CustomEvent): Promise<void> {

@@ -50,6 +50,11 @@ export default class DateField extends DisplayableField {
 
         return date;
     }
+
+    serializeValue() {
+
+        return (this.value as Date).toISOString();
+    }
 }
 
 defineCustomElement('wcl-date-field', DateField);

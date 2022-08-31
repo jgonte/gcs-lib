@@ -140,6 +140,10 @@ export default class ComboBox extends
 
         this.selection = selection; // Do not unwrap the value of the selection since it will render only the value
 
+        this._tempValue = this.unwrapValue(selection); // handleInput needs the temp value to be set
+
+        this.handleInput();
+
         this.handleChange();
 
         this.selectedChildren = selectedChildren;

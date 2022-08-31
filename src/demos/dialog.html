@@ -5,19 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../../variables.css">
+    <link rel="stylesheet" href="../variables.css">
 
     <script type="module">
-        import appConfig from "../js/appConfig.js";
+        import appConfig from "./js/appConfig.js";
 
         window.getAppConfig = () => appConfig;
     </script>
 
-    <script type="module" src="../../../dist/js/bundle.js"></script>
-
-    <title>Data Template</title>
+    <script type="module" src="../../dist/js/bundle.js"></script>
 
     <script>
+
+        function getErrorAlert() {
+
+            return html`<wcl-alert 
+                kind="danger" 
+                size="small"
+                close
+            >
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam aspernatur amet, nesciunt illum fugiat accusamus quasi accusantium, officiis nobis totam iste sequi! Sed iure sunt earum eveniet placeat velit? Accusamus! danger alert
+            </wcl-alert>`;
+        }
 
         function getData() {
 
@@ -54,10 +63,10 @@
             return html`
 <div key=${id} style="width: 200px; margin: 10px;">
     <div style="background-color: lightgreen; padding: 5px;">
-        ${icon !== undefined ? 
-            html`<wcl-icon name=${icon}></wcl-icon>` : 
-            null}
-        ${name}
+    ${icon !== undefined ?
+        html`<wcl-icon name=${icon}></wcl-icon>` :
+        null}
+    ${name}
     </div>
     <div style="background-color: yellow;">${age}</div>
     <div style="background-color: darkred; color: white; font-weight: bold;">${description}</div>
@@ -65,57 +74,40 @@
 </div>`;
         }
 
-        function getSimpleTemplate(data) {
 
-            return html`Simple template`;
+        function getTemplateElement() {
+
+            return html`<wcl-data-template data="getData()" id-field="name" template="getTemplate()"></wcl-data-template>`;
         }
 
-        setTimeout(() => {
+        function showDialog() {
 
-            const element = document.getElementById('changing-template');
+            const element = document.getElementById('app-dialog');
 
-            element.template = getTemplate;
-        }, 2000);
+            element.content = getErrorAlert;
+
+            element.showing = true;
+
+            setTimeout(() => {
+
+                element.content = getTemplateElement;
+
+                element.showing = true;
+
+            }, 3000);
+        }
 
     </script>
 
+    <title>Dialog</title>
 </head>
 
 <body>
+    <wcl-button id="b1" click="showDialog()" kind="primary">
+        Show Dialog
+    </wcl-button>
 
-    <h4>Data as object in the attributes</h4>
-
-    <wcl-data-template data='{
-        "name": "Sarah",
-        "age": 20,
-        "description": "Smart and beautiful",
-        "skills": [
-            {
-                "id": 1,
-                "description": "Artist"
-            },
-            {
-                "id": 2,
-                "description": "Medicine"
-            }
-        ]
-    }' id-field="name" template="getTemplate()">
-    </wcl-data-template>
-
-    <h4>Data as a function in the attributes</h4>
-
-    <wcl-data-template id-field="name" data='getData()' template="getTemplate()">
-    </wcl-data-template>
-
-    <h4>Simple template</h4>
-
-    <wcl-data-template id-field="name" data='getData()' template="getSimpleTemplate()">
-    </wcl-data-template>
-
-    <h4>Change content template</h4>
-
-    <wcl-data-template id="changing-template" id-field="name" data='getData()' template="getSimpleTemplate()">
-    </wcl-data-template>
+    <wcl-dialog id="app-dialog"></wcl-dialog>
 
 </body>
 

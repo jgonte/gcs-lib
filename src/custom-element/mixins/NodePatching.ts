@@ -6,6 +6,7 @@ import CustomHTMLElement from "./metadata/types/CustomHTMLElement";
 import { DataTypes } from "../../utils/data/DataTypes";
 import CustomElementPropertyMetadata from "./metadata/types/CustomElementPropertyMetadata";
 import isPrimitive from "../../utils/isPrimitive";
+import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 
 /**
  * Updates the element by patching the nodes
@@ -121,12 +122,13 @@ export default function NodePatching<TBase extends CustomHTMLElementConstructor>
     }
 }
 
-function verifyNodeIsAttachedToPatchingData(newPatchingData: NodePatchingData | NodePatchingData[], functionName: string) {
+function verifyNodeIsAttachedToPatchingData(patchingData: NodePatchingData | NodePatchingData[], functionName: string) {
 
-    if (!isPrimitive(newPatchingData) &&
-        !Array.isArray(newPatchingData) &&
-        (newPatchingData as NodePatchingData).node === undefined) { // Verify the new newPatchingData has a node attached
+    if (!isUndefinedOrNull(patchingData) &&
+        !isPrimitive(patchingData) &&
+        !Array.isArray(patchingData) &&
+        (patchingData as NodePatchingData).node === undefined) { // Verify the new newPatchingData has a node attached
 
-            throw new Error(`${functionName} -The new patching data must have a node attached to it`);
+        throw new Error(`${functionName} -The new patching data must have a node attached to it`);
     }
 }

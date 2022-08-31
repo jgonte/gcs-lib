@@ -1,3 +1,5 @@
+import html from "../../rendering/html";
+import appCtrl from "../appCtrl";
 import ErrorHandler, { errorEvent } from "./ErrorHandler";
 
 export default class AppErrorHandler implements ErrorHandler {
@@ -13,6 +15,8 @@ export default class AppErrorHandler implements ErrorHandler {
             error
         } = event.detail;
 
-        alert(error.message);
+        const content = () => html`<wcl-alert kind="danger" close>${error.message}</wcl-alert>`;
+
+        appCtrl.showDialog(content);
     }
 }

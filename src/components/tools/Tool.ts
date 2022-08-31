@@ -35,14 +35,14 @@ export default abstract class Tool extends Nuanced {
         
         super.connectedCallback?.();
 
-        this.addEventListener('click', this.click);
+        this.addEventListener('click', this.click as EventListenerOrEventListenerObject);
     }
 
     disconnectedCallback(): void {
         
         super.disconnectedCallback?.();
 
-        this.removeEventListener('click', this.click);
+        this.removeEventListener('click', this.click as EventListenerOrEventListenerObject);
     }
 
     render(): NodePatchingData {

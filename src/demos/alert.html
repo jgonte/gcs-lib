@@ -24,6 +24,10 @@
             alert('Trying to close alert!');
         }
 
+        document.addEventListener('closingEvent', () =>
+            alert('Trying to close alert dispatched an event!')
+        );
+
     </script>
 
     <title>Alert demo</title>
@@ -35,7 +39,9 @@
     <wcl-alert size="large" kind="info" close="onCloseAlert()">Some info alert</wcl-alert>
     <wcl-alert kind="success" close="onCloseAlert()">Some success alert</wcl-alert>
     <wcl-alert kind="warning" dir="rtl" close="onCloseAlert()">Some warning alert</wcl-alert>
-    <wcl-alert kind="danger" size="small" close="onCloseAlert()">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam aspernatur amet, nesciunt illum fugiat accusamus quasi accusantium, officiis nobis totam iste sequi! Sed iure sunt earum eveniet placeat velit? Accusamus! danger alert</wcl-alert>
+    <wcl-alert kind="danger" size="small" close="onCloseAlert()">Lorem ipsum dolor, sit amet consectetur adipisicing
+        elit. Ipsam aspernatur amet, nesciunt illum fugiat accusamus quasi accusantium, officiis nobis totam iste sequi!
+        Sed iure sunt earum eveniet placeat velit? Accusamus! danger alert</wcl-alert>
 
     <h4>Icon and localized text</h4>
     <wcl-alert size="large" kind="info" close="onCloseAlert()">
@@ -49,12 +55,18 @@
     <wcl-alert kind="warning" dir="rtl" close="onCloseAlert()">
         <wcl-localized-text>Some warning alert</wcl-localized-text>
     </wcl-alert>
-    
+
     <wcl-alert kind="danger" size="small" close="onCloseAlert()">
         <wcl-localized-text>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam aspernatur amet, nesciunt illum fugiat accusamus quasi accusantium, officiis nobis totam iste sequi! Sed iure sunt earum eveniet placeat velit? Accusamus! danger alert
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam aspernatur amet, nesciunt illum fugiat
+            accusamus quasi accusantium, officiis nobis totam iste sequi! Sed iure sunt earum eveniet placeat velit?
+            Accusamus! danger alert
         </wcl-localized-text>
     </wcl-alert>
+
+    <h4>The close property is a boolean</h4>
+    <wcl-alert size="large" kind="info" close>Another info alert</wcl-alert>
+
 </body>
 
 </html>

@@ -32,6 +32,8 @@ export default class Form extends
 
     private _fields: Map<string, Field> = new Map<string, Field>();
 
+    modifiedFields: Set<Field> = new Set<Field>();
+
     constructor() {
 
         super();
@@ -99,6 +101,13 @@ export default class Form extends
 
     submit(): void {
 
+        if (this.modifiedFields.size === 0) {
+
+            this.error = 'This form has not been modified';
+
+            return;
+        }
+
         if (this.validate()) {
 
             super.submit();
@@ -149,11 +158,11 @@ export default class Form extends
 
                     const value = data[key];
 
-                    field.value = value;
+                    field.value = value; // Here beforeValueSet will be called to transform the value if needed
 
                     if (acceptChanges === true) {
 
-                        field._initialValue = field.value; // Get the transformed value from the field
+                        field.acceptChanges();
                     }
                 }
                 else { // The field does not need to exist for the given data member but let the programmer know it is missing
@@ -174,7 +183,9 @@ export default class Form extends
 
         for (const [key, field] of this._fields) {
 
-            const value = field.value;
+            const value = field.serializeValue !== undefined ?
+                field.serializeValue() :
+                field.value;
 
             if (!isUndefinedOrNull(value)) {
 
@@ -230,16 +241,18 @@ export default class Form extends
 
     handleFieldAdded(event: CustomEvent): void {
 
+        event.stopPropagation();
+
         const {
             field
         } = event.detail;
 
-        this._fields.set(field.name, field); // Add the field to the form
-
-        event.stopPropagation();
+        this._fields.set(field.name, field); // Add the field to the form   
     }
 
     handleChange(event: CustomEvent): void {
+
+        event.stopPropagation();
 
         const {
             name,
@@ -251,8 +264,6 @@ export default class Form extends
         this.setData({
             [name]: newValue
         });
-
-        event.stopPropagation();
     }
 }
 

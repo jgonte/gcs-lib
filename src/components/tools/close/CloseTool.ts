@@ -3,6 +3,8 @@ import CustomElementPropertyMetadata from "../../../custom-element/mixins/metada
 import { DataTypes } from "../../../utils/data/DataTypes";
 import Tool from "../Tool";
 
+export const closingEvent = 'closingEvent';
+
 export default class CloseTool extends Tool {
 
     constructor() {

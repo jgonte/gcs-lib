@@ -6,6 +6,7 @@ import mergeStyles from "../../custom-element/styles/mergeStyles";
 import { displayableFieldStyles } from "./DisplayableField.styles";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import { DataTypes } from "../../utils/data/DataTypes";
+import areEquivalent from "../../utils/areEquivalent";
 
 export const inputEvent = "inputEvent";
 
@@ -54,10 +55,14 @@ export default abstract class DisplayableField extends
      */
     handleInput(event: Event): void {
 
-        super.handleInput(event);
+        if (event !== undefined) { // Coming from an event
 
+            super.handleInput(event);
+        }
+        
         this.dispatchCustomEvent(inputEvent, {
-            modified: this._initialValue !== this._tempValue // Notify the parent whether the value has changed or not
+            field: this,
+            modified: !areEquivalent(this._initialValue, this._tempValue) // Notify the parent whether the value has changed or not
         });
     }
 }

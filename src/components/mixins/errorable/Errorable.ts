@@ -33,6 +33,8 @@ import { errorEvent } from "../../../services/errors/ErrorHandler";
                         message: this.getErrorMessage(error)
                     }
                 });
+
+                this.error = undefined; // Clear the error
             }
         }
 
@@ -40,8 +42,12 @@ import { errorEvent } from "../../../services/errors/ErrorHandler";
          * Extracts the error message from the error object
          * @returns The error message from the server
          */
-        getErrorMessage(error: Error | { payload?: string; statusText?: string }) : string {
+        getErrorMessage(error: Error | { payload?: string; statusText?: string } | string) : string {
 
+            if (typeof error === 'string') {
+
+                return error;
+            }
             if (error instanceof Error) {
 
                 return error.message;
@@ -74,7 +80,7 @@ import { errorEvent } from "../../../services/errors/ErrorHandler";
                 }
             }
 
-            return error as string;
+            throw new Error(`getErrorMessage - Unhandled error: ${error}`);
         }
 
     };

@@ -30,6 +30,7 @@ export default class Dialog extends CustomElement {
             }
         };
     }
+    
     connectedCallback() {
 
         super.connectedCallback?.();

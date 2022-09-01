@@ -48,6 +48,9 @@ const appConfig = {
             },
 
         }
+    },
+    routes: {
+        
     }
 };
 

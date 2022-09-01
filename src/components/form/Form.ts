@@ -41,6 +41,8 @@ export default class Form extends
         this.handleFieldAdded = this.handleFieldAdded.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
+
+        this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
     static get styles(): string {
@@ -228,6 +230,8 @@ export default class Form extends
         this.addEventListener(fieldAddedEvent, this.handleFieldAdded as EventListenerOrEventListenerObject);
 
         this.addEventListener(changeEvent, this.handleChange as EventListenerOrEventListenerObject);
+
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
     }
 
     disconnectedCallback() {
@@ -237,6 +241,20 @@ export default class Form extends
         this.removeEventListener(fieldAddedEvent, this.handleFieldAdded as EventListenerOrEventListenerObject);
 
         this.removeEventListener(changeEvent, this.handleChange as EventListenerOrEventListenerObject);
+
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    }
+
+    handleBeforeUnload(evt: Event): boolean {
+
+        if (this.modifiedFields.size > 0) {
+
+            evt.preventDefault();
+
+            return evt.returnValue = true;
+        }
+
+        return evt.returnValue = false;
     }
 
     handleFieldAdded(event: CustomEvent): void {

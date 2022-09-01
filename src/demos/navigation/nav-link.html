@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../../variables.css">
+
+    <script type="module">
+        import appConfig from "../js/appConfig.js";
+
+        window.getAppConfig = () => appConfig;
+    </script>
+
+    <script type="module" src="../../../dist/js/bundle.js"></script>
+
+    <title>Navigation Link</title>
+
+</head>
+
+<body>
+
+    <wcl-nav-link to="/home">Home</wcl-nav-link>
+
+    <wcl-content-view></wcl-content-view>
+
+</body>
+
+</html>

@@ -20,6 +20,10 @@ import Selector from "./components/selector/Selector";
 import DropDown from "./components/drop-down/DropDown";
 import Dialog from "./components/dialog.ts/Dialog";
 
+// Navigation
+import NavigationLink from "./components/navigation/NavigationLink";
+import ContentView from "./components/content-view/ContentView";
+
 // Tips
 import HelpTip from "./components/tips/HelpTip";
 import ModifiedTip from "./components/tips/ModifiedTip";
@@ -90,6 +94,10 @@ export {
     DropDown,
     Dialog,
 
+    // Navigation
+    NavigationLink,
+    ContentView,
+
     // Tips
     RequiredTip,
     ModifiedTip,
@@ -106,7 +114,7 @@ export {
     // Tools
     Tool,
     CloseTool,
-    ExpanderTool as DropTool,
+    ExpanderTool,
     SorterTool,
 
     // Fields 

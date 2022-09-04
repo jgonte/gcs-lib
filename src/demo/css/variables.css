@@ -1,0 +1,102 @@
+:root {
+    --wcl-font-family: Arial, Helvetica, sans-serif;
+
+    /* Colors */
+    --wcl-overlay-background-color: rgba(0,0,0, 0.3);
+
+    --wcl-color-info: #1f87b8;
+    --wcl-background-color-info: #e6f7ff;
+
+    --wcl-color-contained-info: rgb(255, 255, 255);
+    --wcl-background-color-contained-info: #26295c;
+    
+    --wcl-color-primary: #3880ff;
+    --wcl-background-color-primary: #e6f7ff;
+
+    --wcl-color-contained-primary: #fff;
+    --wcl-background-color-contained-primary: #3880ff;
+
+    --wcl-color-success: #009E52;
+    --wcl-background-color-success: #f6ffed;
+
+    --wcl-color-contained-success: #fff;
+    --wcl-background-color-contained-success: #009E52;
+    
+    --wcl-color-warning: #ecbf09;
+    --wcl-background-color-warning: #fffbe6;
+
+    --wcl-color-contained-warning: #000;
+    --wcl-background-color-contained-warning: yellow;
+    
+    --wcl-color-danger: #b12020;
+    --wcl-background-color-danger: #fff2f0;
+
+    --wcl-color-contained-danger: white;
+    --wcl-background-color-contained-danger: crimson;
+
+    --wcl-background-color-secondary: #0cd1e8;
+    --wcl-color-secondary: #032517;
+
+    --wcl-color-contained-secondary: #fff;
+    --wcl-background-color-contained-secondary: #e8c00c;
+
+    --wcl-background-color-tertiary: #f4a942;
+    --wcl-color-tertiary: #b446b4;
+
+    --wcl-disabled-background-color: lightgray;
+    --wcl-disabled-color: darkgray;
+
+    /* Hoverable */
+    --wcl-hoverable-background-color:rgb(211, 227, 233);
+    --wcl-hoverable-color: black;
+    
+/*
+    
+
+    
+
+    
+    
+    
+    
+    --wcl-color-light: #f4f5f8;
+    --wcl-color-medium: #989aa2;
+    --wcl-color-dark: #222428;
+
+    --wcl-background-color:#fff;
+
+    --wcl-selected-background-color:#8ebeba;
+    --wcl-selected-color: gold;
+
+    --wcl-header-background-color: #1d62d8;
+
+    */
+
+    /* Font sizes */
+    --wcl-font-size-large: 2.56rem;
+    --wcl-font-size-medium: 1.6rem;
+    --wcl-font-size-small: 1rem;
+
+    /* Icon sizes */
+    --wcl-icon-size-large: 2.048rem;
+    --wcl-icon-size-medium: 1.28rem;
+    --wcl-icon-size-small: .8rem;
+
+    /* Border */
+    --wcl-border-width: .1em;
+    --wcl-border-radius: .4em;
+
+    /* Min height */
+    --wcl-min-height: 1.2em;
+
+    /* Margin */
+    --wcl-margin: .25em;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    user-select: none;
+    box-sizing: border-box;
+    font-family: var(--wcl-font-family);
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/variables.css">
+
+    <script type="module">
+        import appConfig from "./js/appConfig.js";
+
+        appConfig.rootPath = "/src/demo";
+
+        appConfig.routes = {
+            '/': '/views/intro.html',
+            '/layout/center': '/views/layout/center.html',
+            '/layout/panel': '/views/layout/panel.html'
+        };
+
+        window.getAppConfig = () => appConfig;
+    </script>
+
+    <script type="module" src="../../dist/js/bundle.js"></script>
+
+    <title>GCS Components Demo</title>
+</head>
+
+<body>
+
+    <wcl-row>
+
+        <nav slot="start" class="sidebar">
+
+            <wcl-nav-link to="/">
+                <wcl-localized-text resource-key="intro" kind="primary">Intro</wcl-localized-text>
+            </wcl-nav-link>
+            
+            <wcl-nav-link to="/layout/center">
+                <wcl-localized-text resource-key="centerLayout" kind="primary">Center Layout</wcl-localized-text>
+            </wcl-nav-link>
+
+            <wcl-nav-link to="/layout/panel">
+                <wcl-localized-text resource-key="panelLayout" kind="primary">Panel Layout</wcl-localized-text>
+            </wcl-nav-link>
+            
+        </nav>
+
+        <wcl-content-view slot="middle"></wcl-content-view>
+
+        <!-- <span slot="end">Property Grid</span>     -->
+    </wcl-row>
+
+</body>
+
+</html>

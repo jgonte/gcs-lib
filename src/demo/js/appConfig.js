@@ -48,10 +48,6 @@ const appConfig = {
             },
 
         }
-    },
-    routes: {
-        '/src/demos/navigation/nav-link.html': '/src/demos/navigation/views/home.html',
-        '/src/demos/navigation/nav-link.html/about': '/src/demos/navigation/views/about.html'
     }
 };
 

@@ -1,10 +1,10 @@
 import ContentView from "../components/content-view/ContentView";
 import Dialog from "../components/dialog.ts/Dialog";
 import { linkClickedEvent } from "../components/navigation/NavigationLink";
+import html from "../rendering/html";
 import { NodePatchingData } from "../rendering/nodes/NodePatchingData";
 import { GenericRecord } from "../utils/types";
-import AppErrorHandler from "./errors/AppErrorHandler";
-import ErrorHandler from "./errors/ErrorHandler";
+import ErrorHandler, { errorEvent } from "./errors/ErrorHandler";
 import IntlProvider from "./IntlProvider";
 
 /**
@@ -42,11 +42,29 @@ class AppCtrl {
 	dialog: Dialog = new Dialog();
 
 	/**
-	 * The content views to route the dynamic content into
+	 * The routes set in the app
 	 */
-	contentViews: Set<ContentView> = new Set<ContentView>();
-
 	routes?: GenericRecord;
+
+	/**
+	 * The content view of the application
+	 */
+	contentView?: ContentView;
+
+	/**
+	 * The temporary route stored until the content view is connected
+	 */
+	tempRoute: unknown;
+
+	/**
+	 * The part of the path that does not change when routing
+	 */
+	rootPath: string = '';
+
+	/**
+	 * The root page of the application
+	 */
+	rootPage: string = 'index.html';
 
 	/**
 	 * Initializes the application controller
@@ -59,7 +77,9 @@ class AppCtrl {
 			errorHandler: ErrorHandler,
 			intl: IntlProvider,
 			iconsPath: string,
-			routes: GenericRecord
+			routes: GenericRecord,
+			rootPath: string,
+			rootPage: string
 		};
 
 		if (getAppConfig !== undefined) {
@@ -69,7 +89,9 @@ class AppCtrl {
 				errorHandler,
 				intl,
 				iconsPath,
-				routes
+				routes,
+				rootPath,
+				rootPage
 			} = getAppConfig();
 
 			// if (auth !== undefined) {
@@ -84,11 +106,13 @@ class AppCtrl {
 				appCtrl.intlProvider = new IntlProvider(lang, intl.data);
 			}
 
-			appCtrl.errorHandler = errorHandler !== undefined ?
-				errorHandler :
-				new AppErrorHandler();
+			appCtrl.errorHandler = errorHandler;
 
 			appCtrl.iconsPath = iconsPath;
+
+			appCtrl.rootPath = rootPath || appCtrl.rootPath; // Set the root path before routing
+
+			appCtrl.rootPage = rootPage || appCtrl.rootPage;
 
 			// Add routing
 			if (routes !== undefined) {
@@ -99,19 +123,17 @@ class AppCtrl {
 
 					this.route(evt as CustomEvent);
 				});
-	
-				window.onpopstate = this.handleLocationChanged;
-	
-				this.handleLocationChanged();
-			}	
-		}
-		else { // No configuration was provided, provide a default error handler
 
-			appCtrl.errorHandler = new AppErrorHandler();
+				window.onpopstate = this.handleLocationChanged;
+
+				window.onload = () => this.handleLocationChanged(); // Wait until the page has been loaded
+			}
 		}
 
 		// Append the app dialog to post any messages
 		document.body.appendChild(appCtrl.dialog);
+
+		document.addEventListener(errorEvent, this.handleError as EventListenerOrEventListenerObject);
 	}
 
 	showDialog(content: () => NodePatchingData) {
@@ -125,6 +147,28 @@ class AppCtrl {
 		dialog.showing = true;
 	}
 
+	handleError(evt: CustomEvent): void {
+
+		const {
+			errorHandler
+		} = this;
+
+		if (errorHandler !== undefined) {
+
+			errorHandler.handleError(evt);
+		}
+		else {
+
+			const {
+				error
+			} = evt.detail;
+
+			const content = () => html`<wcl-alert kind="danger" close>${error.message}</wcl-alert>`;
+
+			appCtrl.showDialog(content);
+		}
+	}
+
 	route(evt: CustomEvent): void {
 
 		evt.preventDefault();
@@ -133,7 +177,7 @@ class AppCtrl {
 			link
 		} = evt.detail;
 
-		window.history.pushState({}, '', `${window.location}/${link.to}`);
+		window.history.pushState({}, '', `${window.origin}${this.rootPath}${link.to}`);
 
 		this.handleLocationChanged();
 	}
@@ -142,16 +186,26 @@ class AppCtrl {
 
 		const {
 			routes,
-			contentViews
+			contentView
 		} = this;
 
-		const path = window.location.pathname;
+		let path = window.location.pathname.substring(this.rootPath.length);
+
+		if (path === `/${this.rootPage}`) {
+
+			path = '/';
+		}
 
 		const route = (routes as GenericRecord)[path];
 
-		const contentView = [...contentViews][0];
+		if (contentView !== undefined) {
 
-		contentView.source = route;
+			contentView.source = `${this.rootPath}${route}`;
+		}
+		else {
+
+			this.tempRoute = route; // Store the route until the content view is connected
+		}
 	}
 
 }

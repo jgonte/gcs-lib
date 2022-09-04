@@ -45,13 +45,17 @@ export default class ContentView extends CustomElement {
                         head,
                         body
                     } = parser.parseFromString(content, "text/html");
+
+                    const {
+                        document: d
+                    } = this as unknown as CustomElement;
         
                     // Clear any previous content
-                    while ((this as unknown as CustomElement).document.firstChild) {
+                    while (d.firstChild) {
         
-                        notifyNodeWillDisconnect(this.document.firstChild);
+                        //notifyNodeWillDisconnect(d.firstChild);
                         
-                        this.document.firstChild.remove();
+                        d.firstChild.remove();
                     }
         
                     // Remove any scripts with the data-view attributes set
@@ -75,17 +79,17 @@ export default class ContentView extends CustomElement {
                     });
         
                     // Add the new content
-                    Array.from(body.children).forEach(child => {
+                    Array.from(body.childNodes).forEach(child => {
         
-                        if (child.tagName === 'SCRIPT') {
+                        if ((child as HTMLElement).tagName === 'SCRIPT') {
         
-                            const newScript = createScriptNode(child, value as string);
+                            const newScript = createScriptNode(child as HTMLElement, value as string);
         
                             document.body.appendChild(newScript);
                         }
                         else { // Add it to this component
         
-                            this.document.appendChild(child);
+                            d.appendChild(child);
                         }
                     });
 
@@ -103,14 +107,23 @@ export default class ContentView extends CustomElement {
 
         super.connectedCallback?.();
 
-        appCtrl.contentViews.add(this);
+        const {
+            tempRoute
+        } = appCtrl;
+
+        appCtrl.contentView = this;
+
+        if (tempRoute !== undefined) {
+
+            this.source = tempRoute;
+        }
     }
 
     disconnectedCallback() {
 
         super.disconnectedCallback?.();
 
-        appCtrl.contentViews.add(this);
+        appCtrl.contentView = undefined;
     }
 }
 

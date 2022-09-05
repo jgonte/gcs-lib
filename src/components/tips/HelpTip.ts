@@ -18,8 +18,8 @@ export default class HelpTip extends Sizable(
             /**
              * The key to retrieve a localized value from an i18n provider
              */
-            resourceKey: {
-                attribute: 'resource-key',
+            intlKey: {
+                attribute: 'intl-key',
                 type: DataTypes.String
             },
 
@@ -34,7 +34,7 @@ export default class HelpTip extends Sizable(
 
     render(): NodePatchingData {
 
-        return renderTip('secondary', '?', this.resourceKey, this.text);
+        return renderTip('secondary', '?', this.intlKey, this.text);
     }
 }
 

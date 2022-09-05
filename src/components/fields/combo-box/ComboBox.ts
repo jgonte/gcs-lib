@@ -192,7 +192,7 @@ export default class ComboBox extends
 <wcl-alert 
     slot="content"
     kind="warning">
-    <wcl-localized-text resource-key="noDataAvailable">No Data Available</wcl-localized-text>
+    <wcl-localized-text intl-key="noDataAvailable">No Data Available</wcl-localized-text>
 </wcl-alert>`;
         }
     }

@@ -14,13 +14,40 @@
 
         appConfig.rootPath = "/src/demo";
 
+        const layoutGroup = {
+            text: 'Layout',
+            intlKey: 'layout'
+        };
+
         appConfig.routes = {
-            '/': '/views/intro.html',
-            '/layout/center': '/views/layout/center.html',
-            '/layout/panel': '/views/layout/panel.html'
+            '/': {
+                text: 'Intro',
+                intlKey: 'intro',
+                view: '/views/intro.html'
+            } ,
+            '/layout/center': {
+                group: layoutGroup,
+                text: 'Center',
+                intlKey: 'center',
+                view: '/views/layout/center.html'
+            },
+            '/layout/panel': {
+                group: layoutGroup,
+                text: 'Panel',
+                intlKey: 'panel',
+                view: '/views/layout/panel.html'
+            },
+            '/layout/row': {
+                group: layoutGroup,
+                text: 'Row',
+                intlKey: 'row',
+                view: '/views/layout/row.html'
+            }  
         };
 
         window.getAppConfig = () => appConfig;
+
+        window.getRoutes = () => appConfig.routes;
     </script>
 
     <script type="module" src="../../dist/js/bundle.js"></script>
@@ -30,23 +57,35 @@
 
 <body>
 
-    <wcl-row>
+    
+    <wcl-row kind="primary">
+        
+        <wcl-nav-bar slot="start" routes="getRoutes()"></wcl-nav-bar>
 
-        <nav slot="start" class="sidebar">
+        <!-- Alternate way of building the sidebar -->
+        <!-- <nav slot="start" class="sidebar">
 
-            <wcl-nav-link to="/">
-                <wcl-localized-text resource-key="intro" kind="primary">Intro</wcl-localized-text>
-            </wcl-nav-link>
-            
-            <wcl-nav-link to="/layout/center">
-                <wcl-localized-text resource-key="centerLayout" kind="primary">Center Layout</wcl-localized-text>
+            <wcl-nav-link to="/" style="padding: .1em 1em;">
+                <wcl-localized-text intl-key="intro" kind="primary">Intro</wcl-localized-text>
             </wcl-nav-link>
 
-            <wcl-nav-link to="/layout/panel">
-                <wcl-localized-text resource-key="panelLayout" kind="primary">Panel Layout</wcl-localized-text>
-            </wcl-nav-link>
-            
-        </nav>
+            <wcl-panel>
+
+                <div slot="header">
+                    <wcl-localized-text intl-key="layout" kind="secondary">Layout</wcl-localized-text>
+                </div>
+
+                <wcl-nav-link to="/layout/center" slot="body" style="padding: 0.1em 1em;">
+                    <wcl-localized-text intl-key="center" kind="primary">Center</wcl-localized-text>
+                </wcl-nav-link>
+    
+                <wcl-nav-link to="/layout/panel" slot="body" style="padding: 0.1em 1em;">
+                    <wcl-localized-text intl-key="panel" kind="primary">Panel</wcl-localized-text>
+                </wcl-nav-link>
+
+            </wcl-panel>
+
+        </nav> -->
 
         <wcl-content-view slot="middle"></wcl-content-view>
 

@@ -87,7 +87,7 @@ export default class Form extends
 
         // Doing onClick=${this.submit} binds the button instead of the form to the submit function
         return html`<wcl-button key="submit-button" kind="primary" variant="contained" click=${() => this.submit()}>
-           <wcl-localized-text resource-key="submit">Submit</wcl-localized-text>
+           <wcl-localized-text intl-key="submit">Submit</wcl-localized-text>
            <wcl-icon name="box-arrow-right"></wcl-icon>
         </wcl-button>`;
     }

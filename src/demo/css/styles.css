@@ -1,6 +1,6 @@
 .sidebar {
-    background: var(--wcl-color-primary);
-    color: var(--wcl-background-color-primary);
+    background: var(--wcl-background-color-primary);
+    color: var(--wcl-color-primary); 
     width: 200px;
     height: 600px;
 }

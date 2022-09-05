@@ -1,11 +1,12 @@
 import ContentView from "../components/content-view/ContentView";
 import Dialog from "../components/dialog.ts/Dialog";
-import { linkClickedEvent } from "../components/navigation/NavigationLink";
+import { linkClickedEvent } from "../components/navigation/link/NavigationLink";
 import html from "../rendering/html";
 import { NodePatchingData } from "../rendering/nodes/NodePatchingData";
 import { GenericRecord } from "../utils/types";
 import ErrorHandler, { errorEvent } from "./errors/ErrorHandler";
 import IntlProvider from "./IntlProvider";
+import Route from "./routing/Route";
 
 /**
  * The singleton application controller so it is accessable from everywhere
@@ -196,15 +197,17 @@ class AppCtrl {
 			path = '/';
 		}
 
-		const route = (routes as GenericRecord)[path];
+		const route = (routes as GenericRecord)[path] as Route;
+
+		const view = `${this.rootPath}${route.view}`;
 
 		if (contentView !== undefined) {
 
-			contentView.source = `${this.rootPath}${route}`;
+			contentView.source = view;
 		}
 		else {
 
-			this.tempRoute = route; // Store the route until the content view is connected
+			this.tempRoute = view; // Store the route until the content view is connected
 		}
 	}
 

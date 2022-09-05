@@ -28,8 +28,8 @@ export default class LocalizedText extends
             /**
              * The key to retrieve a localized value from an i18n provider
              */
-            resourceKey: {
-                attribute: 'resource-key',
+            intlKey: {
+                attribute: 'intl-key',
                 type: DataTypes.String
             },
 
@@ -56,10 +56,10 @@ export default class LocalizedText extends
         super.connectedCallback?.();
 
         const {
-            resourceKey
+            intlKey
         } = this;
 
-        if (resourceKey !== undefined) {
+        if (intlKey !== undefined) {
 
             const {
                 intlProvider
@@ -69,7 +69,7 @@ export default class LocalizedText extends
 
             const lang = this.lang || intlProvider?.lang;
 
-            this.value = intlProvider?.getTranslation(lang, resourceKey);
+            this.value = intlProvider?.getTranslation(lang, intlKey);
         }
     }
 
@@ -78,10 +78,10 @@ export default class LocalizedText extends
         super.disconnectedCallback?.();
 
         const {
-            resourceKey
+            intlKey
         } = this;
 
-        if (resourceKey) {
+        if (intlKey) {
 
             appCtrl.intlProvider?.unsubscribe(this);
         }
@@ -106,11 +106,11 @@ export default class LocalizedText extends
     handleLanguageChanged(provider: IntlProvider) {
 
         const {
-            resourceKey,
+            intlKey,
             lang
         } = this;
 
-        this.value = provider.getTranslation(lang, resourceKey);
+        this.value = provider.getTranslation(lang, intlKey);
     }
 }
 

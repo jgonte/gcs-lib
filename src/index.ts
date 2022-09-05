@@ -21,7 +21,8 @@ import DropDown from "./components/drop-down/DropDown";
 import Dialog from "./components/dialog.ts/Dialog";
 
 // Navigation
-import NavigationLink from "./components/navigation/NavigationLink";
+import NavigationLink from "./components/navigation/link/NavigationLink";
+import NavigationBar from "./components/navigation/bar/NavigationBar";
 import ContentView from "./components/content-view/ContentView";
 
 // Tips
@@ -96,6 +97,7 @@ export {
 
     // Navigation
     NavigationLink,
+    NavigationBar,
     ContentView,
 
     // Tips

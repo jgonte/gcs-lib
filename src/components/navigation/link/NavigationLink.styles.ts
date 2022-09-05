@@ -1,4 +1,4 @@
-import css from "../../custom-element/styles/css";
+import css from "../../../custom-element/styles/css";
 
 export const navigationLinkStyles = css`
 :host {

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script>
+
+        function getFieldName() {
+
+            return "name";
+        }
+
+        function getField() {
+
+            return {
+                name: "name",
+                display: "Name",
+                width: '200px',
+                sortable: true,
+                // headerStyle: 'background-color: pink; padding: 5px;'
+                headerStyle: {
+                    backgroundColor: 'pink',
+                    padding: '5px'
+                }
+            };
+        }
+
+        function getFieldWithDynamicDisplay() {
+
+            return {
+                name: "name",
+                display: () => html`<span style="padding: 5px; background-color: darkgreen; color: white">My Name</span>`,
+                width: '200px'
+            };
+        }
+
+        function getSortableField() {
+
+            return {
+                name: "name",
+                display: () => html`<span style="padding: 5px; background-color: darkgreen; color: white">My Name</span>`,
+                width: '200px',
+                sortable: true,
+                headerStyle: 'background-color: pink; padding: 5px;'
+            };
+        }
+
+    </script>
+
+    <script>
+
+        window.addEventListener('sorterChanged', event => alert(`
+            Event type: 'sorterChanged'
+            Field name: '${event.detail.field}'
+            Ascending: '${event.detail.ascending}'
+        `));
+
+    </script>
+
+    <title>Data header cell demo</title>
+
+</head>
+
+<body>
+    <wcl-data-header-cell id="dh1" field="name"></wcl-data-header-cell>
+    <wcl-data-header-cell id="dh2" field="getFieldName()"></wcl-data-header-cell>
+    <wcl-data-header-cell id="dh3" field="getField()"></wcl-data-header-cell>
+    <wcl-data-header-cell id="dh4" field="getFieldWithDynamicDisplay()"></wcl-data-header-cell>
+    <wcl-data-header-cell id="dh5" field="getSortableField()"></wcl-data-header-cell>
+</body>
+
+</html>

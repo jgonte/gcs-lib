@@ -29,7 +29,7 @@ export default class CloseTool extends Tool {
         };
     }
 
-    click() {
+    handleClick() {
 
         this.close?.();
     }

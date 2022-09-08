@@ -4,6 +4,7 @@ import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../utils/data/DataTypes";
+import Clickable from "../../mixins/clickable/Clickable";
 import Nuanced from "../../Nuanced";
 import { navigationLinkStyles } from "./NavigationLink.styles";
 
@@ -12,7 +13,10 @@ export const linkClickedEvent = 'linkClickedEvent';
 /**
  * Initiates a routing workflow when clicked
  */
-export default class NavigationLink extends Nuanced {
+export default class NavigationLink
+    extends Clickable(
+        Nuanced
+    ) {
 
     static get styles(): string {
 
@@ -36,20 +40,6 @@ export default class NavigationLink extends Nuanced {
     render(): NodePatchingData {
 
         return html`<slot></slot>`;
-    }
-
-    connectedCallback() {
-
-        super.connectedCallback?.();
-
-        this.addEventListener('click', this.handleClick);
-    }
-
-    disconnectedCallback() {
-
-        super.disconnectedCallback?.();
-
-        this.removeEventListener('click', this.handleClick);
     }
 
     handleClick() {

@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <style>
         .border-green {
             border: solid 3px green;
@@ -18,9 +15,6 @@
             border: solid 3px blue;
         }
     </style>
-
-    <title>Row</title>
-
 </head>
 
 <body>
@@ -63,8 +57,10 @@
     <wcl-row>
         <wcl-icon slot="start" name="compass" size="large"></wcl-icon>
         <wcl-localized-text slot="middle" intl-key="fullName"></wcl-localized-text>
-        <wcl-help-tip slot="end" intl-key="fullNameHelp"></wcl-help-tip>
-        <wcl-required-tip slot="end"></wcl-required-tip>
+        <span slot="end" >
+            <wcl-help-tip intl-key="fullNameHelp"></wcl-help-tip>
+            <wcl-required-tip></wcl-required-tip>
+        </span>
     </wcl-row>
 
     <h4>Header</h4>

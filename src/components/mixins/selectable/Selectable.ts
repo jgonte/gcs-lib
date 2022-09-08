@@ -2,7 +2,8 @@ import CustomElementPropertyMetadata from "../../../custom-element/mixins/metada
 import CustomHTMLElementConstructor from "../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import { DataTypes } from "../../../utils/data/DataTypes";
-import Hoverable from "../hoverable/Hoverable";
+import Clickable from "../clickable/Clickable";
+
 import { selectableStyles } from "./Selectable.styles";
 
 export const selectionChangedEvent = 'selectionChanged';
@@ -12,9 +13,10 @@ export const selectionChangedEvent = 'selectionChanged';
  */
 export default function Selectable<TBase extends CustomHTMLElementConstructor>(Base: TBase): TBase {
 
-    return class SelectableMixin extends Hoverable( // Selectable items are also hoverable by default
-        Base
-    ) {
+    return class SelectableMixin
+        extends Clickable(
+            Base
+        ) {
 
         static get styles(): string {
 
@@ -61,30 +63,7 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
             };
         }
 
-        // The mixin constructor requires the parameters signature to be of type any
-        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-        constructor(...args: any[]) {
-
-            super(args);
-
-            this.toggleSelect = this.toggleSelect.bind(this);
-        }
-
-        connectedCallback() {
-
-            super.connectedCallback?.();
-
-            this.addEventListener('click', this.toggleSelect);
-        }
-
-        disconnectedCallback() {
-
-            super.disconnectedCallback?.();
-
-            this.removeEventListener('click', this.toggleSelect);
-        }
-
-        toggleSelect() {
+        handleClick() {
 
             this.setSelected(!this.selected); // Toggle
         }
@@ -104,7 +83,7 @@ export default function Selectable<TBase extends CustomHTMLElementConstructor>(B
                     selected,
                     value: this.selectValue
                 });
-            }            
+            }
         }
     }
 }

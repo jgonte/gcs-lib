@@ -1,13 +1,20 @@
 import CustomElement from "../../../custom-element/CustomElement";
 import defineCustomElement from "../../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import mergeStyles from "../../../custom-element/styles/mergeStyles";
 import html from "../../../rendering/html";
 import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import Route from "../../../services/routing/Route";
 import { DataTypes } from "../../../utils/data/DataTypes";
 import IntlResource from "../../../utils/intl/IntlResource";
+import { navigationBarStyles } from "./NavigationBar.styles";
 
 export default class NavigationBar extends CustomElement {
+
+    static get styles(): string {
+
+        return mergeStyles(super.styles, navigationBarStyles);
+    }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
@@ -118,7 +125,7 @@ export default class NavigationBar extends CustomElement {
         } = route as Route;
 
         return html`
-<wcl-nav-link to=${path} kind="primary" key=${path} style="padding: .1em 1em;" slot=${slot}>
+<wcl-nav-link to=${path} kind="primary" key=${path} slot=${slot}>
 ${intlKey !== undefined ?
     html`<wcl-localized-text intl-key=${intlKey}>${text}</wcl-localized-text>` :
     text}

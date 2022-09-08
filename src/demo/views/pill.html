@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        onClose = () => window.alert('Aha! ... trying to close me');
+    </script>
+</head>
+
+<body>
+
+    <wcl-pill kind="primary" variant="contained" size="small">Sarah</wcl-pill>
+
+    <wcl-pill kind="primary" variant="contained" size="small">
+        Sarah
+        <wcl-close-tool close="onClose()"></wcl-close-tool>
+    </wcl-pill>
+
+    <wcl-pill kind="primary" variant="contained" size="small">
+        <wcl-localized-text intl-key="goodMorning"></wcl-localized-text>
+        <wcl-close-tool close="onClose()"></wcl-close-tool>
+    </wcl-pill>
+
+    <wcl-pill kind="primary" variant="contained">13</wcl-pill>
+
+    <wcl-pill kind="success" size="large">26</wcl-pill>
+
+    <wcl-pill kind="danger">15</wcl-pill>
+
+    <wcl-pill kind="warning">8</wcl-pill>
+
+</body>
+
+</html>

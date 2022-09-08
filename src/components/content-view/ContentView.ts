@@ -1,5 +1,6 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
+import CustomElementComponentMetadata from "../../custom-element/mixins/metadata/types/CustomElementComponentMetadata";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
@@ -24,6 +25,15 @@ function createScriptNode(oldScript: Element, newValue: string) {
  * A view that renders dynamic content
  */
 export default class ContentView extends CustomElement {
+
+    static get component(): CustomElementComponentMetadata {
+
+        return {
+
+            shadow: false // Do not create a shadow DOM for this component since the scripts are placed in the parent document
+        }
+       
+    }
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 

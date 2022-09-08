@@ -32,6 +32,7 @@ export default class SorterTool extends Tool {
         };
     }
 
+    // It is a property assignment
     iconName = () => {
 
         const {
@@ -48,7 +49,7 @@ export default class SorterTool extends Tool {
             'arrow-down';
     }
 
-    click = () => {
+    handleClick(): void {
 
         this.ascending = !this.ascending;
 
@@ -58,7 +59,7 @@ export default class SorterTool extends Tool {
             element: this // Send this element to track the current sorter
         });
 
-    };
+    }
 }
 
 defineCustomElement('wcl-sorter-tool', SorterTool);

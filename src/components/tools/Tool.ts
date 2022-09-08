@@ -1,17 +1,14 @@
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
-import mergeStyles from "../../custom-element/styles/mergeStyles";
 import html from "../../rendering/html";
 import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../utils/data/DataTypes";
+import Clickable from "../mixins/clickable/Clickable";
 import Nuanced from "../Nuanced";
-import { toolStyles } from "./Tool.styles";
 
-export default abstract class Tool extends Nuanced {
-
-    static get styles(): string {
-
-        return mergeStyles(super.styles, toolStyles);
-    }
+export default abstract class Tool
+    extends Clickable(
+        Nuanced
+    ) {
 
     static get properties(): Record<string, CustomElementPropertyMetadata> {
 
@@ -29,20 +26,6 @@ export default abstract class Tool extends Nuanced {
                 required: true
             }
         };
-    }
-
-    connectedCallback(): void {
-        
-        super.connectedCallback?.();
-
-        this.addEventListener('click', this.click as EventListenerOrEventListenerObject);
-    }
-
-    disconnectedCallback(): void {
-        
-        super.disconnectedCallback?.();
-
-        this.removeEventListener('click', this.click as EventListenerOrEventListenerObject);
     }
 
     render(): NodePatchingData {

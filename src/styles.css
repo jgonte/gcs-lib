@@ -93,6 +93,10 @@
     --wcl-margin: .25em;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0px;
     padding: 0px;

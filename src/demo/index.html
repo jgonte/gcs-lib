@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="./css/variables.css">
 
     <script type="module">
         import appConfig from "./js/appConfig.js";
@@ -19,12 +18,47 @@
             intlKey: 'layout'
         };
 
+        const navigationGroup = {
+            text: 'Navigation',
+            intlKey: 'navigation'
+        };
+
+        const displayGroup = {
+            text: 'Display',
+            intlKey: 'display'
+        };
+
+        const toolsGroup = {
+            text: 'Tools',
+            intlKey: 'tools'
+        };
+
         appConfig.routes = {
             '/': {
                 text: 'Intro',
                 intlKey: 'intro',
                 view: '/views/intro.html'
-            } ,
+            },
+            '/localized-text': {
+                text: 'Localized Text',
+                intlKey: 'localized text',
+                view: '/views/localized-text.html'
+            },
+            '/icon': {
+                text: 'Icon',
+                intlKey: 'icon',
+                view: '/views/icon.html'
+            },
+            '/pill': {
+                text: 'Pill',
+                intlKey: 'pill',
+                view: '/views/pill.html'
+            },
+            '/dialog': {
+                text: 'Dialog',
+                intlKey: 'dialog',
+                view: '/views/dialog.html'
+            },
             '/layout/center': {
                 group: layoutGroup,
                 text: 'Center',
@@ -42,7 +76,57 @@
                 text: 'Row',
                 intlKey: 'row',
                 view: '/views/layout/row.html'
-            }  
+            },
+            '/navigation/link': {
+                group: navigationGroup,
+                text: 'Link',
+                intlKey: 'link',
+                view: '/views/navigation/link.html'
+            },
+            // Display
+            '/display/data-template': {
+                group: displayGroup,
+                text: 'Data Template',
+                intlKey: 'data template',
+                view: '/views/display/data-template.html'
+            },
+            '/display/data-list': {
+                group: displayGroup,
+                text: 'Data List',
+                intlKey: 'data list',
+                view: '/views/display/data-list.html'
+            },
+            '/display/data-header-cell': {
+                group: displayGroup,
+                text: 'Data Header Cell',
+                intlKey: 'data header cell',
+                view: '/views/display/data-header-cell.html'
+            },
+            '/display/data-grid': {
+                group: displayGroup,
+                text: 'Data Grid',
+                intlKey: 'data grid',
+                view: '/views/display/data-grid.html'
+            },
+            // Tools
+            '/tools/close': {
+                group: toolsGroup,
+                text: 'Close',
+                intlKey: 'close',
+                view: '/views/tools/close-tool.html'
+            },
+            '/tools/expander': {
+                group: toolsGroup,
+                text: 'Expander',
+                intlKey: 'expander',
+                view: '/views/tools/expander-tool.html'
+            },
+            '/tools/sorter': {
+                group: toolsGroup,
+                text: 'Sorter',
+                intlKey: 'sorter',
+                view: '/views/tools/sorter-tool.html'
+            }
         };
 
         window.getAppConfig = () => appConfig;
@@ -57,9 +141,9 @@
 
 <body>
 
-    
+
     <wcl-row kind="primary">
-        
+
         <wcl-nav-bar slot="start" routes="getRoutes()"></wcl-nav-bar>
 
         <!-- Alternate way of building the sidebar -->

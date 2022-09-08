@@ -23,6 +23,7 @@ export default class ExpanderTool extends Tool {
         };
     }
 
+    // It is a property assignment
     iconName = () => {
 
         const {
@@ -54,7 +55,7 @@ export default class ExpanderTool extends Tool {
         });
     }
 
-    click = () => {
+    handleClick(): void {
 
         let {
             showing
@@ -63,7 +64,7 @@ export default class ExpanderTool extends Tool {
         showing = !showing;
 
         this.updateShowing(showing);
-    };
+    }
 }
 
 defineCustomElement('wcl-expander-tool', ExpanderTool);

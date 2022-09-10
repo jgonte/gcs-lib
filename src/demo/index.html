@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/styles.css">
 
     <script type="module">
@@ -33,6 +34,16 @@
             intlKey: 'tools'
         };
 
+        const fieldsGroup = {
+            text: 'Fields',
+            intlKey: 'fields'
+        };
+
+        const tipsGroup = {
+            text: 'Tips',
+            intlKey: 'tips'
+        };
+
         appConfig.routes = {
             '/': {
                 text: 'Intro',
@@ -54,11 +65,42 @@
                 intlKey: 'pill',
                 view: '/views/pill.html'
             },
+            '/alert': {
+                text: 'Alert',
+                intlKey: 'alert',
+                view: '/views/alert.html'
+            },
+            '/button': {
+                text: 'Button',
+                intlKey: 'button',
+                view: '/views/button.html'
+            },
             '/dialog': {
                 text: 'Dialog',
                 intlKey: 'dialog',
                 view: '/views/dialog.html'
             },
+            '/loader': {
+                text: 'Loader',
+                intlKey: 'loader',
+                view: '/views/loader.html'
+            },
+            '/drop-down': {
+                text: 'Drop Down',
+                intlKey: 'drop down',
+                view: '/views/drop-down.html'
+            },
+            '/tool-tip': {
+                text: 'Tool Tip',
+                intlKey: 'tool tip',
+                view: '/views/tool-tip.html'
+            },
+            '/validation-summary': {
+                text: 'Validation Summary',
+                intlKey: 'validation summary',
+                view: '/views/validation-summary.html'
+            },
+            // Layout
             '/layout/center': {
                 group: layoutGroup,
                 text: 'Center',
@@ -77,6 +119,7 @@
                 intlKey: 'row',
                 view: '/views/layout/row.html'
             },
+            // Navigation
             '/navigation/link': {
                 group: navigationGroup,
                 text: 'Link',
@@ -113,20 +156,75 @@
                 group: toolsGroup,
                 text: 'Close',
                 intlKey: 'close',
-                view: '/views/tools/close-tool.html'
+                view: '/views/tools/close.html'
             },
             '/tools/expander': {
                 group: toolsGroup,
                 text: 'Expander',
                 intlKey: 'expander',
-                view: '/views/tools/expander-tool.html'
+                view: '/views/tools/expander.html'
             },
             '/tools/sorter': {
                 group: toolsGroup,
                 text: 'Sorter',
                 intlKey: 'sorter',
-                view: '/views/tools/sorter-tool.html'
-            }
+                view: '/views/tools/sorter.html'
+            },
+            // Fields
+            '/fields/combo-box': {
+                group: fieldsGroup,
+                text: 'Combo Box',
+                intlKey: 'combo Box',
+                view: '/views/fields/combo-box.html'
+            },
+            '/fields/slider': {
+                group: fieldsGroup,
+                text: 'Slider',
+                intlKey: 'slider',
+                view: '/views/fields/slider.html'
+            },
+            '/fields/switch': {
+                group: fieldsGroup,
+                text: 'Switch',
+                intlKey: 'switch',
+                view: '/views/fields/switch.html'
+            },
+            '/fields/text-field': {
+                group: fieldsGroup,
+                text: 'Text Field',
+                intlKey: 'text field',
+                view: '/views/fields/text-field.html'
+            },
+            // Form
+            '/form-field': {
+                text: 'Form Field',
+                intlKey: 'form field',
+                view: '/views/form-field.html'
+            },
+            '/form': {
+                text: 'Form ',
+                intlKey: 'form ',
+                view: '/views/form.html'
+            },
+            // Tips
+            '/tips/help': {
+                group: tipsGroup,
+                text: 'Help',
+                intlKey: 'help',
+                view: '/views/tips/help.html'
+            },
+            '/tips/modified': {
+                group: tipsGroup,
+                text: 'Modified',
+                intlKey: 'modified',
+                view: '/views/tips/modified.html'
+            },
+            '/tips/required': {
+                group: tipsGroup,
+                text: 'Required',
+                intlKey: 'required',
+                view: '/views/tips/required.html'
+            },
         };
 
         window.getAppConfig = () => appConfig;
@@ -142,9 +240,9 @@
 <body>
 
 
-    <wcl-row kind="primary">
+    <wcl-row style="height: 100vh;" kind="primary">
 
-        <wcl-nav-bar slot="start" routes="getRoutes()"></wcl-nav-bar>
+        <wcl-nav-bar slot="start" routes="getRoutes()" style="height: 100%; overflow-y: scroll;"></wcl-nav-bar>
 
         <!-- Alternate way of building the sidebar -->
         <!-- <nav slot="start" class="sidebar">
@@ -171,7 +269,7 @@
 
         </nav> -->
 
-        <wcl-content-view slot="middle"></wcl-content-view>
+        <wcl-content-view slot="middle" style="height: 100%; overflow-y: scroll;"></wcl-content-view>
 
         <!-- <span slot="end">Property Grid</span>     -->
     </wcl-row>

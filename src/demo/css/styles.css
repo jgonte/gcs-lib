@@ -94,9 +94,23 @@
 }
 
 body {
-    margin: 0px;
-    padding: 0px;
-    user-select: none;
-    box-sizing: border-box;
     font-family: var(--wcl-font-family);
 }
+
+/*
+:host {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      overflow: hidden;
+    }
+    [part~="navigation"] {
+      position: relative;
+      overflow: auto;
+    }
+    #toolbar {
+      display: grid;
+      position: sticky;
+      top: 0;
+      width: 100%;
+    }
+*/

@@ -1,7 +1,9 @@
 import areEquivalent from "../../utils/areEquivalent";
 import isPrimitive from "../../utils/isPrimitive";
+import NodePatcher from "../patcher/NodePatcher";
 import { beginMarker } from "../template/markers";
 import addPatcherComparer from "../utils/addPatcherComparer";
+import isNodePatchingData from "../utils/isNodePatchingData";
 import transferNodesAndRules from "../utils/transferNodesAndRules";
 import createNodes from "./createNodes";
 import mountNodes from "./mountNodes";
@@ -24,15 +26,8 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
     }
     else if (isPrimitive(newPatchingData)) {
 
-        if (isPrimitive(newPatchingData)) {
-
-            //TODO: Find the text element as the list of children or come with some kind of primitive wrapper
-            (container.childNodes[container.childNodes.length - 1] as Text).textContent = newPatchingData.toString(); 
-        }
-        else {
-
-            throw new Error('updateNodes - both new and old patching data must be primitives');
-        }
+        //TODO: Find the text element as the list of children or come with some kind of primitive wrapper
+        (container.childNodes[container.childNodes.length - 1] as Text).textContent = newPatchingData.toString();
     }
     else {
 
@@ -77,6 +72,12 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
             const newNode = createNodes(newPatchingData);
 
+            if (isNodePatchingData(newPatchingData) &&
+                (newPatchingData as NodePatchingData).node === undefined) {
+
+                throw new Error(`Node is required in node patching data: ${((newPatchingData as NodePatchingData).patcher as NodePatcher).templateString}`);
+            }
+
             if ((node as unknown as Comment).data === beginMarker) {
 
                 (node.nextSibling as HTMLElement).remove(); // Remove the end marker as well
@@ -86,8 +87,6 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
         }
     }
 }
-
-
 
 function updateArrayNodes(container: Node, oldPatchingData: NodePatchingData[], newPatchingData: NodePatchingData[]) {
 

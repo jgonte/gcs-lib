@@ -130,6 +130,12 @@ export default class NodePatcher implements INodePatcher {
 
                             const n = createNodes(value as NodePatchingData);
 
+                            if (isNodePatchingData(value) &&
+                                (value as NodePatchingData).node === undefined) {
+
+                                throw new Error(`Node is required in node patching data: ${((value as NodePatchingData).patcher as NodePatcher).templateString}`);
+                            }
+
                             (parentNode as Node).insertBefore(n, node);
                         }
                     }
@@ -411,6 +417,12 @@ function insertBefore(markerNode: Node, newChild: NodePatchingData): void {
     const { parentNode } = markerNode;
 
     const node = createNodes(newChild as NodePatchingData);
+
+    if (isNodePatchingData(newChild) &&
+        (newChild as NodePatchingData).node === undefined) {
+
+        throw new Error(`Node is required in node patching data: ${((newChild as NodePatchingData).patcher as NodePatcher).templateString}`);
+    }
 
     (parentNode as Node).insertBefore(node, markerNode);
 }

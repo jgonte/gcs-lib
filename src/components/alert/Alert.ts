@@ -44,11 +44,9 @@ export default class Alert extends Nuanced {
     render(): NodePatchingData {
 
         return html`
-<wcl-row>
-    ${this._renderIcon()}
-    <slot slot="middle"></slot>
-    ${this._renderCloseTool()}
-</wcl-row>`;
+${this._renderIcon()}
+<slot></slot>
+${this._renderCloseTool()}`;
     }
 
     private _renderIcon(): NodePatchingData | null {
@@ -59,14 +57,10 @@ export default class Alert extends Nuanced {
 
         if (showIcon !== true) {
 
-            return null;
+            return html`<span></span>`; // Return an empty element so the flexbox keeps the position
         }
 
-        return html`
-<wcl-icon 
-    slot="start"
-    name=${this._getIconName()}>
-</wcl-icon>`;
+        return html`<wcl-icon name=${this._getIconName()}></wcl-icon>`;
     }
 
     private _getIconName(): string {
@@ -88,7 +82,7 @@ export default class Alert extends Nuanced {
 
         if (close === undefined) {
 
-            return null;
+            return html`<span></span>`; // Return an empty element so the flexbox keeps the position
         }
 
         const handleClose: (evt: Event) => void = close === true ?
@@ -97,11 +91,7 @@ export default class Alert extends Nuanced {
             }) :
             evt => this.close(evt);
 
-        return html`
-<wcl-close-tool 
-    slot="end" 
-    close=${handleClose}>
-</wcl-close-tool>`;
+        return html`<wcl-close-tool close=${handleClose}></wcl-close-tool>`;
     }
 }
 

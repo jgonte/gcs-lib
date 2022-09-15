@@ -1,4 +1,3 @@
-/* Initially taken from https://piccalil.li/blog/a-modern-css-reset/ */
 /* Box sizing rules */
 *,
 *::before,
@@ -6,7 +5,7 @@
     box-sizing: border-box;
 }
 
-/* Remove default margin */
+/* Remove default margin, padding, borders, etc */
 body,
 h1,
 h2,
@@ -18,6 +17,11 @@ blockquote,
 dl,
 dd {
     margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
@@ -46,7 +50,10 @@ a:not([class]) {
 
 /* Make images easier to work with */
 img,
-picture {
+picture,
+video, 
+canvas, 
+svg  {
     max-width: 100%;
     display: block;
 }

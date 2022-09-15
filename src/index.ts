@@ -19,6 +19,7 @@ import DataTemplate from "./components/data-template/DataTemplate";
 import Selector from "./components/selector/Selector";
 import DropDown from "./components/drop-down/DropDown";
 import Dialog from "./components/dialog.ts/Dialog";
+import AppView from "./components/app-view/AppView";
 
 // Navigation
 import NavigationLink from "./components/navigation/link/NavigationLink";
@@ -32,7 +33,6 @@ import RequiredTip from "./components/tips/RequiredTip";
 
 // Layout
 import Center from "./components/center/Center";
-import Row from "./components/row/Row";
 import Overlay from "./components/overlay/Overlay";
 import Panel from "./components/panel/Panel";
 
@@ -53,6 +53,7 @@ import HiddenField from "./components/fields/hidden/HiddenField";
 import TextField from "./components/fields/text/TextField";
 import CheckBox from "./components/fields/check-box/CheckBox";
 import Slider from "./components/fields/slider/Slider";
+import StarRating from "./components/fields/star-rating/StarRating";
 
 // Form
 import FormField from "./components/form/form-field/FormField";
@@ -94,6 +95,7 @@ export {
     Selector,
     DropDown,
     Dialog,
+    AppView,
 
     // Navigation
     NavigationLink,
@@ -107,7 +109,6 @@ export {
 
     // Layout
     Center,
-    Row,
     Overlay,
 
     // Data
@@ -127,6 +128,7 @@ export {
     ComboBox,
     HiddenField,
     Slider,
+    StarRating,
 
     // Form
     FormField,

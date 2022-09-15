@@ -2,6 +2,7 @@ import areEquivalent from "../../utils/areEquivalent";
 import isPrimitive from "../../utils/isPrimitive";
 import createNodes from "../nodes/createNodes";
 import { AnyPatchedNode, NodePatchingData } from "../nodes/NodePatchingData";
+import NodePatcher from "../patcher/NodePatcher";
 import { endMarker } from "../template/markers";
 import addPatcherComparer from "../utils/addPatcherComparer";
 import isNodePatchingData from "../utils/isNodePatchingData";
@@ -90,6 +91,12 @@ export default function replaceChild(markerNode: Node, newChild: NodePatchingDat
             } = oldChildNode;
 
             const newChildNode = createNodes(newChild);
+
+            if (isNodePatchingData(newChild) &&
+                (newChild as NodePatchingData).node === undefined) {
+
+                throw new Error(`Node is required in node patching data: ${((newChild as NodePatchingData).patcher as NodePatcher).templateString}`);
+            }
 
             (parentNode as Node).replaceChild(newChildNode, oldChildNode);
         }

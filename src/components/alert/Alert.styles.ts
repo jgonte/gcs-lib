@@ -11,4 +11,5 @@ export const alertStyles = css`
     border-radius: var(--wcl-border-radius);
     max-width: 80%;
     word-break: normal;
+    z-index: 10000;
 }`;

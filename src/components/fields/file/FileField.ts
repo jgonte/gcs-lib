@@ -65,26 +65,26 @@ export default class FileField extends DisplayableField {
         // Note: opacity is used to hide the file input instead of visibility: hidden or display: none, because assistive technology interprets the latter two styles to mean the file input isn't interactive.
 
         return html`
-            <input
-                style="opacity: 0; position: absolute;"
-                type="file"
-                name=${name}
-                id=${name}
-                accept=${accept}
-                capture=${capture}
-                multiple=${multiple}
-                disabled=${disabled}
-                onInput=${event => this.handleInput(event)}
-                onChange=${event => this.handleChange(event)}
-                onBlur=${() => this.handleBlur()}
-            />
+<input
+    style="opacity: 0; position: absolute;"
+    type="file"
+    name=${name}
+    id=${name}
+    accept=${accept}
+    capture=${capture}
+    multiple=${multiple}
+    disabled=${disabled}
+    onInput=${event => this.handleInput(event)}
+    onChange=${event => this.handleChange(event)}
+    onBlur=${() => this.handleBlur()}
+/>
 
-            ${this.renderFileList()}
+${this.renderFileList()}
 
-            <wcl-button kind="secondary" variant="contained" click=${() => this.openFileDialog()}>
-                <wcl-icon name="upload"></wcl-icon>
-                <wcl-localized-text>Click here to upload files</wcl-localized-text>
-            </wcl-button>`;
+<wcl-button kind="secondary" variant="contained" click=${() => this.openFileDialog()}>
+    <wcl-icon name="upload"></wcl-icon>
+    <wcl-localized-text>Click here to upload files</wcl-localized-text>
+</wcl-button>`;
     }
 
     openFileDialog(): void {
@@ -129,11 +129,9 @@ export default class FileField extends DisplayableField {
                 content;
 
             return html`
-                <wcl-row value={name}>
-                    <img slot="start" style="width: 48px; height: 48px;" src=${src} />
-                    <span slot="middle">${name}</span>
-                    <span slot="end">${formatSize(size)}</span>     
-                </wcl-row>`;
+<img slot="start" style="width: 48px; height: 48px;" src=${src} />
+<span slot="middle">${name}</span>
+<span slot="end">${formatSize(size)}</span>`;
         });
     }
 }

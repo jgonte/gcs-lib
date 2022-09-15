@@ -2,10 +2,10 @@ import css from "../../../custom-element/styles/css";
 
 export const hoverableStyles = css`
 :host {
-    border: solid 5px transparent;
+    filter: brightness(100%);
 }
 
 :host([hoverable]:hover) {
-    border: solid 5px lightpink;
+    filter: brightness(80%);
     transition: all 1s ease;
 }`;

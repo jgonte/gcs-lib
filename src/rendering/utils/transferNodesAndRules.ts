@@ -1,4 +1,5 @@
 import { NodePatchingData } from "../nodes/NodePatchingData";
+import NodePatcher from "../patcher/NodePatcher";
 import isNodePatchingData from "./isNodePatchingData";
 
 /**
@@ -18,16 +19,36 @@ export default function transferNodesAndRules(oldPatchingData: NodePatchingData 
 
             if (isNodePatchingData(oldData)) { // It is a node patching data
 
-                newData.node = oldData.node;
+                const {
+                    node,
+                    rules
+                } = oldData;
 
-                newData.rules = oldData.rules;
+                if (node === undefined) {
+
+                    throw new Error(`Node is required in node patching data: ${((oldData as NodePatchingData).patcher as NodePatcher).templateString}`);
+                }
+
+                newData.node = node;
+
+                newData.rules = rules;
             }
         }
     }
     else if (isNodePatchingData(newPatchingData)) {
 
-        (newPatchingData as NodePatchingData).node = (oldPatchingData as NodePatchingData).node;
+        const {
+            node,
+            rules
+        } = oldPatchingData as NodePatchingData;
 
-        (newPatchingData as NodePatchingData).rules = (oldPatchingData as NodePatchingData).rules;
+        if (node === undefined) {
+
+            throw new Error(`Node is required in node patching data: ${((oldPatchingData as NodePatchingData).patcher as NodePatcher).templateString}`);
+        }
+
+        (newPatchingData as NodePatchingData).node = node;
+
+        (newPatchingData as NodePatchingData).rules = rules;
     }
 }

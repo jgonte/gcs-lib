@@ -44,6 +44,20 @@ export default class ContentView extends CustomElement {
          */
             source: {
                 type: DataTypes.String,
+                canChange: function() {
+
+                    //TODO Test if any of the elements can unmount, for example, modified forms
+
+                    // const {
+                    //     document: d
+                    // } = this as unknown as CustomElement;
+    
+                    // Traverse all the children
+
+                    // If one of them can not disconnect return false
+
+                    return true;
+                },
                 afterChange: async function (value: unknown): Promise<void> {
 
                     const content = await resourceLoader.get(value as string);
@@ -59,11 +73,11 @@ export default class ContentView extends CustomElement {
                     const {
                         document: d
                     } = this as unknown as CustomElement;
-        
+    
                     // Clear any previous content
                     while (d.firstChild) {
         
-                        //notifyNodeWillDisconnect(d.firstChild);
+                        //(d.firstChild as CustomElement).willUnmountCallback?.();
                         
                         d.firstChild.remove();
                     }

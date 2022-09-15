@@ -113,12 +113,6 @@
                 intlKey: 'panel',
                 view: '/views/layout/panel.html'
             },
-            '/layout/row': {
-                group: layoutGroup,
-                text: 'Row',
-                intlKey: 'row',
-                view: '/views/layout/row.html'
-            },
             // Navigation
             '/navigation/link': {
                 group: navigationGroup,
@@ -195,6 +189,12 @@
                 intlKey: 'text field',
                 view: '/views/fields/text-field.html'
             },
+            '/fields/star-rating': {
+                group: fieldsGroup,
+                text: 'Star Rating',
+                intlKey: 'star rating',
+                view: '/views/fields/star-rating.html'
+            },
             // Form
             '/form-field': {
                 text: 'Form Field',
@@ -239,13 +239,30 @@
 
 <body>
 
+    <!-- <wcl-app-view>
+        <div slot="header" style="background-color: pink;">Header</div>
+        <div slot="subheader" style="background-color: lightseagreen;">SubHeader</div>
+        <div slot="left" style="background-color: lightblue;">Left Sidebar</div>
+        <div slot="center" style="background-color: orange;">Main Content</div>
+        <div slot="right" style="background-color: yellow;">Right</div>
+        <div slot="footer" style="background-color: lightgreen;">Footer</div>
+    </wcl-app-view> -->
 
-    <wcl-row style="height: 100vh;" kind="primary">
+    <wcl-app-view>
 
-        <wcl-nav-bar slot="start" routes="getRoutes()" style="height: 100%; overflow-y: scroll;"></wcl-nav-bar>
+        <div slot="header" style="display: flex;">
+            <img src="./images/gcs-logo.svg" style="width: 50px;" />
+            <h1 style="color: var(--wcl-color-primary-dark);">GCS Design System</h1>
+        </div>
 
-        <!-- Alternate way of building the sidebar -->
-        <!-- <nav slot="start" class="sidebar">
+        <wcl-nav-bar slot="left" routes="getRoutes()" style="width: 100%";></wcl-nav-bar>
+        
+        <wcl-content-view slot="center" style="height: 100%; overflow-y: scroll;"></wcl-content-view>
+
+    </wcl-app-view>
+    
+    <!-- Alternate way of building the sidebar -->
+        <!-- <nav slot="left" class="sidebar">
 
             <wcl-nav-link to="/" style="padding: .1em 1em;">
                 <wcl-localized-text intl-key="intro" kind="primary">Intro</wcl-localized-text>
@@ -268,12 +285,6 @@
             </wcl-panel>
 
         </nav> -->
-
-        <wcl-content-view slot="middle" style="height: 100%; overflow-y: scroll;"></wcl-content-view>
-
-        <!-- <span slot="end">Property Grid</span>     -->
-    </wcl-row>
-
 </body>
 
 </html>

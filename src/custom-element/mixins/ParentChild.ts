@@ -1,3 +1,4 @@
+import isUndefinedOrNull from "../../utils/isUndefinedOrNull";
 import isCustomElement from "../isCustomElement";
 import CustomHTMLElement from "./metadata/types/CustomHTMLElement";
 import CustomHTMLElementConstructor from "./metadata/types/CustomHTMLElementConstructor";
@@ -30,7 +31,7 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
                 adoptingParent
             } = this;
 
-            if (adoptingParent === null) { // In slotted elements the parent is null when connected
+            if (isUndefinedOrNull(adoptingParent)) { // In slotted elements the parent is null when connected
 
                 return;
             }
@@ -48,7 +49,7 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
                 adoptingParent
             } = this;
 
-            if (adoptingParent === null) {
+            if (isUndefinedOrNull(adoptingParent)) {
 
                 return;
             }
@@ -71,7 +72,7 @@ export default function ParentChild<TBase extends CustomHTMLElementConstructor>(
                     adoptingParent
                 } = this;
 
-                if (adoptingParent !== null) {
+                if (!isUndefinedOrNull(adoptingParent)) {
 
                     (adoptingParent as CustomHTMLElement).adoptedChildren.add(this); // It might be null for the topmost custom element
 

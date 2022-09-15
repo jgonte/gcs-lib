@@ -1,56 +1,90 @@
-:root {
-    --wcl-font-family: Arial, Helvetica, sans-serif;
-
-    /* Colors */
-    --wcl-overlay-background-color: rgba(0,0,0, 0.3);
-
-    --wcl-color-info: #1f87b8;
-    --wcl-background-color-info: #e6f7ff;
-
-    --wcl-color-contained-info: rgb(255, 255, 255);
-    --wcl-background-color-contained-info: #26295c;
-    
-    --wcl-color-primary: #3880ff;
-    --wcl-background-color-primary: #e6f7ff;
-
-    --wcl-color-contained-primary: #fff;
-    --wcl-background-color-contained-primary: #3880ff;
-
-    --wcl-color-success: #009E52;
-    --wcl-background-color-success: #f6ffed;
-
-    --wcl-color-contained-success: #fff;
-    --wcl-background-color-contained-success: #009E52;
-    
-    --wcl-color-warning: #ecbf09;
-    --wcl-background-color-warning: #fffbe6;
-
-    --wcl-color-contained-warning: #000;
-    --wcl-background-color-contained-warning: yellow;
-    
-    --wcl-color-danger: #b12020;
-    --wcl-background-color-danger: #fff2f0;
-
-    --wcl-color-contained-danger: white;
-    --wcl-background-color-contained-danger: crimson;
-
-    --wcl-background-color-secondary: #0cd1e8;
-    --wcl-color-secondary: #032517;
-
-    --wcl-color-contained-secondary: #fff;
-    --wcl-background-color-contained-secondary: #e8c00c;
-
-    --wcl-background-color-tertiary: #f4a942;
-    --wcl-color-tertiary: #b446b4;
-
-    --wcl-disabled-background-color: lightgray;
-    --wcl-disabled-color: darkgray;
-
-    /* Hoverable */
-    --wcl-hoverable-background-color:rgb(211, 227, 233);
-    --wcl-hoverable-color: black;
-    
 /*
+	--theme-color
+	--theme-color-light
+	--theme-color-dark
+	--theme-color-primary-action-light
+	--theme-color-primary-action-dark
+	--theme-color-secondary-action-light
+	--theme-color-secondary-action-dark
+	--theme-color-surface-1
+	--theme-color-surface-2
+	--theme-color-surface-3
+	--theme-color-text-1
+	--theme-color-text-2
+
+*/
+
+* {
+	--brand-hue: 200;
+	--brand-saturation: 100%;
+	--brand-lightness: 50%;
+  }
+
+  * {
+	--brand-light: hsl(var(--brand-hue) var(--brand-saturation) var(--brand-lightness));
+  }
+
+  * {
+	--text1-light: hsl(var(--brand-hue) var(--brand-saturation) 10%);
+	--text2-light: hsl(var(--brand-hue) 30% 30%);
+  }
+
+:root {
+
+	--wcl-font-family: Arial, Helvetica, sans-serif;
+
+	/* Colors */
+	--wcl-color-primary-dark: rgb(37, 68, 12);
+
+	--wcl-overlay-background-color: rgba(0, 0, 0, 0.3);
+
+	--wcl-color-info: #1f87b8;
+	--wcl-background-color-info: #e6f7ff;
+
+	--wcl-color-contained-info: rgb(37, 68, 12);
+	--wcl-background-color-contained-info: #26295c;
+
+	--wcl-color-primary: #3880ff;
+	--wcl-background-color-primary: #e6f7ff;
+
+	--wcl-color-contained-primary: #fff;
+	--wcl-background-color-contained-primary: #3880ff;
+
+	--wcl-color-success: #009E52;
+	--wcl-background-color-success: #f6ffed;
+
+	--wcl-color-contained-success: #fff;
+	--wcl-background-color-contained-success: #009E52;
+
+	--wcl-color-warning: #ecbf09;
+	--wcl-background-color-warning: #fffbe6;
+
+	--wcl-color-contained-warning: #000;
+	--wcl-background-color-contained-warning: yellow;
+
+	--wcl-color-danger: #b12020;
+	--wcl-background-color-danger: #fff2f0;
+
+	--wcl-color-contained-danger: white;
+	--wcl-background-color-contained-danger: crimson;
+
+	--wcl-background-color-secondary: #0cd1e8;
+	--wcl-color-secondary: #032517;
+
+	--wcl-color-contained-secondary: #fff;
+	--wcl-background-color-contained-secondary: #e8c00c;
+
+	--wcl-background-color-tertiary: #f4a942;
+	--wcl-color-tertiary: #b446b4;
+
+	--wcl-disabled-background-color: lightgray;
+	--wcl-disabled-color: darkgray;
+
+	/* Hoverable */
+	--wcl-hoverable-background-color: rgb(211, 227, 233);
+	--wcl-hoverable-color: black;
+
+	/*
     
 
     
@@ -72,29 +106,29 @@
 
     */
 
-    /* Font sizes */
-    --wcl-font-size-large: 2.56rem;
-    --wcl-font-size-medium: 1.6rem;
-    --wcl-font-size-small: 1rem;
+	/* Font sizes */
+	--wcl-font-size-large: 2.56rem;
+	--wcl-font-size-medium: 1.6rem;
+	--wcl-font-size-small: 1rem;
 
-    /* Icon sizes */
-    --wcl-icon-size-large: 2.048rem;
-    --wcl-icon-size-medium: 1.28rem;
-    --wcl-icon-size-small: .8rem;
+	/* Icon sizes */
+	--wcl-icon-size-large: 2.048rem;
+	--wcl-icon-size-medium: 1.28rem;
+	--wcl-icon-size-small: .8rem;
 
-    /* Border */
-    --wcl-border-width: .1em;
-    --wcl-border-radius: .4em;
+	/* Border */
+	--wcl-border-width: .1em;
+	--wcl-border-radius: .4em;
 
-    /* Min height */
-    --wcl-min-height: 1.2em;
+	/* Min height */
+	--wcl-min-height: 1.2em;
 
-    /* Margin */
-    --wcl-margin: .25em;
+	/* Margin */
+	--wcl-margin: .25em;
 }
 
 body {
-    font-family: var(--wcl-font-family);
+	font-family: var(--wcl-font-family);
 }
 
 /*

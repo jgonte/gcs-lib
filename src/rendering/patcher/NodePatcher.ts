@@ -20,7 +20,7 @@ import areEquivalent from "../../utils/areEquivalent";
 import addPatcherComparer from "../utils/addPatcherComparer";
 import { attributeMarkerPrefix } from "../template/markers";
 import isNodePatchingData from "../utils/isNodePatchingData";
-import transferNodesAndRules from "../utils/transferNodesAndRules";
+import transferPatchingData from "../utils/transferPatchingData";
 
 addPatcherComparer();
 
@@ -128,15 +128,7 @@ export default class NodePatcher implements INodePatcher {
                         }
                         else if (!isUndefinedOrNull(value)) {
 
-                            const n = createNodes(value as NodePatchingData);
-
-                            if (isNodePatchingData(value) &&
-                                (value as NodePatchingData).node === undefined) {
-
-                                throw new Error(`Node is required in node patching data: ${((value as NodePatchingData).patcher as NodePatcher).templateString}`);
-                            }
-
-                            (parentNode as Node).insertBefore(n, node);
+                            (parentNode as Node).insertBefore(createNodes(value as NodePatchingData), node);
                         }
                     }
                     break;
@@ -197,7 +189,7 @@ export default class NodePatcher implements INodePatcher {
 
             if (areEquivalent(oldValue, newValue)) {
 
-                transferNodesAndRules(oldValue as NodePatchingData, newValue as NodePatchingData);
+                transferPatchingData(oldValue as NodePatchingData, newValue as NodePatchingData);
 
                 continue;
             }
@@ -414,15 +406,5 @@ function getKey(patchingData: NodePatchingData): string | null {
 
 function insertBefore(markerNode: Node, newChild: NodePatchingData): void {
 
-    const { parentNode } = markerNode;
-
-    const node = createNodes(newChild as NodePatchingData);
-
-    if (isNodePatchingData(newChild) &&
-        (newChild as NodePatchingData).node === undefined) {
-
-        throw new Error(`Node is required in node patching data: ${((newChild as NodePatchingData).patcher as NodePatcher).templateString}`);
-    }
-
-    (parentNode as Node).insertBefore(node, markerNode);
+    (markerNode.parentNode as Node).insertBefore(createNodes(newChild as NodePatchingData), markerNode);
 }

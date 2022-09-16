@@ -1,10 +1,8 @@
 import areEquivalent from "../../utils/areEquivalent";
 import isPrimitive from "../../utils/isPrimitive";
-import NodePatcher from "../patcher/NodePatcher";
 import { beginMarker } from "../template/markers";
 import addPatcherComparer from "../utils/addPatcherComparer";
-import isNodePatchingData from "../utils/isNodePatchingData";
-import transferNodesAndRules from "../utils/transferNodesAndRules";
+import transferPatchingData from "../utils/transferPatchingData";
 import createNodes from "./createNodes";
 import mountNodes from "./mountNodes";
 import { AnyPatchedNode, NodePatchingData } from "./NodePatchingData";
@@ -15,7 +13,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
     if (areEquivalent(oldPatchingData, newPatchingData)) {
 
-        transferNodesAndRules(oldPatchingData, newPatchingData);
+        transferPatchingData(oldPatchingData, newPatchingData);
 
         return;
     }
@@ -59,7 +57,7 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
 
             if (areEquivalent(oldPatchingData.values, newPatchingData.values)) {
 
-                transferNodesAndRules(oldPatchingData.values as NodePatchingData[], newPatchingData.values as NodePatchingData[]);
+                transferPatchingData(oldPatchingData.values as NodePatchingData[], newPatchingData.values as NodePatchingData[]);
 
                 return; // Same patcher and same values mean no changes to apply
             }
@@ -71,12 +69,6 @@ export default function updateNodes(container: Node, oldPatchingData: NodePatchi
         else { // Different type of node, replace it with a new one
 
             const newNode = createNodes(newPatchingData);
-
-            if (isNodePatchingData(newPatchingData) &&
-                (newPatchingData as NodePatchingData).node === undefined) {
-
-                throw new Error(`Node is required in node patching data: ${((newPatchingData as NodePatchingData).patcher as NodePatcher).templateString}`);
-            }
 
             if ((node as unknown as Comment).data === beginMarker) {
 

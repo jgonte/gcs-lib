@@ -230,6 +230,15 @@
         window.getAppConfig = () => appConfig;
 
         window.getRoutes = () => appConfig.routes;
+
+        // Color scheme switcher
+        const switcher = document.querySelector('#color-scheme-switcher');
+
+        const doc = document.firstElementChild;
+
+        switcher.addEventListener('input', e => setColorScheme(e.target.value));
+
+        const setColorScheme = colorScheme => doc.setAttribute('color-scheme', colorScheme);
     </script>
 
     <script type="module" src="../../dist/js/bundle.js"></script>
@@ -251,18 +260,48 @@
     <wcl-app-view>
 
         <div slot="header" style="display: flex;">
+
             <img src="./images/gcs-logo.svg" style="width: 50px;" />
+
             <h1 style="color: var(--wcl-color-primary-dark);">GCS Design System</h1>
+
+            <div style="width: 100%;"></div>
+
+            <div>
+                <span>Color Scheme</span>
+
+                <form id="color-scheme-switcher" style="display: flex;">
+
+                    <div>
+                        <input checked type="radio" id="auto" name="color-scheme" value="auto">
+                        <label for="auto">Auto</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="light" name="color-scheme" value="light">
+                        <label for="light">Light</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="dark" name="color-scheme" value="dark">
+                        <label for="dark">Dark</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="dim" name="color-scheme" value="dim">
+                        <label for="dim">Dim</label>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <wcl-nav-bar slot="left" routes="getRoutes()" style="width: 100%";></wcl-nav-bar>
-        
+        <wcl-nav-bar slot="left" routes="getRoutes()" style="width: 100%" ;></wcl-nav-bar>
+
         <wcl-content-view slot="center" style="height: 100%; overflow-y: scroll;"></wcl-content-view>
 
+
+
     </wcl-app-view>
-    
+
     <!-- Alternate way of building the sidebar -->
-        <!-- <nav slot="left" class="sidebar">
+    <!-- <nav slot="left" class="sidebar">
 
             <wcl-nav-link to="/" style="padding: .1em 1em;">
                 <wcl-localized-text intl-key="intro" kind="primary">Intro</wcl-localized-text>

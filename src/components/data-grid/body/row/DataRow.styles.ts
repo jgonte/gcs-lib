@@ -6,13 +6,13 @@ export const dataRowStyles = css`
     display: flex;
     flex-flow: row nowrap;
     line-height: 1.5;
-    border-bottom: 1px solid #d0d0d0;
+    border-bottom: 1px solid var(--surface4);
 }
 
 :host(:nth-of-type(even)) {
-    background-color: #f2f2f2;
+    background-color: var(--surface2);
 }
 
 :host(:nth-of-type(odd)) {
-    background-color: #ffffff;
+    background-color: var(--surface3);
 }`;

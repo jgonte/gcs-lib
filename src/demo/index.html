@@ -113,6 +113,12 @@
                 intlKey: 'panel',
                 view: '/views/layout/panel.html'
             },
+            '/layout/accordion': {
+                group: layoutGroup,
+                text: 'Accordion',
+                intlKey: 'accordion',
+                view: '/views/layout/accordion.html'
+            },
             // Navigation
             '/navigation/link': {
                 group: navigationGroup,
@@ -271,11 +277,6 @@
                 <span>Color Scheme</span>
 
                 <form id="color-scheme-switcher" style="display: flex;">
-
-                    <div>
-                        <input checked type="radio" id="auto" name="color-scheme" value="auto">
-                        <label for="auto">Auto</label>
-                    </div>
                     <div>
                         <input type="radio" id="light" name="color-scheme" value="light">
                         <label for="light">Light</label>
@@ -283,10 +284,6 @@
                     <div>
                         <input type="radio" id="dark" name="color-scheme" value="dark">
                         <label for="dark">Dark</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="dim" name="color-scheme" value="dim">
-                        <label for="dim">Dim</label>
                     </div>
                 </form>
             </div>

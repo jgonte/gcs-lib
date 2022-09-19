@@ -96,9 +96,9 @@ export default class NavigationBar extends CustomElement {
 
                 links.push(html`
 <wcl-panel>
-    ${group.intlKey !== undefined ? html`<wcl-localized-text intl-key=${group.intlKey} slot="header" kind="secondary">${group.text}</wcl-localized-text>` :
-                        html`<div slot="header">${group.text}</div>`
-                    }
+    ${group.intlKey !== undefined ?
+        html`<wcl-localized-text intl-key=${group.intlKey} slot="header">${group.text}</wcl-localized-text>` :
+        html`<div slot="header">${group.text}</div>`}
     ${this.renderGroupedRoutes(groupedRoutes)}
 </wcl-panel>`);
             }
@@ -125,10 +125,10 @@ export default class NavigationBar extends CustomElement {
         } = route as Route;
 
         return html`
-<wcl-nav-link to=${path} kind="primary" key=${path} slot=${slot}>
-${intlKey !== undefined ?
-    html`<wcl-localized-text intl-key=${intlKey}>${text}</wcl-localized-text>` :
-    text}
+<wcl-nav-link to=${path} key=${path} slot=${slot}>
+    ${intlKey !== undefined ?
+        html`<wcl-localized-text intl-key=${intlKey}>${text}</wcl-localized-text>` :
+        text}
 </wcl-nav-link>`;
     }
 }

@@ -5,9 +5,5 @@ export const navigationBarStyles = css`
     display: inline-block;
     flex-basis: 250px;
     flex-shrink: 0;
-}
-
-.sidebar {
-    background: var(--wcl-background-color-primary);
-    color: var(--wcl-color-primary);
+    background-color: var(--alt-bg-color);
 }`;

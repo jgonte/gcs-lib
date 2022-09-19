@@ -6,6 +6,6 @@ export const dataHeaderStyles = css`
     display: flex;
     flex-flow: row nowrap;
     line-height: 1.5;
-    background-color: var(--surface4);
-    border-bottom: 1px solid var(--surface1);
+    background-color: var(--header-bg-color);
+    color: var(--header-text-color)
 }`;

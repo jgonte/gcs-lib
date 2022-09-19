@@ -12,6 +12,7 @@ import html from "./rendering/html";
 import Icon from "./components/icon/Icon";
 import LocalizedText from "./components/localized-text/LocalizedText";
 import Alert from "./components/alert/Alert";
+import Accordion from "./components/accordion/Accordion";
 import Pill from "./components/pill/Pill";
 import Button from "./components/button/Button";
 import ToolTip from "./components/tool-tip/ToolTip";
@@ -88,6 +89,7 @@ export {
     Icon,
     LocalizedText,
     Alert,
+    Accordion,
     Pill,
     Button,
     ToolTip,

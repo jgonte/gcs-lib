@@ -1,14 +1,19 @@
 import CustomElement from "../../../../custom-element/CustomElement";
 import defineCustomElement from "../../../../custom-element/defineCustomElement";
 import CustomElementPropertyMetadata from "../../../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
+import CustomHTMLElementConstructor from "../../../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
 import mergeStyles from "../../../../custom-element/styles/mergeStyles";
 import html from "../../../../rendering/html";
 import { NodePatchingData } from "../../../../rendering/nodes/NodePatchingData";
 import { DataTypes } from "../../../../utils/data/DataTypes";
+import Selectable from "../../../mixins/selectable/Selectable";
 import DataGridFieldDescriptor from "../../DataGridFieldDescriptor";
 import { dataRowStyles } from "./DataRow.styles";
 
-export default class DataRow extends CustomElement {
+export default class DataRow
+    extends Selectable(
+        CustomElement as CustomHTMLElementConstructor
+    ) {
 
     static get styles(): string {
 

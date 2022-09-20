@@ -20,6 +20,8 @@ export const appViewStyles = css`
 #subheader,
 #footer {
   	grid-column: 1 / 4;
+	background-color: var(--header-bg-color);
+	color: var(--header-text-color);
 }
 
 #left {

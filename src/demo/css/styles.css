@@ -120,7 +120,8 @@ body {
 /* Color scheme */
 * {
 	/* base color */
-	--brand-hue: 125;
+	--brand-hue: 126;
+	--alt-hue: calc(var(--brand-hue) + 180);
 
 	/* pastel */
 	--brand-saturation: 50%;
@@ -136,6 +137,12 @@ body {
 	--hover-text-color-light: hsl(var(--brand-hue) var(--brand-saturation) 25%);
 	--hover-bg-color-light: hsl(var(--brand-hue) var(--brand-saturation) 85%);
 
+	--active-text-color-light: hsl(var(--alt-hue) var(--brand-saturation) 25%);
+	--active-bg-color-light: hsl(var(--alt-hue) var(--brand-saturation) 85%);
+
+	--active-hover-text-color-light: hsl(var(--alt-hue) var(--brand-saturation) 95%);
+	--active-hover-bg-color-light: hsl(var(--alt-hue) var(--brand-saturation) 30%);
+
 	--surface-shadow-light: var(--brand-hue) var(--brand-saturation) 20%;
 	--shadow-strength-light: .02;
 
@@ -149,6 +156,12 @@ body {
 
 	--hover-text-color-dark: hsl(var(--brand-hue) var(--brand-saturation) 85%);
 	--hover-bg-color-dark: hsl(var(--brand-hue) var(--brand-saturation) 25%);
+
+	--active-text-color-dark: hsl(var(--alt-hue) var(--brand-saturation) 85%);
+	--active-bg-color-dark: hsl(var(--alt-hue) var(--brand-saturation) 25%);
+
+	--active-hover-text-color-dark: hsl(var(--alt-hue) var(--brand-saturation) 10%);
+	--active-hover-bg-color-dark: hsl(var(--alt-hue) var(--brand-saturation) 85%);
 
 	--surface-shadow-dark: var(--brand-hue) var(--brand-saturation) 3%;
 	--shadow-strength-dark: .8;
@@ -167,6 +180,12 @@ body {
 	--hover-text-color: var(--hover-text-color-light);
 	--hover-bg-color: var(--hover-bg-color-light);
 
+	--active-text-color: var(--active-text-color-light);
+	--active-bg-color: var(--active-bg-color-light);
+
+	--active-hover-text-color: var(--active-hover-text-color-light);
+	--active-hover-bg-color: var(--active-hover-bg-color-light);
+
 	--surface-shadow: var(--surface-shadow-light);
 	--shadow-strength: var(--shadow-strength-light);
 }
@@ -183,6 +202,12 @@ body {
 
 	--hover-text-color: var(--hover-text-color-dark);
 	--hover-bg-color: var(--hover-bg-color-dark);
+
+	--active-text-color: var(--active-text-color-dark);
+	--active-bg-color: var(--active-bg-color-dark);
+
+	--active-hover-text-color: var(--active-hover-text-color-dark);
+	--active-hover-bg-color: var(--active-hover-bg-color-dark);
 
 	--surface-shadow: var(--surface-shadow-dark);
 	--shadow-strength: var(--shadow-strength-dark);

@@ -1,8 +1,6 @@
 import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
 import CustomHTMLElementConstructor from "../../custom-element/mixins/metadata/types/CustomHTMLElementConstructor";
-import html from "../../rendering/html";
-import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import Selectable from "../mixins/selectable/Selectable";
 
 /**
@@ -18,10 +16,6 @@ export default class Selector extends
     //     return styles as any;
     // }
 
-    render(): NodePatchingData {
-
-        return html`<slot></slot>`;
-    }
 }
 
 defineCustomElement('wcl-selector', Selector);

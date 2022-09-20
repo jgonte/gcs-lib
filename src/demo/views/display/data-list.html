@@ -36,9 +36,9 @@
 
             return html`
 <wcl-selector key=${id} select-value=${record} style="width: 200px; padding: 5px;">
-    <div style="background-color: lightgray;">${name}</div>
-    <div style="background-color: darkgray;">${age}</div>
-    <div style="background-color: lightgray; color: darkblue; font-weight: bold;">${description}</div>
+    <div>${name}</div>
+    <div>${age}</div>
+    <div style="font-weight: bold;">${description}</div>
 </wcl-selector>`;
         }
 
@@ -52,9 +52,9 @@
 
             return html`
 <wcl-selector key=${id} select-value=${record} style="width: 600px; padding: 5px;">
-    <span style="display: inline-block; background-color: lightgray; width: 200px;">${name}</span>
-    <span style="display: inline-block; background-color: darkgrey; width: 50px;">${age}</span>
-    <span style="display: inline-block; background-color: lightgray; color: darkblue; font-weight: bold; width: 250px;">${description}</span>
+    <span style="display: inline-block; width: 200px;">${name}</span>
+    <span style="display: inline-block; width: 50px;">${age}</span>
+    <span style="display: inline-block; font-weight: bold; width: 250px;">${description}</span>
 </wcl-selector>`;
         }
 

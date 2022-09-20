@@ -2,8 +2,6 @@ import CustomElement from "../../custom-element/CustomElement";
 import defineCustomElement from "../../custom-element/defineCustomElement";
 import CustomElementComponentMetadata from "../../custom-element/mixins/metadata/types/CustomElementComponentMetadata";
 import CustomElementPropertyMetadata from "../../custom-element/mixins/metadata/types/CustomElementPropertyMetadata";
-import html from "../../rendering/html";
-import { NodePatchingData } from "../../rendering/nodes/NodePatchingData";
 import appCtrl from "../../services/appCtrl";
 import { DataTypes } from "../../utils/data/DataTypes";
 import { resourceLoader } from "../../utils/resourceLoader";
@@ -120,11 +118,6 @@ export default class ContentView extends CustomElement {
                 }
             }
         };
-    }
-
-    render(): NodePatchingData {
-
-        return html`<slot></slot>`;
     }
 
     connectedCallback() {

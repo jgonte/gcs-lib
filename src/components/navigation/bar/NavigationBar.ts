@@ -7,9 +7,12 @@ import { NodePatchingData } from "../../../rendering/nodes/NodePatchingData";
 import Route from "../../../services/routing/Route";
 import { DataTypes } from "../../../utils/data/DataTypes";
 import IntlResource from "../../../utils/intl/IntlResource";
+import NavigationLink, { linkClickedEvent } from "../link/NavigationLink";
 import { navigationBarStyles } from "./NavigationBar.styles";
 
 export default class NavigationBar extends CustomElement {
+
+    activeLink?: NavigationLink;
 
     static get styles(): string {
 
@@ -29,6 +32,47 @@ export default class NavigationBar extends CustomElement {
                     DataTypes.Function
                 ]
             },
+        }
+    }
+
+    constructor() {
+
+        super();
+
+        this.updateActiveLink = this.updateActiveLink.bind(this);
+    }
+
+    connectedCallback(): void {
+
+        super.connectedCallback?.();
+
+        this.addEventListener(linkClickedEvent, this.updateActiveLink as EventListenerOrEventListenerObject);
+    }
+
+    disconnectedCallback(): void {
+
+        super.disconnectedCallback?.();
+
+        this.removeEventListener(linkClickedEvent, this.updateActiveLink as EventListenerOrEventListenerObject);
+    }
+
+    updateActiveLink(event: CustomEvent) {
+
+        //event.stopPropagation(); We want it to propagate to the appCtrl object
+
+        const {
+            link,
+        } = event.detail;
+
+        // For links we assume that only a single link can be active at a time and it cannot be deactivated unless clicking a different one
+        if (link !== this.activeLink) {
+
+            if (this.activeLink !== undefined) {
+
+                this.activeLink.active = false;
+            }
+
+            this.activeLink = link;
         }
     }
 
@@ -97,8 +141,8 @@ export default class NavigationBar extends CustomElement {
                 links.push(html`
 <wcl-panel>
     ${group.intlKey !== undefined ?
-        html`<wcl-localized-text intl-key=${group.intlKey} slot="header">${group.text}</wcl-localized-text>` :
-        html`<div slot="header">${group.text}</div>`}
+                        html`<wcl-localized-text intl-key=${group.intlKey} slot="header">${group.text}</wcl-localized-text>` :
+                        html`<div slot="header">${group.text}</div>`}
     ${this.renderGroupedRoutes(groupedRoutes)}
 </wcl-panel>`);
             }
@@ -127,8 +171,8 @@ export default class NavigationBar extends CustomElement {
         return html`
 <wcl-nav-link to=${path} key=${path} slot=${slot}>
     ${intlKey !== undefined ?
-        html`<wcl-localized-text intl-key=${intlKey}>${text}</wcl-localized-text>` :
-        text}
+                html`<wcl-localized-text intl-key=${intlKey}>${text}</wcl-localized-text>` :
+                text}
 </wcl-nav-link>`;
     }
 }

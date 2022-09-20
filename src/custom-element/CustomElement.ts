@@ -7,11 +7,12 @@ import ShadowRoot from "./mixins/ShadowRoot";
 import MetadataInitializer from "./mixins/metadata/MetadataInitializer";
 import { RenderReturnTypes } from "./mixins/metadata/types/CustomHTMLElement";
 import { GenericRecord } from "../utils/types";
+import html from "../rendering/html";
 
 /**
  * The base class for all the custom elements
  */
-export default abstract class CustomElement extends ParentChild(
+export default class CustomElement extends ParentChild(
 	ReactiveElement(
 		StylesPatching(
 			NodePatching(
@@ -39,7 +40,10 @@ export default abstract class CustomElement extends ParentChild(
 	/**
 	 * The render method that needs to be implemented by the derived elements
 	 */
-	abstract render(): RenderReturnTypes;
+	 render(): RenderReturnTypes {
+
+		return html`<slot></slot>`;
+	 }
 
 	async dispatchCustomEvent(type: string, detail: GenericRecord): Promise<void> {
 
